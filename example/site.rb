@@ -8,7 +8,7 @@ Cuba.define do
 
     on path("login") do
       @greeting = "Hello World!"
-      haml "templates/form"
+      res.write haml("templates/form")
     end
 
     on default do
