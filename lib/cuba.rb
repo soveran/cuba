@@ -6,7 +6,7 @@ module Cuba
     @app = Ron.new(&block)
   end
 
-  def self.app
-    @app
+  def self.call(env)
+    @app.call(env)
   end
 end

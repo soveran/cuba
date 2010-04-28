@@ -48,7 +48,7 @@ To run it, you can create a `config.ru`:
     # cat config.ru
     require "hello_world"
 
-    run Cuba.app
+    run Cuba
 
 That's it, you can now run `rackup` and enjoy what you have just created.
 

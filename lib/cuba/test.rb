@@ -14,7 +14,7 @@ class Test::Unit::TestCase
   include Stories::Webrat
 
   def app
-    Cuba.app
+    Cuba
   end
 end
 
