@@ -1,4 +1,4 @@
-$:.unshift(File.join("..", "lib"))
+$:.unshift(File.dirname(__FILE__) + "/../lib/")
 
 require "cuba"
 require "cuba/test"
@@ -18,12 +18,17 @@ Cuba.define do
     end
 
     on default do
-      res.redirect "/login"
+      if session[:user]
+        res.write "Hey #{session[:user]}!"
+      else
+        res.redirect "/login"
+      end
     end
   end
 
   on post, path("login") do
     on param("user") do |user|
+      session[:user] = user
       res.write "Got #{user}"
     end
   end
@@ -40,6 +45,10 @@ Cuba.test "Sample Site" do
       click_button "Login"
 
       assert_contain "Got Michel"
+
+      visit "/"
+
+      assert_contain "Hey Michel!"
     end
   end
 end

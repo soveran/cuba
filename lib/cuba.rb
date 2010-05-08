@@ -3,7 +3,10 @@ require "cuba/ron"
 
 module Cuba
   def self.define(&block)
-    @app = Ron.new(&block)
+    @app = Rack::Builder.new do
+      use Rack::Session::Cookie
+      run Cuba::Ron.new(&block)
+    end
   end
 
   def self.call(env)

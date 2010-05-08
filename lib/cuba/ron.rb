@@ -13,5 +13,9 @@ module Cuba
         Tilt::HamlTemplate.new("#{template}.haml")
       }.render(self, locals)
     end
+
+    def session
+      @session ||= env['rack.session']
+    end
   end
 end
