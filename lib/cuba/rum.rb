@@ -68,6 +68,10 @@ class Rum
     yield *arg.map { |a| a == true || (a != false && a.call) || return }
     env["SCRIPT_NAME"], env["PATH_INFO"] = s, p
     @matched = true
+  ensure
+    unless @matched
+      env["SCRIPT_NAME"], env["PATH_INFO"] = s, p
+    end
   end
 
   def any(*args)
