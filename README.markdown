@@ -3,6 +3,8 @@ Cuba
 
 Rum based microframework for web development.
 
+![Cuba and Rum, by Jan Sochor](http://farm3.static.flickr.com/2619/4032103097_8324c6fecf.jpg)
+
 Description
 -----------
 
