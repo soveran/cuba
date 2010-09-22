@@ -1,25 +1,9 @@
-require "webrat"
-require "rack/test"
-require "stories"
-require "stories/runner"
+require "cuba"
+require "cutest"
+require "capybara/dsl"
 
-Webrat.configure do |config|
-  config.mode = :rack
+class Cutest::Scope
+  include Capybara
 end
 
-class Test::Unit::TestCase
-  include Rack::Test::Methods
-  include Webrat::Methods
-  include Webrat::Matchers
-  include Stories::Webrat
-
-  def app
-    Cuba
-  end
-end
-
-module Cuba
-  def self.test(name, &block)
-    Test::Unit::TestCase.context(name, &block)
-  end
-end
+Capybara.app = Cuba

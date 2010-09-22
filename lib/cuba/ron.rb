@@ -1,5 +1,4 @@
 require "cuba/rum"
-require "haml"
 require "tilt"
 
 module Cuba
@@ -8,9 +7,9 @@ module Cuba
       Thread.current[:_cache] ||= Tilt::Cache.new
     end
 
-    def haml(template, locals = {})
+    def render(template, locals = {})
       _cache.fetch(template, locals) {
-        Tilt::HamlTemplate.new("#{template}.haml")
+        Tilt.new(template)
       }.render(self, locals)
     end
 

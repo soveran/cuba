@@ -1,0 +1,5 @@
+task :default do
+  require "cutest"
+
+  Cutest.run(Dir["site_test.rb"])
+end

@@ -1,17 +1,15 @@
 require "cuba/test"
-require "site"
+require File.expand_path("site", File.dirname(__FILE__))
 
-Cuba.test "My Site" do
-  story "As a user I want to be able to login" do
-    scenario "A user submits good info" do
-      visit "/"
+scope do
+  test "Login" do
+    visit "/"
 
-      assert_contain "Hello World!"
+    assert has_content?("Hello World!")
 
-      fill_in "user", :with => "Michel"
-      click_button "Login"
+    fill_in "Your username", :with => "Michel"
+    click_button "Login"
 
-      assert_contain "Got Michel"
-    end
+    assert has_content?("Got Michel")
   end
 end
