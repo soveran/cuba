@@ -8,9 +8,13 @@ Rum based microframework for web development.
 Description
 -----------
 
-Cuba is a light wrapper around [Rum](http://github.com/chneukirchen/rum), a tiny but powerful mapper for [Rack](http://github.com/chneukirchen/rack) applications.
+Cuba is a light wrapper around [Rum](http://github.com/chneukirchen/rum),
+a tiny but powerful mapper for [Rack](http://github.com/chneukirchen/rack)
+applications.
 
-It integrates [Haml](http://haml-lang.com/) templates via [Tilt](http://github.com/rtomayko/tilt), and testing via [Contest](http://github.com/citrusbyte/contest) and [Stories](http://github.com/citrusbyte/stories).
+It integrates many templates via [Tilt](http://github.com/rtomayko/tilt),
+and testing via [Cutest](http://github.com/djanowski/cutest) and
+[Capybara](http://github.com/jnicklas/capybara).
 
 Usage
 -----
@@ -35,13 +39,11 @@ Here's a simple application:
     # cat hello_world_test.rb
     require "cuba/test"
 
-    Cuba.test "My App" do
-      story "As a user I want to be greeted with a Hello world" do
-        scenario "A user visits the homepage" do
-          visit "/"
+    scope do
+      test "Homepage" do
+        visit "/"
 
-          assert_contain "Hello world!"
-        end
+        assert has_content?("Hello world!")
       end
     end
 
@@ -54,7 +56,10 @@ To run it, you can create a `config.ru`:
 
 That's it, you can now run `rackup` and enjoy what you have just created.
 
-For more information about what you can do, check [Rum's documentation](http://github.com/chneukirchen/rum). To see how you can test it, check the documentation for [Stories](http://github.com/citrusbyte/stories).
+For more information about what you can do, check [Rum's
+documentation](http://github.com/chneukirchen/rum). To see how you can test it,
+check the documentation for [Cutest](http://github.com/djanowski/cutest) and
+[Capybara](http://github.com/jnicklas/capybara).
 
 Installation
 ------------
@@ -64,7 +69,7 @@ Installation
 License
 -------
 
-Copyright (c) 2010 Michel Martens
+Copyright (c) 2010 Michel Martens and Damian Janowski
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
