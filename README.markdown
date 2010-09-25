@@ -24,6 +24,8 @@ Here's a simple application:
     # cat hello_world.rb
     require "cuba"
 
+    Cuba.use Rack::Session::Cookie
+
     Cuba.define do
       on get do
         on path("hello") do
