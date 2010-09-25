@@ -66,7 +66,7 @@ check the documentation for [Cutest](http://github.com/djanowski/cutest) and
 Installation
 ------------
 
-    $ sudo gem install cuba
+    $ gem install cuba
 
 License
 -------
