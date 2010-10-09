@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name              = "cuba"
-  s.version           = "0.2.0"
+  s.version           = "0.3.0"
   s.summary           = "Rum based microframework for web applications."
   s.description       = "Cuba is a light wrapper for Rum, a microframework for Rack applications."
   s.authors           = ["Michel Martens"]
