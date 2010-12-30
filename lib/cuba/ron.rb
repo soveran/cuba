@@ -7,9 +7,9 @@ module Cuba
       Thread.current[:_cache] ||= Tilt::Cache.new
     end
 
-    def render(template, locals = {})
+    def render(template, locals = {}, options = {})
       _cache.fetch(template, locals) {
-        Tilt.new(template)
+        Tilt.new(template, 1, options)
       }.render(self, locals)
     end
 
