@@ -50,7 +50,7 @@ test "two level inlined paths" do |env|
       res.write "b"
     end
   end
-  
+
   env["PATH_INFO"] = "/a/b"
 
   _, _, resp = Cuba.call(env)

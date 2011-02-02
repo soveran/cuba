@@ -6,7 +6,7 @@ test "executes on true" do
       res.write "+1"
     end
   end
-  
+
   _, _, resp = Cuba.call({})
 
   assert_equal ["+1"], resp.body
@@ -23,12 +23,12 @@ test "restores SCRIPT_NAME and PATH_INFO" do
   end
 
   env = { "SCRIPT_NAME" => "/", "PATH_INFO" => "/hello" }
-  
+
   begin
     _, _, resp = Cuba.call(env)
   rescue
   end
-  
+
   assert_equal "/", env["SCRIPT_NAME"]
   assert_equal "/hello", env["PATH_INFO"]
 end
