@@ -74,14 +74,6 @@ class Rum
     end
   end
 
-  def any(*args)
-    args.any? { |a| a == true || (a != false && a.call) }
-  end
-
-  def also
-    @matched = false
-  end
-
   def path(p)
     lambda {
       if env["PATH_INFO"] =~ /\A\/(#{p})(\/|\z)/   #/
@@ -101,7 +93,7 @@ class Rum
   end
 
   def extension(e="\\w+")
-    lambda { env["PATH_INFO"] =~ /\.(#{e})\z/ && $1 }
+    lambda { env["PATH_INFO"] =~ /([^\/]+?)\.#{e}\z/ && $1 }
   end
 
   def param(p, default=nil)
@@ -118,10 +110,6 @@ class Rum
 
   def host(h)
     req.host == h
-  end
-
-  def method(m)
-    req.request_method = m
   end
 
   def get; req.get?; end
@@ -142,16 +130,5 @@ class Rum
 
   def run(app)
     throw :rum_run_next_app, app
-  end
-
-  def puts(*args)
-    args.each { |s|
-      res.write s
-      res.write "\n"
-    }
-  end
-
-  def print(*args)
-    args.each { |s| res.write s }
   end
 end

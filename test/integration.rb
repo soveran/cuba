@@ -1,7 +1,4 @@
-$:.unshift(File.expand_path("../lib", File.dirname(__FILE__)))
-require "cuba"
-
-prepare { Cuba.reset! }
+require File.expand_path("helper", File.dirname(__FILE__))
 
 test "resetting" do
   old = Cuba.app
