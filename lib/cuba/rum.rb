@@ -95,9 +95,7 @@ class Rum
       env["SCRIPT_NAME"] += "/#{cap.shift}"
       env["PATH_INFO"] = cap.pop + $'
 
-      captures.push(*cap) if cap.any?
-
-      return $1
+      captures.push(*cap)
     end
   end
 
