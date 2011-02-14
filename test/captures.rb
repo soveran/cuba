@@ -21,7 +21,7 @@ test "doesn't yield the verb" do
       res.write args.size
     end
   end
-  
+
   env = { "REQUEST_METHOD" => "GET" }
 
   _, _, resp = Cuba.call(env)
@@ -35,7 +35,7 @@ test "doesn't yield the path" do
       res.write args.size
     end
   end
-  
+
   env = { "REQUEST_METHOD" => "GET", "PATH_INFO" => "/home",
           "SCRIPT_NAME" => "/" }
 
@@ -50,7 +50,7 @@ test "yields the segment" do
       res.write id
     end
   end
-  
+
   env = { "REQUEST_METHOD" => "GET", "PATH_INFO" => "/user/johndoe",
           "SCRIPT_NAME" => "/" }
 
@@ -65,7 +65,7 @@ test "yields a number" do
       res.write id
     end
   end
-  
+
   env = { "REQUEST_METHOD" => "GET", "PATH_INFO" => "/user/101",
           "SCRIPT_NAME" => "/" }
 
@@ -80,7 +80,7 @@ test "yields an extension" do
       res.write file
     end
   end
-  
+
   env = { "REQUEST_METHOD" => "GET", "PATH_INFO" => "/css/app.css",
           "SCRIPT_NAME" => "/" }
 
@@ -95,7 +95,7 @@ test "yields a param" do
       res.write email
     end
   end
-  
+
   env = { "REQUEST_METHOD" => "GET", "PATH_INFO" => "/signup",
           "SCRIPT_NAME" => "/", "rack.input" => StringIO.new,
           "QUERY_STRING" => "email=john@doe.com" }
@@ -103,4 +103,25 @@ test "yields a param" do
   _, _, resp = Cuba.call(env)
 
   assert_equal ["john@doe.com"], resp.body
+end
+
+test "yields a segment per nested block" do
+  Cuba.define do
+    on segment do |one|
+      on segment do |two|
+        on segment do |three|
+          res.write one
+          res.write two
+          res.write three
+        end
+      end
+    end
+  end
+
+  env = { "REQUEST_METHOD" => "GET", "PATH_INFO" => "/one/two/three",
+          "SCRIPT_NAME" => "/" }
+
+  _, _, resp = Cuba.call(env)
+
+  assert_equal ["one", "two", "three"], resp.body
 end

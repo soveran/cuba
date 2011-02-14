@@ -33,6 +33,22 @@ test "restores SCRIPT_NAME and PATH_INFO" do
   assert_equal "/hello", env["PATH_INFO"]
 end
 
+test "ensures SCRIPT_NAME and PATH_INFO are reverted" do
+  Cuba.define do
+    on lambda { env["SCRIPT_NAME"] = "/hello"; false } do
+      res.write "Unreachable"
+    end
+  end
+
+  env = { "SCRIPT_NAME" => "/", "PATH_INFO" => "/hello" }
+
+  _, _, resp = Cuba.call(env)
+
+  assert_equal "/", env["SCRIPT_NAME"]
+  assert_equal "/hello", env["PATH_INFO"]
+  assert_equal [], resp.body
+end
+
 test "skips consecutive matches" do
   Cuba.define do
     on true do

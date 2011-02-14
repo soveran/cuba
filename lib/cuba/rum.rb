@@ -72,15 +72,24 @@ class Rum
   def on(*args, &block)
     return if @matched
 
+    try do
+      @captures = []
+
+      args.each { |a| a == true || (a != false && a.call) || return }
+
+      yield *captures
+
+      @matched = true
+    end
+  end
+
+  def try
     script, path = env["SCRIPT_NAME"], env["PATH_INFO"]
 
-    args.each { |a| a == true || (a != false && a.call) || return }
-
-    yield *captures
+    yield
 
     env["SCRIPT_NAME"], env["PATH_INFO"] = script, path
 
-    @matched = true
   ensure
     unless @matched
       env["SCRIPT_NAME"], env["PATH_INFO"] = script, path
@@ -94,12 +103,12 @@ class Rum
   def consume(pattern)
     return unless match = env["PATH_INFO"].match(/\A\/(#{pattern})(?:\/|\z)/)
 
-    path, *captures = match.captures
+    path, *vars = match.captures
 
     env["SCRIPT_NAME"] += "/#{path}"
     env["PATH_INFO"] = "/#{match.post_match}"
 
-    captures.push(*captures)
+    captures.push(*vars)
   end
 
   def number
