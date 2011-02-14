@@ -62,10 +62,14 @@ class Rum
     }.call(env)
   end
 
-  def on(*arg, &block)
-    return  if @matched
+  def on(*args, &block)
+    return if @matched
+
     s, p = env["SCRIPT_NAME"], env["PATH_INFO"]
-    yield *arg.map { |a| a == true || (a != false && a.call) || return }
+
+    captures = args.map { |a| a == true || (a != false && a.call) || return }
+    yield *captures.reject { |c| c == true || c == false }
+
     env["SCRIPT_NAME"], env["PATH_INFO"] = s, p
     @matched = true
   ensure
@@ -75,21 +79,28 @@ class Rum
   end
 
   def path(p)
-    lambda {
-      if env["PATH_INFO"] =~ /\A\/(#{p})(\/|\z)/   #/
-        env["SCRIPT_NAME"] += "/#{$1}"
-        env["PATH_INFO"] = $2 + $'
-        $1
-      end
-    }
+    lambda { consume(p) && true }
+  end
+
+  def match(p)
+    lambda { consume(p) }
+  end
+
+  def consume(p)
+    if env["PATH_INFO"] =~ /\A\/(#{p})(\/|\z)/
+      env["SCRIPT_NAME"] += "/#{$1}"
+      env["PATH_INFO"] = $2 + $'
+
+      return $1
+    end
   end
 
   def number
-    path("\\d+")
+    match("\\d+")
   end
 
   def segment
-    path("[^\\/]+")
+    match("[^\\/]+")
   end
 
   def extension(e="\\w+")
