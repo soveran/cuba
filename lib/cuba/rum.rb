@@ -59,43 +59,47 @@ class Rum
     @req = Rack::Request.new(env)
     @res = Rack::Response.new
     @matched = false
-    catch(:rum_run_next_app) {
+
+    catch(:rum_run_next_app) do
       instance_eval(&@blk)
+
       @res.status = 404 unless @matched || !@res.empty?
+
       return @res.finish
-    }.call(env)
+    end.call(env)
   end
 
   def on(*args, &block)
     return if @matched
 
-    s, p = env["SCRIPT_NAME"], env["PATH_INFO"]
+    script, path = env["SCRIPT_NAME"], env["PATH_INFO"]
 
     args.each { |a| a == true || (a != false && a.call) || return }
 
     yield *captures
 
-    env["SCRIPT_NAME"], env["PATH_INFO"] = s, p
+    env["SCRIPT_NAME"], env["PATH_INFO"] = script, path
+
     @matched = true
   ensure
     unless @matched
-      env["SCRIPT_NAME"], env["PATH_INFO"] = s, p
+      env["SCRIPT_NAME"], env["PATH_INFO"] = script, path
     end
   end
 
-  def path(p)
-    lambda { consume(p) }
+  def path(pattern)
+    lambda { consume(pattern) }
   end
 
-  def consume(p)
-    return unless match = env["PATH_INFO"].match(/\A\/(#{p})(?:\/|\z)/)
+  def consume(pattern)
+    return unless match = env["PATH_INFO"].match(/\A\/(#{pattern})(?:\/|\z)/)
 
-    a, *b = match.captures
+    path, *captures = match.captures
 
-    env["SCRIPT_NAME"] += "/#{a}"
+    env["SCRIPT_NAME"] += "/#{path}"
     env["PATH_INFO"] = "/#{match.post_match}"
 
-    captures.push(*b)
+    captures.push(*captures)
   end
 
   def number
@@ -122,8 +126,8 @@ class Rum
     true
   end
 
-  def host(h)
-    req.host == h
+  def host(hostname)
+    req.host == hostname
   end
 
   def get    ; req.get?    end
