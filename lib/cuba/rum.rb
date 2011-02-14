@@ -26,7 +26,7 @@
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-require 'rack'
+require "rack"
 
 class Rack::Response
   # 301 Moved Permanently
@@ -61,7 +61,7 @@ class Rum
     @matched = false
     catch(:rum_run_next_app) {
       instance_eval(&@blk)
-      @res.status = 404  unless @matched || !@res.empty?
+      @res.status = 404 unless @matched || !@res.empty?
       return @res.finish
     }.call(env)
   end
@@ -106,16 +106,16 @@ class Rum
     path("([^\\/]+)")
   end
 
-  def extension(e="\\w+")
-    path("([^\\/]+?)\.#{e}\\z")
+  def extension(ext = "\\w+")
+    path("([^\\/]+?)\.#{ext}\\z")
   end
 
-  def param(p, default=nil)
-    lambda { captures << (req[p] || default) }
+  def param(key, default = nil)
+    lambda { captures << (req[key] || default) }
   end
 
-  def header(p, default=nil)
-    lambda { env[p.upcase.tr('-','_')] || default }
+  def header(key, default = nil)
+    lambda { env[key.upcase.tr("-","_")] || default }
   end
 
   def default
@@ -126,15 +126,15 @@ class Rum
     req.host == h
   end
 
-  def get; req.get?; end
-  def post; req.post?; end
-  def put; req.put?; end
-  def delete; req.delete?; end
+  def get    ; req.get?    end
+  def post   ; req.post?   end
+  def put    ; req.put?    end
+  def delete ; req.delete? end
 
   def accept(mimetype)
     lambda {
-      env['HTTP_ACCEPT'].split(',').any? { |s| s.strip == mimetype }  and
-        res['Content-Type'] = mimetype
+      env["HTTP_ACCEPT"].split(",").any? { |s| s.strip == mimetype } and
+        res["Content-Type"] = mimetype
     }
   end
 
