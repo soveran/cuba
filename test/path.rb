@@ -57,3 +57,17 @@ test "two level inlined paths" do |env|
 
   assert_equal ["a", "b"], resp.body
 end
+
+test "a path with some regex captures" do |env|
+  Cuba.define do
+    on path("user(\\d+)") do |uid|
+      res.write uid
+    end
+  end
+
+  env["PATH_INFO"] = "/user123"
+
+  _, _, resp = Cuba.call(env)
+
+  assert_equal ["123"], resp.body
+end

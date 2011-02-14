@@ -87,33 +87,30 @@ class Rum
     lambda { consume(p) }
   end
 
-  def match(p)
-    lambda {
-      if consumed = consume(p)
-        captures << consumed
-      end
-    }
-  end
-
   def consume(p)
-    if env["PATH_INFO"] =~ /\A\/(#{p})(\/|\z)/
-      env["SCRIPT_NAME"] += "/#{$1}"
-      env["PATH_INFO"] = $2 + $'
+    if match = env["PATH_INFO"].match(/\A\/(#{p})(\/|\z)/)
+      cap = match.to_a
+      cap.shift
+
+      env["SCRIPT_NAME"] += "/#{cap.shift}"
+      env["PATH_INFO"] = cap.pop + $'
+
+      captures.push(*cap) if cap.any?
 
       return $1
     end
   end
 
   def number
-    match("\\d+")
+    path("(\\d+)")
   end
 
   def segment
-    match("[^\\/]+")
+    path("([^\\/]+)")
   end
 
   def extension(e="\\w+")
-    lambda { env["PATH_INFO"] =~ /([^\/]+?)\.#{e}\z/ && captures << $1 }
+    path("([^\\/]+?)\.#{e}\\z")
   end
 
   def param(p, default=nil)
