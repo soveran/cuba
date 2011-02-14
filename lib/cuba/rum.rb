@@ -88,12 +88,12 @@ class Rum
   end
 
   def consume(p)
-    return unless match = env["PATH_INFO"].match(/\A\/(#{p})(\/|\z)/)
+    return unless match = env["PATH_INFO"].match(/\A\/(#{p})(?:\/|\z)/)
 
     a, *b = match.captures
 
     env["SCRIPT_NAME"] += "/#{a}"
-    env["PATH_INFO"] = b.pop + match.post_match
+    env["PATH_INFO"] = "/#{match.post_match}"
 
     captures.push(*b)
   end
