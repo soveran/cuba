@@ -40,10 +40,14 @@ class Rack::Response
 end
 
 class Rum
-  attr_reader :env, :req, :res
+  attr :env
+  attr :req
+  attr :res
+  attr :captures
 
   def initialize(&blk)
     @blk = blk
+    @captures = []
   end
 
   def call(env)
@@ -67,8 +71,9 @@ class Rum
 
     s, p = env["SCRIPT_NAME"], env["PATH_INFO"]
 
-    captures = args.map { |a| a == true || (a != false && a.call) || return }
-    yield *captures.reject { |c| c == true || c == false }
+    args.each { |a| a == true || (a != false && a.call) || return }
+
+    yield *captures
 
     env["SCRIPT_NAME"], env["PATH_INFO"] = s, p
     @matched = true
@@ -79,11 +84,15 @@ class Rum
   end
 
   def path(p)
-    lambda { consume(p) && true }
+    lambda { consume(p) }
   end
 
   def match(p)
-    lambda { consume(p) }
+    lambda {
+      if consumed = consume(p)
+        captures << consumed
+      end
+    }
   end
 
   def consume(p)
@@ -104,11 +113,11 @@ class Rum
   end
 
   def extension(e="\\w+")
-    lambda { env["PATH_INFO"] =~ /([^\/]+?)\.#{e}\z/ && $1 }
+    lambda { env["PATH_INFO"] =~ /([^\/]+?)\.#{e}\z/ && captures << $1 }
   end
 
   def param(p, default=nil)
-    lambda { req[p] || default }
+    lambda { captures << (req[p] || default) }
   end
 
   def header(p, default=nil)
