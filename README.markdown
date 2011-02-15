@@ -8,13 +8,17 @@ Rum based microframework for web development.
 Description
 -----------
 
-Cuba is a light wrapper around [Rum](http://github.com/chneukirchen/rum),
-a tiny but powerful mapper for [Rack](http://github.com/chneukirchen/rack)
-applications.
+Cuba is a microframework for web development heavily inspired by [Rum][rum],
+a tiny but powerful mapper for [Rack][rack] applications.
 
-It integrates many templates via [Tilt](http://github.com/rtomayko/tilt),
-and testing via [Cutest](http://github.com/djanowski/cutest) and
-[Capybara](http://github.com/jnicklas/capybara).
+It integrates many templates via [Tilt][tilt], and testing via
+[Cutest][cutest] and [Capybara][capybara].
+
+[rum]: http://github.com/chneukirchen/rum
+[rack]: http://github.com/chneukirchen/rack
+[tilt]: http://github.com/rtomayko/tilt
+[cutest]: http://github.com/djanowski/cutest
+[capybara]: http://github.com/jnicklas/capybara
 
 Usage
 -----
@@ -58,10 +62,9 @@ To run it, you can create a `config.ru`:
 
 That's it, you can now run `rackup` and enjoy what you have just created.
 
-For more information about what you can do, check [Rum's
-documentation](http://github.com/chneukirchen/rum). To see how you can test it,
-check the documentation for [Cutest](http://github.com/djanowski/cutest) and
-[Capybara](http://github.com/jnicklas/capybara).
+For more information about what you can do, check [Rum's documentation][rum].
+To see how you can test it, check the documentation for [Cutest][cutest] and
+[Capybara][capybara].
 
 Installation
 ------------
