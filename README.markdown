@@ -36,7 +36,7 @@ Here's a simple application:
           res.write "Hello world!"
         end
 
-        on default do
+        on true do
           res.redirect "/hello"
         end
       end
@@ -67,31 +67,62 @@ Here's an example showcasing how different matchers work:
     Cuba.use Rack::Session::Cookie
 
     Cuba.define do
-      # PATH_INFO=/about
+
+      # /about
       on path("about") do
         res.write "About"
       end
 
-      # PATH_INFO=/styles/*.css
+      # /styles/basic.css
       on path("styles"), extension("css") do |file|
+
+        # file == "basic"
+
         res.write "Filename: #{file}"
       end
 
-      # PATH_INFO=/post/YYYY/MM/DD/slug
+      # /post/2011/02/16/hello
       on path("post"), number, number, number, segment do |y, m, d, slug|
-        res.write "Date: #{y}-#{m}-#{d} Slug: #{slug}"
+        res.write "#{y}-#{m}-#{d} #{slug}" #=> "2011-02-16 hello"
       end
 
-      # PATH_INFO=/username/*
-      on segment do |username|
-        user = User.find_by_username(username)
+      # /username/foobar
+      on path("username"), segment do |username|
 
+        user = User.find_by_username(username) # username == "foobar"
+
+        # /username/foobar/posts
         on path("posts") do
-          res.write "Total Posts: #{user.posts.size}"
+
+          # You can access `user` here, because the `on` blocks
+          # are closures.
+          res.write "Total Posts: #{user.posts.size}" #=> "Total Posts: 6"
         end
 
+        # /username/foobar/following
         on path("following") do
-          res.write user.following
+          res.write user.following.size #=> "1301"
+        end
+      end
+
+      # /search?q=barbaz
+      on path("search"), param("q") do |query|
+        res.write "Searched for #{query}" #=> "Searched for barbaz"
+      end
+
+      on post
+        on path("login")
+
+          # POST /login, user: foo, pass: baz
+          on param("user"), param("pass") do |user, pass|
+            res.write "#{user}:#{pass}" #=> "foo:baz"
+          end
+
+          # If the params `user` and `pass` are not provided, this block will
+          # get executed.
+          on true do
+            res.write "You need to provide user and pass!"
+          end
         end
       end
     end
