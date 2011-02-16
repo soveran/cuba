@@ -60,10 +60,46 @@ To run it, you can create a `config.ru`:
 
     run Cuba
 
+Here's an example showcasing how different matchers work:
+
+    require "cuba"
+
+    Cuba.use Rack::Session::Cookie
+
+    Cuba.define do
+      # PATH_INFO=/about
+      on path("about") do
+        res.write "About"
+      end
+
+      # PATH_INFO=/styles/*.css
+      on path("styles"), extension("css") do |file|
+        res.write "Filename: #{file}"
+      end
+
+      # PATH_INFO=/post/YYYY/MM/DD/slug
+      on path("post"), number, number, number, segment do |y, m, d, slug|
+        res.write "Date: #{y}-#{m}-#{d} Slug: #{slug}"
+      end
+
+      # PATH_INFO=/username/*
+      on segment do |username|
+        user = User.find_by_username(username)
+
+        on path("posts") do
+          res.write "Total Posts: #{user.posts.size}"
+        end
+
+        on path("following") do
+          res.write user.following
+        end
+      end
+    end
+
+
 That's it, you can now run `rackup` and enjoy what you have just created.
 
-For more information about what you can do, check [Rum's documentation][rum].
-To see how you can test it, check the documentation for [Cutest][cutest] and
+To read more about testing, check the documentation for [Cutest][cutest] and
 [Capybara][capybara].
 
 Installation
