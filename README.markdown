@@ -75,10 +75,7 @@ Here's an example showcasing how different matchers work:
 
       # /styles/basic.css
       on path("styles"), extension("css") do |file|
-
-        # file == "basic"
-
-        res.write "Filename: #{file}"
+        res.write "Filename: #{file}" #=> "Filename: basic"
       end
 
       # /post/2011/02/16/hello
