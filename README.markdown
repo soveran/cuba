@@ -5,6 +5,11 @@ Rum based microframework for web development.
 
 ![Cuba and Rum, by Jan Sochor](http://farm3.static.flickr.com/2619/4032103097_8324c6fecf.jpg)
 
+Community
+---------
+
+Meet us on IRC: [#cuba](irc://chat.freenode.net/#cuba) on [freenode.net](http://freenode.net/)
+
 Description
 -----------
 
