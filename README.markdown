@@ -8,7 +8,7 @@ Rum based microframework for web development.
 Community
 ---------
 
-Meet us on IRC: [#cuba](irc://chat.freenode.net/#cuba) on [freenode.net](http://freenode.net/)
+Meet us on IRC: [#cuba.rb](irc://chat.freenode.net/#cuba.rb) on [freenode.net](http://freenode.net/)
 
 Description
 -----------
