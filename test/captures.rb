@@ -125,3 +125,18 @@ test "yields a segment per nested block" do
 
   assert_equal ["one", "two", "three"], resp.body
 end
+
+test "consumes a slash if needed" do
+  Cuba.define do
+    on get, path("(.+\\.css)") do |file|
+      res.write file
+    end
+  end
+
+  env = { "REQUEST_METHOD" => "GET", "PATH_INFO" => "/foo/bar.css",
+          "SCRIPT_NAME" => "/" }
+
+  _, _, resp = Cuba.call(env)
+
+  assert_equal ["foo/bar.css"], resp.body
+end
