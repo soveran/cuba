@@ -73,6 +73,11 @@ Here's an example showcasing how different matchers work:
 
     Cuba.define do
 
+      # /
+      on path("") do
+        res.write "Home"
+      end
+
       # /about
       on path("about") do
         res.write "About"
@@ -128,7 +133,6 @@ Here's an example showcasing how different matchers work:
         end
       end
     end
-
 
 That's it, you can now run `rackup` and enjoy what you have just created.
 

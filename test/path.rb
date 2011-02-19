@@ -71,3 +71,17 @@ test "a path with some regex captures" do |env|
 
   assert_equal ["123"], resp.body
 end
+
+test "matching the root" do |env|
+  Cuba.define do
+    on path("") do
+      res.write "Home"
+    end
+  end
+
+  env["PATH_INFO"] = "/"
+
+  _, _, resp = Cuba.call(env)
+
+  assert_equal ["Home"], resp.body
+end
