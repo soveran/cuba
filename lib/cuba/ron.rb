@@ -248,7 +248,7 @@ module Cuba
     #     res.write "You have reached the API of account1."
     #   end
     def host(hostname)
-      req.host == hostname
+      hostname === req.host
     end
 
     # If you want to match against the HTTP_ACCEPT value.
