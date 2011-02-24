@@ -12,6 +12,18 @@ test "executes on true" do
   assert_equal ["+1"], resp.body
 end
 
+test "executes on non-false" do
+  Cuba.define do
+    on "123" do
+      res.write "+1"
+    end
+  end
+
+  _, _, resp = Cuba.call({})
+
+  assert_equal ["+1"], resp.body
+end
+
 test "restores SCRIPT_NAME and PATH_INFO" do
   Cuba.define do
     on true do
