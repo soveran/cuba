@@ -121,9 +121,7 @@ module Cuba
         #
         #    # PATH_INFO=/user
         #    on true, path("signup")
-        args.each do |arg|
-          return unless arg == true || arg != false && arg.call
-        end
+        return unless args.all? {|arg| arg.respond_to?(:call) ? arg.call : arg}
 
         # The captures we yield here were generated and assembled
         # by evaluating each of the `arg`s above. Most of these
