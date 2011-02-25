@@ -37,7 +37,7 @@ Here's a simple application:
 
     Cuba.define do
       on get do
-        on path("hello") do
+        on "hello" do
           res.write "Hello world!"
         end
 
@@ -74,32 +74,32 @@ Here's an example showcasing how different matchers work:
     Cuba.define do
 
       # /
-      on path("") do
+      on "" do
         res.write "Home"
       end
 
       # /about
-      on path("about") do
+      on "about" do
         res.write "About"
       end
 
       # /styles/basic.css
-      on path("styles"), extname("css") do |file|
+      on "styles", extname("css") do |file|
         res.write "Filename: #{file}" #=> "Filename: basic"
       end
 
       # /post/2011/02/16/hello
-      on path("post"), number, number, number, segment do |y, m, d, slug|
+      on "post/:y/:m/:d/:slug" do |y, m, d, slug|
         res.write "#{y}-#{m}-#{d} #{slug}" #=> "2011-02-16 hello"
       end
 
       # /username/foobar
-      on path("username"), segment do |username|
+      on "username/:username" do |username|
 
         user = User.find_by_username(username) # username == "foobar"
 
         # /username/foobar/posts
-        on path("posts") do
+        on "posts" do
 
           # You can access `user` here, because the `on` blocks
           # are closures.
@@ -107,18 +107,18 @@ Here's an example showcasing how different matchers work:
         end
 
         # /username/foobar/following
-        on path("following") do
+        on "following" do
           res.write user.following.size #=> "1301"
         end
       end
 
       # /search?q=barbaz
-      on path("search"), param("q") do |query|
+      on "search", param("q") do |query|
         res.write "Searched for #{query}" #=> "Searched for barbaz"
       end
 
-      on post
-        on path("login")
+      on post do
+        on "login"
 
           # POST /login, user: foo, pass: baz
           on param("user"), param("pass") do |user, pass|
