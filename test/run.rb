@@ -6,7 +6,7 @@ test "redirect canonical example" do
       run Cuba::Ron.new { on(true) { res.redirect(*args) }}
     end
 
-    on path("account") do
+    on "account" do
       redirect "/login", 307
 
       res.write "Super secure content"

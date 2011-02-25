@@ -69,10 +69,10 @@ end
 
 test "symbol matching" do |env|
   Cuba.define do
-    on path("user"), :id do |uid|
+    on "user", :id do |uid|
       res.write uid
 
-      on path("posts"), :pid do |id|
+      on "posts", :pid do |id|
         res.write id
       end
     end

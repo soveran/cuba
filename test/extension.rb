@@ -2,7 +2,7 @@ require File.expand_path("helper", File.dirname(__FILE__))
 
 setup do
   Cuba.define do
-    on path("styles") do
+    on "styles" do
       on extension("css") do |file|
         res.write file
       end

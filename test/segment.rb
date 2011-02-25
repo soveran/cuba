@@ -2,8 +2,8 @@ require File.expand_path("helper", File.dirname(__FILE__))
 
 setup do
   Cuba.define do
-    on path("post") do
-      on segment do |id|
+    on "post" do
+      on :id do |id|
         res.write id
       end
     end

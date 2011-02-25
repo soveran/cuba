@@ -29,7 +29,7 @@ test "use passes in the arguments and block" do
 
   Cuba.define do
     on get do
-      on path("hello") do
+      on "hello" do
         "Default"
       end
     end
@@ -66,7 +66,7 @@ test "reset and use" do
 
   Cuba.define do
     on get do
-      on path("hello") do
+      on "hello" do
         res.write "2nd Default"
       end
     end

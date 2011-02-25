@@ -31,7 +31,7 @@ end
 
 test "doesn't yield the path" do
   Cuba.define do
-    on get, path("home") do |*args|
+    on get, "home" do |*args|
       res.write args.size
     end
   end
@@ -46,7 +46,7 @@ end
 
 test "yields the segment" do
   Cuba.define do
-    on get, path("user"), segment do |id|
+    on get, "user", :id do |id|
       res.write id
     end
   end
@@ -61,7 +61,7 @@ end
 
 test "yields a number" do
   Cuba.define do
-    on get, path("user"), number do |id|
+    on get, "user", :id do |id|
       res.write id
     end
   end
@@ -76,7 +76,7 @@ end
 
 test "yields an extension" do
   Cuba.define do
-    on get, path("css"), extension("css") do |file|
+    on get, "css", extension("css") do |file|
       res.write file
     end
   end
@@ -91,7 +91,7 @@ end
 
 test "yields a param" do
   Cuba.define do
-    on get, path("signup"), param("email") do |email|
+    on get, "signup", param("email") do |email|
       res.write email
     end
   end
@@ -107,9 +107,9 @@ end
 
 test "yields a segment per nested block" do
   Cuba.define do
-    on segment do |one|
-      on segment do |two|
-        on segment do |three|
+    on :one do |one|
+      on :two do |two|
+        on :three do |three|
           res.write one
           res.write two
           res.write three
@@ -128,7 +128,7 @@ end
 
 test "consumes a slash if needed" do
   Cuba.define do
-    on get, path("(.+\\.css)") do |file|
+    on get, "(.+\\.css)" do |file|
       res.write file
     end
   end

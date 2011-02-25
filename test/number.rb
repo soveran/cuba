@@ -6,8 +6,8 @@ end
 
 test "paths and numbers" do |env|
   Cuba.define do
-    on path("about") do
-      on number, number do |one, two|
+    on "about" do
+      on :one, :two do |one, two|
         res.write one
         res.write two
       end
@@ -21,8 +21,8 @@ end
 
 test "paths and decimals" do |env|
   Cuba.define do
-    on path("about") do
-      on number do |one|
+    on "about" do
+      on /(\d+)/ do |one|
         res.write one
       end
     end

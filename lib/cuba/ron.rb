@@ -121,9 +121,7 @@ module Cuba
         #
         #    # PATH_INFO=/user
         #    on true, path("signup")
-        return unless args.all? do |arg|
-          arg.respond_to?(:call) ? arg.call : match(arg)
-        end
+        return unless args.all? { |arg| match(arg) }
 
         # The captures we yield here were generated and assembled
         # by evaluating each of the `arg`s above. Most of these
@@ -152,35 +150,6 @@ module Cuba
     end
     private :try
 
-    # Probably the most useful helper for writing matchers.
-    #
-    # @example
-    #   # matches PATH_INFO=/signup
-    #   on path("signup") do
-    #
-    #   # matches PATH_INFO=/user123
-    #   on path("user(\\d+)") do |uid|
-    #
-    #   # matches PATH_INFO=/user/1
-    #   on path("user"), path("(\\d+)") do |uid|
-    #
-    # In fact, the other matchers (#segment, #number, #extension)
-    # ride on this method.
-    def path(pattern)
-      lambda { consume(pattern) }
-    end
-
-    # @private Used by #path to adjust the `PATH_INFO` and `SCRIPT_NAME`.
-    #          This is done so that nesting of matchers would work.
-    #
-    # @example
-    #   # PATH_INFO=/doctors/account
-    #   on path("doctors") do
-    #     # PATH_INFO = /account
-    #     on path("account") do
-    #       res.write "Settings page"
-    #     end
-    #   end
     def consume(pattern)
       return unless match = env["PATH_INFO"].match(/\A\/(#{pattern})(?:\/|\z)/)
 
@@ -193,35 +162,15 @@ module Cuba
     end
     private :consume
 
-    def match(pattern)
-      case pattern
-      when String then consume(pattern.gsub(/:\w+/, "(\\w+)"))
-      when Regexp then consume(pattern)
-      when Symbol then consume("(\\w+)")
+    def match(matcher)
+      case matcher
+      when String then consume(matcher.gsub(/:\w+/, "([\\.a-zA-Z0-9\\-]+)"))
+      when Regexp then consume(matcher)
+      when Symbol then consume("([\\.a-zA-Z0-9\\-]+)")
+      when Proc   then matcher.call
       else
-        pattern
+        matcher
       end
-    end
-
-    # A matcher for numeric ids.
-    #
-    # @example
-    #   on path("user"), number do |uid|
-    #     res.write "User: #{uid}"
-    #   end
-    def number
-      path("(\\d+)")
-    end
-
-    # A matcher for anything without slashes. Useful for mapping to slugs.
-    #
-    # @example
-    #   on path("article"), segment do |slug|
-    #     Article.find_by_slug(slug)
-    #
-    #   end
-    def segment
-      path("([^\\/]+)")
     end
 
     # A matcher for files with a certain extension.
@@ -232,7 +181,7 @@ module Cuba
     #     res.write file # writes app
     #   end
     def extension(ext = "\\w+")
-      path("([^\\/]+?)\.#{ext}\\z")
+      lambda { consume("([^\\/]+?)\.#{ext}\\z") }
     end
 
     # Used to ensure that certain request parameters are present. Acts like a

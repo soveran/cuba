@@ -6,7 +6,7 @@ end
 
 test "one level path" do |env|
   Cuba.define do
-    on path("about") do
+    on "about" do
       res.write "About"
     end
   end
@@ -19,12 +19,12 @@ end
 
 test "two level nested paths" do |env|
   Cuba.define do
-    on path("about") do
-      on path("1") do
+    on "about" do
+      on "1" do
         res.write "+1"
       end
 
-      on path("2") do
+      on "2" do
         res.write "+2"
       end
     end
@@ -45,7 +45,7 @@ end
 
 test "two level inlined paths" do |env|
   Cuba.define do
-    on path("a"), path("b") do
+    on "a/b" do
       res.write "a"
       res.write "b"
     end
@@ -60,7 +60,7 @@ end
 
 test "a path with some regex captures" do |env|
   Cuba.define do
-    on path("user(\\d+)") do |uid|
+    on "user(\\d+)" do |uid|
       res.write uid
     end
   end
@@ -74,7 +74,7 @@ end
 
 test "matching the root" do |env|
   Cuba.define do
-    on path("") do
+    on "" do
       res.write "Home"
     end
   end
