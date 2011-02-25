@@ -84,33 +84,3 @@ test "symbol matching" do |env|
 
   assert_equal ["jdoe", "123"], resp.body
 end
-
-__END__
-test "benchmarks" do |env|
-  require "benchmark"
-
-  Cuba.define do
-    on "posts/:id" do |id|
-      res.write id
-    end
-  end
-
-  t1 = Benchmark.realtime {
-    10_000.times { _, _, resp = Cuba.call(env) }
-  }
-
-  Cuba.reset!
-
-  Cuba.define do
-    on path("posts"), segment do |id|
-      res.write id
-    end
-  end
-
-  t2 = Benchmark.realtime {
-    10_000.times { _, _, resp = Cuba.call(env) }
-  }
-
-  puts t1
-  puts t2
-end

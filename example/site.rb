@@ -4,11 +4,11 @@ Cuba.use Rack::Session::Cookie
 
 Cuba.define do
   on get do
-    on path("dashboard") do
+    on "dashboard" do
       res.write "Welcome to your Dashboard"
     end
 
-    on path("login") do
+    on "login" do
       @greeting = "Hello World!"
       res.write render("templates/form.erb")
     end
@@ -19,7 +19,7 @@ Cuba.define do
   end
 
   on post do
-    on path("login") do
+    on "login" do
       on param("user") do |user|
         res.write "Got #{user}"
       end

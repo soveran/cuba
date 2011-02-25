@@ -12,14 +12,6 @@ class Rack::Response
   end
 end
 
-# Based on Rum: http://github.com/chneukirchen/rum
-#
-# Summary of changes
-#
-# 1. Only relevant captures are yielded.
-# 2. The #extname matcher is used more like #path.
-# 3. Miscellaneous coding style changes.
-#
 module Cuba
   class Ron
     attr :env
@@ -42,7 +34,7 @@ module Cuba
       @res = Rack::Response.new
       @matched = false
 
-      catch(:rum_run_next_app) do
+      catch(:ron_run_next_app) do
         instance_eval(&@blk)
 
         @res.status = 404 unless @matched || !@res.empty?
@@ -90,15 +82,15 @@ module Cuba
     #     res.write "GET"
     #   end
     #
-    #   on get, path("signup") do
+    #   on get, "signup" do
     #     res.write "Signup
     #   end
     #
-    #   on path("user"), segment do |uid|
+    #   on "user/:id" do |uid|
     #     res.write "User: #{uid}"
     #   end
     #
-    #   on path("styles"), extname("css") do |file|
+    #   on "styles", extname("css") do |file|
     #     res.write render("styles/#{file}.sass")
     #   end
     #
@@ -120,7 +112,7 @@ module Cuba
         #    on true, false do
         #
         #    # PATH_INFO=/user
-        #    on true, path("signup")
+        #    on true, "signup"
         return unless args.all? { |arg| match(arg) }
 
         # The captures we yield here were generated and assembled
@@ -177,7 +169,7 @@ module Cuba
     #
     # @example
     #   # PATH_INFO=/style/app.css
-    #   on path("style"), extname("css") do |file|
+    #   on "style", extname("css") do |file|
     #     res.write file # writes app
     #   end
     def extname(ext = "\\w+")
@@ -189,7 +181,7 @@ module Cuba
     #
     # @example
     #   # POST with data like user[fname]=John&user[lname]=Doe
-    #   on path("signup"), param("user") do |atts|
+    #   on "signup", param("user") do |atts|
     #     User.create(atts)
     #   end
     def param(key, default = nil)
@@ -203,7 +195,7 @@ module Cuba
     # Useful for matching against the request host (i.e. HTTP_HOST).
     #
     # @example
-    #   on host("account1.example.com"), path("api") do
+    #   on host("account1.example.com"), "api" do
     #     res.write "You have reached the API of account1."
     #   end
     def host(hostname)
@@ -238,10 +230,10 @@ module Cuba
     # Syntatic sugar for providing HTTP Verb matching.
     #
     # @example
-    #   on get, path("signup") do
+    #   on get, "signup" do
     #   end
     #
-    #   on post, path("signup") do
+    #   on post, "signup" do
     #   end
     def get    ; req.get?    end
     def post   ; req.post?   end
@@ -256,13 +248,13 @@ module Cuba
     #     run Cuba::Ron.new { on(default) { res.redirect(*args) }}
     #   end
     #
-    #   on path("account") do
+    #   on "account" do
     #     redirect "/login" unless session["uid"]
     #
     #     res.write "Super secure account info."
     #   end
     def run(app)
-      throw :rum_run_next_app, app
+      throw :ron_run_next_app, app
     end
   end
 end

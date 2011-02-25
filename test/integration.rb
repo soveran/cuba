@@ -52,7 +52,7 @@ test "reset and use" do
 
   Cuba.define do
     on get do
-      on path("hello") do
+      on "hello" do
         res.write "Default"
       end
     end

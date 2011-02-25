@@ -1,7 +1,7 @@
 Cuba
 ====
 
-Rum based microframework for web development.
+_n_. a microframework for web development.
 
 ![Cuba and Rum, by Jan Sochor](http://farm3.static.flickr.com/2619/4032103097_8324c6fecf.jpg)
 
@@ -13,7 +13,7 @@ Meet us on IRC: [#cuba.rb](irc://chat.freenode.net/#cuba.rb) on [freenode.net](h
 Description
 -----------
 
-Cuba is a microframework for web development heavily inspired by [Rum][rum],
+Cuba is a microframework for web development originally inspired by [Rum][rum],
 a tiny but powerful mapper for [Rack][rack] applications.
 
 It integrates many templates via [Tilt][tilt], and testing via
