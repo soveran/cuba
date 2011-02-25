@@ -121,7 +121,9 @@ module Cuba
         #
         #    # PATH_INFO=/user
         #    on true, path("signup")
-        return unless args.all? {|arg| arg.respond_to?(:call) ? arg.call : arg}
+        return unless args.all? do |arg|
+          arg.respond_to?(:call) ? arg.call : match(arg)
+        end
 
         # The captures we yield here were generated and assembled
         # by evaluating each of the `arg`s above. Most of these
@@ -190,6 +192,15 @@ module Cuba
       captures.push(*vars)
     end
     private :consume
+
+    def match(pattern)
+      case pattern
+      when String
+        consume(pattern.gsub(/:\w+/, "(\\w+)"))
+      else
+        pattern
+      end
+    end
 
     # A matcher for numeric ids.
     #
