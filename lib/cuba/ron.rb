@@ -125,7 +125,7 @@ module Cuba
 
         # The captures we yield here were generated and assembled
         # by evaluating each of the `arg`s above. Most of these
-        # are carried out by #path.
+        # are carried out by #consume.
         yield *captures
 
         # At this point, we've successfully matched with some corresponding
