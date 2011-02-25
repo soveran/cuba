@@ -17,7 +17,7 @@ end
 # Summary of changes
 #
 # 1. Only relevant captures are yielded.
-# 2. The #extension matcher is used more like #path.
+# 2. The #extname matcher is used more like #path.
 # 3. Miscellaneous coding style changes.
 #
 module Cuba
@@ -98,7 +98,7 @@ module Cuba
     #     res.write "User: #{uid}"
     #   end
     #
-    #   on path("styles"), extension("css") do |file|
+    #   on path("styles"), extname("css") do |file|
     #     res.write render("styles/#{file}.sass")
     #   end
     #
@@ -173,14 +173,14 @@ module Cuba
       end
     end
 
-    # A matcher for files with a certain extension.
+    # A matcher for files with a certain extname.
     #
     # @example
     #   # PATH_INFO=/style/app.css
-    #   on path("style"), extension("css") do |file|
+    #   on path("style"), extname("css") do |file|
     #     res.write file # writes app
     #   end
-    def extension(ext = "\\w+")
+    def extname(ext = "\\w+")
       lambda { consume("([^\\/]+?)\.#{ext}\\z") }
     end
 

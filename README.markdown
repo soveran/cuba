@@ -84,7 +84,7 @@ Here's an example showcasing how different matchers work:
       end
 
       # /styles/basic.css
-      on path("styles"), extension("css") do |file|
+      on path("styles"), extname("css") do |file|
         res.write "Filename: #{file}" #=> "Filename: basic"
       end
 
