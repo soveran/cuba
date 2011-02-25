@@ -133,12 +133,8 @@ module Cuba
 
       yield
 
-      env["SCRIPT_NAME"], env["PATH_INFO"] = script, path
-
     ensure
-      unless @matched
-        env["SCRIPT_NAME"], env["PATH_INFO"] = script, path
-      end
+      env["SCRIPT_NAME"], env["PATH_INFO"] = script, path
     end
     private :try
 
