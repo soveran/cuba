@@ -195,8 +195,9 @@ module Cuba
 
     def match(pattern)
       case pattern
-      when String
-        consume(pattern.gsub(/:\w+/, "(\\w+)"))
+      when String then consume(pattern.gsub(/:\w+/, "(\\w+)"))
+      when Regexp then consume(pattern)
+      when Symbol then consume("(\\w+)")
       else
         pattern
       end
