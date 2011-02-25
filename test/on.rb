@@ -19,7 +19,7 @@ test "executes on non-false" do
     end
   end
 
-  _, _, resp = Cuba.call({})
+  _, _, resp = Cuba.call({ "PATH_INFO" => "/123", "SCRIPT_NAME" => "/" })
 
   assert_equal ["+1"], resp.body
 end
