@@ -90,7 +90,7 @@ module Cuba
     #     res.write "User: #{uid}"
     #   end
     #
-    #   on "styles", extname("css") do |file|
+    #   on "styles", extension("css") do |file|
     #     res.write render("styles/#{file}.sass")
     #   end
     #
@@ -161,14 +161,14 @@ module Cuba
       end
     end
 
-    # A matcher for files with a certain extname.
+    # A matcher for files with a certain extension.
     #
     # @example
     #   # PATH_INFO=/style/app.css
-    #   on "style", extname("css") do |file|
+    #   on "style", extension("css") do |file|
     #     res.write file # writes app
     #   end
-    def extname(ext = "\\w+")
+    def extension(ext = "\\w+")
       lambda { consume("([^\\/]+?)\.#{ext}\\z") }
     end
 

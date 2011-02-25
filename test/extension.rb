@@ -3,7 +3,7 @@ require File.expand_path("helper", File.dirname(__FILE__))
 setup do
   Cuba.define do
     on "styles" do
-      on extname("css") do |file|
+      on extension("css") do |file|
         res.write file
       end
     end

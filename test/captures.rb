@@ -74,9 +74,9 @@ test "yields a number" do
   assert_equal ["101"], resp.body
 end
 
-test "yields an extname" do
+test "yield a file name with a matching extension" do
   Cuba.define do
-    on get, "css", extname("css") do |file|
+    on get, "css", extension("css") do |file|
       res.write file
     end
   end
