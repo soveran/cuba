@@ -69,11 +69,6 @@ module Cuba
       }.render(self, locals)
     end
 
-    # Basic wrapper for using Rack session.
-    def session
-      @session ||= env['rack.session']
-    end
-
     # The heart of the path / verb / any condition matching.
     #
     # @example
