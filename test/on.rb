@@ -24,27 +24,6 @@ test "executes on non-false" do
   assert_equal ["+1"], resp.body
 end
 
-test "restores SCRIPT_NAME and PATH_INFO" do
-  Cuba.define do
-    on true do
-      env["SCRIPT_NAME"] = "foo"
-      env["PATH_INFO"] = "/hello"
-
-      raise "Something went wrong"
-    end
-  end
-
-  env = { "SCRIPT_NAME" => "/", "PATH_INFO" => "/hello" }
-
-  begin
-    _, _, resp = Cuba.call(env)
-  rescue
-  end
-
-  assert_equal "/", env["SCRIPT_NAME"]
-  assert_equal "/hello", env["PATH_INFO"]
-end
-
 test "ensures SCRIPT_NAME and PATH_INFO are reverted" do
   Cuba.define do
     on lambda { env["SCRIPT_NAME"] = "/hello"; false } do
@@ -100,4 +79,19 @@ test "finds first match available" do
   _, _, resp = Cuba.call({})
 
   assert_equal ["bar"], resp.body
+end
+
+test "reverts a half-met matcher" do
+  Cuba.define do
+    on "post", false do
+      res.write "Should be unmet"
+    end
+  end
+
+  env = { "PATH_INFO" => "/post", "SCRIPT_NAME" => "/" }
+  _, _, resp = Cuba.call(env)
+
+  assert_equal [], resp.body
+  assert_equal "/post", env["PATH_INFO"]
+  assert_equal "/", env["SCRIPT_NAME"]
 end

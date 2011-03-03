@@ -14,7 +14,6 @@ test "one level path" do |env|
   _, _, resp = Cuba.call(env)
 
   assert_equal ["About"], resp.body
-  assert_equal({ "SCRIPT_NAME" => "/", "PATH_INFO" => "/about" }, env)
 end
 
 test "two level nested paths" do |env|

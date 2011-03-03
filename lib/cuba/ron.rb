@@ -110,14 +110,20 @@ module Cuba
         #    on true, "signup"
         return unless args.all? { |arg| match(arg) }
 
-        # The captures we yield here were generated and assembled
-        # by evaluating each of the `arg`s above. Most of these
-        # are carried out by #consume.
-        yield *captures
+        begin
+          # The captures we yield here were generated and assembled
+          # by evaluating each of the `arg`s above. Most of these
+          # are carried out by #consume.
+          yield *captures
 
-        # At this point, we've successfully matched with some corresponding
-        # matcher, so we can skip all other matchers defined.
-        @matched = true
+        ensure
+          # Regardless of what happens in the `yield`, we should ensure that
+          # we successfully set `@matched` to true.
+
+          # At this point, we've successfully matched with some corresponding
+          # matcher, so we can skip all other matchers defined.
+          @matched = true
+        end
       end
     end
 
@@ -129,7 +135,7 @@ module Cuba
       yield
 
     ensure
-      env["SCRIPT_NAME"], env["PATH_INFO"] = script, path
+      env["SCRIPT_NAME"], env["PATH_INFO"] = script, path unless @matched
     end
     private :try
 
