@@ -16,6 +16,6 @@ test "composing on top of a PATH" do
   env = { "SCRIPT_NAME" => "/", "PATH_INFO" => "/provider/services/101" }
 
    _, _, resp = Cuba.call(env)
-  
+
    assert_equal ["View 101"], resp.body
 end
