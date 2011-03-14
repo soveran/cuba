@@ -151,7 +151,7 @@ module Cuba
     end
     private :consume
 
-    def match(matcher, segment = "([\\.a-zA-Z0-9\\-]+)")
+    def match(matcher, segment = "([^\\/]+)")
       case matcher
       when String then consume(matcher.gsub(/:\w+/, segment))
       when Regexp then consume(matcher)
