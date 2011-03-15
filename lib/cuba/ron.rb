@@ -209,7 +209,7 @@ module Cuba
     #   end
     def accept(mimetype)
       lambda do
-        env["HTTP_ACCEPT"].split(",").any? { |s| s.strip == mimetype } and
+        String(env["HTTP_ACCEPT"]).split(",").any? { |s| s.strip == mimetype } and
           res["Content-Type"] = mimetype
       end
     end
