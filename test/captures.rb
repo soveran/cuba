@@ -1,5 +1,4 @@
 require File.expand_path("helper", File.dirname(__FILE__))
-require "stringio"
 
 test "doesn't yield HOST" do
   Cuba.define do
@@ -87,22 +86,6 @@ test "yield a file name with a matching extension" do
   _, _, resp = Cuba.call(env)
 
   assert_equal ["app"], resp.body
-end
-
-test "yields a param" do
-  Cuba.define do
-    on get, "signup", param("email") do |email|
-      res.write email
-    end
-  end
-
-  env = { "REQUEST_METHOD" => "GET", "PATH_INFO" => "/signup",
-          "SCRIPT_NAME" => "/", "rack.input" => StringIO.new,
-          "QUERY_STRING" => "email=john@doe.com" }
-
-  _, _, resp = Cuba.call(env)
-
-  assert_equal ["john@doe.com"], resp.body
 end
 
 test "yields a segment per nested block" do

@@ -181,8 +181,8 @@ module Cuba
     #   on "signup", param("user") do |atts|
     #     User.create(atts)
     #   end
-    def param(key, default = nil)
-      lambda { captures << (req[key] || default) }
+    def param(key)
+      lambda { captures << req[key] if req[key] }
     end
 
     def header(key, default = nil)
