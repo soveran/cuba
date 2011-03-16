@@ -185,8 +185,8 @@ module Cuba
       lambda { captures << req[key] if req[key] }
     end
 
-    def header(key, default = nil)
-      lambda { env[key.upcase.tr("-","_")] || default }
+    def header(key)
+      lambda { env[key.upcase.tr("-","_")] }
     end
 
     # Useful for matching against the request host (i.e. HTTP_HOST).
