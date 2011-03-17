@@ -182,7 +182,7 @@ module Cuba
     #     User.create(atts)
     #   end
     def param(key)
-      lambda { captures << req[key] if req[key] }
+      lambda { captures << req[key] unless req[key].to_s.empty? }
     end
 
     def header(key)
