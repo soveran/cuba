@@ -58,12 +58,17 @@ Here's a simple application:
       end
     end
 
-To run it, you can create a `config.ru`:
+To run it, you can create a `config.ru` file:
 
     # cat config.ru
     require "hello_world"
 
     run Cuba
+
+You can now run `rackup` and enjoy what you have just created.
+
+Matchers
+--------
 
 Here's an example showcasing how different matchers work:
 
@@ -73,50 +78,55 @@ Here's an example showcasing how different matchers work:
 
     Cuba.define do
 
-      # /
-      on "" do
-        res.write "Home"
-      end
+      # only GET requests
+      on get do
 
-      # /about
-      on "about" do
-        res.write "About"
-      end
-
-      # /styles/basic.css
-      on "styles", extension("css") do |file|
-        res.write "Filename: #{file}" #=> "Filename: basic"
-      end
-
-      # /post/2011/02/16/hello
-      on "post/:y/:m/:d/:slug" do |y, m, d, slug|
-        res.write "#{y}-#{m}-#{d} #{slug}" #=> "2011-02-16 hello"
-      end
-
-      # /username/foobar
-      on "username/:username" do |username|
-
-        user = User.find_by_username(username) # username == "foobar"
-
-        # /username/foobar/posts
-        on "posts" do
-
-          # You can access `user` here, because the `on` blocks
-          # are closures.
-          res.write "Total Posts: #{user.posts.size}" #=> "Total Posts: 6"
+        # /
+        on "" do
+          res.write "Home"
         end
 
-        # /username/foobar/following
-        on "following" do
-          res.write user.following.size #=> "1301"
+        # /about
+        on "about" do
+          res.write "About"
+        end
+
+        # /styles/basic.css
+        on "styles", extension("css") do |file|
+          res.write "Filename: #{file}" #=> "Filename: basic"
+        end
+
+        # /post/2011/02/16/hello
+        on "post/:y/:m/:d/:slug" do |y, m, d, slug|
+          res.write "#{y}-#{m}-#{d} #{slug}" #=> "2011-02-16 hello"
+        end
+
+        # /username/foobar
+        on "username/:username" do |username|
+
+          user = User.find_by_username(username) # username == "foobar"
+
+          # /username/foobar/posts
+          on "posts" do
+
+            # You can access `user` here, because the `on` blocks
+            # are closures.
+            res.write "Total Posts: #{user.posts.size}" #=> "Total Posts: 6"
+          end
+
+          # /username/foobar/following
+          on "following" do
+            res.write user.following.size #=> "1301"
+          end
+        end
+
+        # /search?q=barbaz
+        on "search", param("q") do |query|
+          res.write "Searched for #{query}" #=> "Searched for barbaz"
         end
       end
 
-      # /search?q=barbaz
-      on "search", param("q") do |query|
-        res.write "Searched for #{query}" #=> "Searched for barbaz"
-      end
-
+      # only POST requests
       on post do
         on "login"
 
@@ -134,7 +144,45 @@ Here's an example showcasing how different matchers work:
       end
     end
 
-That's it, you can now run `rackup` and enjoy what you have just created.
+HTTP Verbs
+----------
+
+There are four matchers defined for HTTP Verbs: `get`, `post`, `put` and
+`delete`. But the world doesn't end there, does it? As you have the whole
+request available via the `req` object, you can query it with helper methods
+like `req.options?` or `req.head?`, or you can even go to a lower level
+and inspect the environment via the `env` object, and check for example if
+`env["REQUEST_METHOD"]` equals the obscure verb `PATCH`.
+
+What follows is an example of different ways of saying the same thing:
+
+    on env["REQUEST_METHOD"] == "GET", "api" do ... end
+
+    on req.get?, "api" do ... end
+
+    on get, "api" do ... end
+
+Actually, `get` is syntax sugar for `req.get?`, which in turn is syntax sugar
+for `env["REQUEST_METHOD"] == "GET"`.
+
+Testing
+-------
+
+Given that Cuba is essentially Rack, it is very easy to test with `Webrat` or
+`Capybara`. Cuba's own tests are written with a combination of [Cutest][cutest]
+and [Capybara][capybara], and if you want to use the same for your tests it is
+as easy as requiring `cuba/test`:
+
+    require "cuba/test"
+    require "your/app"
+
+    scope do
+      test "Homepage" do
+        visit "/"
+
+        assert has_content?("Hello world!")
+      end
+    end
 
 To read more about testing, check the documentation for [Cutest][cutest] and
 [Capybara][capybara].
