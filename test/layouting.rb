@@ -1,6 +1,6 @@
 require File.expand_path("helper", File.dirname(__FILE__))
 
-test "executes on true" do
+test "simple layout support" do
   Cuba.define do
     on true do
       res.write render("layouting_layout.haml") {
