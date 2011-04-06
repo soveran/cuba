@@ -165,6 +165,34 @@ What follows is an example of different ways of saying the same thing:
 Actually, `get` is syntax sugar for `req.get?`, which in turn is syntax sugar
 for `env["REQUEST_METHOD"] == "GET"`.
 
+Captures
+--------
+
+You may have noticed that some matchers yield a value to the block. The rules
+for determining if a matcher will yield a value are simple:
+
+1. Regex captures: `"posts/(\d+)-(.*)"` will yield two values, corresponding to each capture.
+2. Placeholders: `"users/:id"` will yield the value in the position of :id.
+3. Symbols: `:foobar` will yield if a segment is available.
+4. File extensions: `extension("css")` will yield the basename of the matched file.
+5. Parameters: `param("user")` will yield the value of the parameter user, if present.
+
+The first case is important because it shows the underlying effect of regex
+captures.
+
+In the second case, the substring `:id` gets replaced by `([^\\/]+)` and the
+string becomes `"users/([^\\/]+)"` before performing the match, thus it reverts
+to the first form we saw.
+
+In the third case, the symbol ––no matter what it says––gets replaced
+by `"([^\\/]+)"`, and again we are in presence of case 1.
+
+The fourth case, again, reverts to the basic matcher: it generates the string
+`"([^\\/]+?)\.#{ext}\\z"` before performing the match.
+
+The fifth case is different: it checks if the the parameter supplied is present
+in the request (via POST or QUERY_STRING) and it pushes the value as a capture.
+
 Testing
 -------
 
