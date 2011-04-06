@@ -63,10 +63,13 @@ module Cuba
     #   # Renders with HAML options
     #   render("home.haml", {}, ugly: true, format: :html5)
     #
-    def render(template, locals = {}, options = {})
+    #   # Renders in layout
+    #   render("layout.haml") { render("home.haml") }
+    #
+    def render(template, locals = {}, options = {}, &block)
       _cache.fetch(template, locals) {
         Tilt.new(template, 1, options)
-      }.render(self, locals)
+      }.render(self, locals, &block)
     end
 
     # The heart of the path / verb / any condition matching.
