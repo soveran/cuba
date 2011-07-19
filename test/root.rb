@@ -6,14 +6,14 @@ test "matching an empty segment" do
       res.write req.path
     end
   end
-      
+
   env = {
     "SCRIPT_NAME" => "",
     "PATH_INFO" => "/"
   }
 
   _, _, resp = Cuba.call(env)
-  
+
   assert_equal ["/"], resp.body
 end
 
@@ -23,17 +23,18 @@ test "nested empty segments" do
       on "" do
         on "1" do
           res.write "IT WORKS!"
+          res.write req.path
         end
       end
     end
   end
-      
+
   env = {
     "SCRIPT_NAME" => "",
     "PATH_INFO" => "///1"
   }
 
   _, _, resp = Cuba.call(env)
-  
-  assert_equal ["IT WORKS!"], resp.body
+
+  assert_equal ["IT WORKS!", "///1"], resp.body
 end

@@ -143,12 +143,12 @@ module Cuba
     private :try
 
     def consume(pattern)
-      return unless match = env["PATH_INFO"].match(/\A\/(#{pattern})(?:\/|\z)/)
+      return unless match = env["PATH_INFO"].match(/\A\/(#{pattern})((?:\/|\z))/)
 
       path, *vars = match.captures
 
-      env["SCRIPT_NAME"] += "/#{path}" unless match.post_match.empty?
-      env["PATH_INFO"] = "/#{match.post_match}"
+      env["SCRIPT_NAME"] += "/#{path}"
+      env["PATH_INFO"] = "#{vars.pop}#{match.post_match}"
 
       captures.push(*vars)
     end
