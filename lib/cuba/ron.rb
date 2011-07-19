@@ -147,7 +147,7 @@ module Cuba
 
       path, *vars = match.captures
 
-      env["SCRIPT_NAME"] += "/#{path}"
+      env["SCRIPT_NAME"] += "/#{path}" unless match.post_match.empty?
       env["PATH_INFO"] = "/#{match.post_match}"
 
       captures.push(*vars)
