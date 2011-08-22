@@ -193,6 +193,27 @@ The fourth case, again, reverts to the basic matcher: it generates the string
 The fifth case is different: it checks if the the parameter supplied is present
 in the request (via POST or QUERY_STRING) and it pushes the value as a capture.
 
+Composition
+-----------
+
+You can mount a Cuba app, along with middlewares, inside another Cuba app:
+
+    API = Cuba.new
+
+    API.use SomeMiddleware
+
+    API.define do
+      on param("url") do |url|
+        ...
+      end
+    end
+
+    Cuba.define do
+      on "api" do
+        run API
+      end
+    end
+
 Testing
 -------
 
