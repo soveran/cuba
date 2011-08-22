@@ -14,6 +14,15 @@ class Rack::Response
 end
 
 class Cuba
+  class RedefinitionError < StandardError
+  end
+
+  @@methods = []
+
+  def self.method_added(meth)
+    @@methods << meth
+  end
+
   def self.reset!
     @app = nil
     @prototype = nil
@@ -284,5 +293,13 @@ class Cuba
   #   end
   def run(app)
     throw :ron_run_next_app, app
+  end
+
+  # In order to prevent people from overriding the standard Cuba
+  # methods like `get`, `put`, etc, we add this as a safety measure.
+  def self.method_added(meth)
+    if @@methods.include?(meth)
+      raise RedefinitionError, meth
+    end
   end
 end
