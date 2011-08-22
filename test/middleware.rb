@@ -13,7 +13,7 @@ class Shrimp
 end
 
 test do
-  API = Cuba.new
+  API = Cuba.build
   API.use Shrimp
   API.define do
     on "v1/test" do

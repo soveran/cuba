@@ -1,7 +1,7 @@
 require File.expand_path("helper", File.dirname(__FILE__))
 
 test "composing on top of a PATH" do
-  Services = Cuba::Ron.new {
+  Services = Cuba.new {
     on "services/:id" do |id|
       res.write "View #{id}"
     end
