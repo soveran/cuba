@@ -12,7 +12,7 @@ class Rack::Response
   end
 end
 
-module Cuba
+class Cuba
   class Ron
     attr :env
     attr :req

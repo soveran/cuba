@@ -1,7 +1,7 @@
 require "cuba/version"
 require "cuba/ron"
 
-module Cuba
+class Cuba
   def self.reset!
     @app = nil
     @prototype = nil
@@ -17,6 +17,10 @@ module Cuba
 
   def self.define(&block)
     app.run Cuba::Ron.new(&block)
+  end
+
+  def self.new
+    Class.new(self)
   end
 
   def self.prototype

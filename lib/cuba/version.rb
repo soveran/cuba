@@ -1,3 +1,3 @@
-module Cuba
+class Cuba
   VERSION = "2.0.0"
 end
