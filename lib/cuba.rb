@@ -70,15 +70,13 @@ class Cuba
     @env = env
     @req = Rack::Request.new(env)
     @res = Rack::Response.new
-    @matched = false
 
-    catch(:ron_run_next_app) do
+    catch(:halt) do
       instance_eval(&@blk)
 
-      @res.status = 404 unless @matched || !@res.empty?
-
-      return @res.finish
-    end.call(env)
+      @res.status = 404
+      @res.finish
+    end
   end
 
   # @private Used internally by #render to cache the
@@ -131,10 +129,6 @@ class Cuba
   #   end
   #
   def on(*args, &block)
-    # No use running any other matchers if we've already found a
-    # proper matcher.
-    return if @matched
-
     try do
       # For every block, we make sure to reset captures so that
       # nesting matchers won't mess with each other's captures.
@@ -151,20 +145,12 @@ class Cuba
       #    on true, "signup"
       return unless args.all? { |arg| match(arg) }
 
-      begin
-        # The captures we yield here were generated and assembled
-        # by evaluating each of the `arg`s above. Most of these
-        # are carried out by #consume.
-        yield *captures
+      # The captures we yield here were generated and assembled
+      # by evaluating each of the `arg`s above. Most of these
+      # are carried out by #consume.
+      yield *captures
 
-      ensure
-        # Regardless of what happens in the `yield`, we should ensure that
-        # we successfully set `@matched` to true.
-
-        # At this point, we've successfully matched with some corresponding
-        # matcher, so we can skip all other matchers defined.
-        @matched = true
-      end
+      halt @res.finish
     end
   end
 
@@ -292,7 +278,11 @@ class Cuba
   #     res.write "Super secure account info."
   #   end
   def run(app)
-    throw :ron_run_next_app, app
+    halt app.call(req.env)
+  end
+
+  def halt(response)
+    throw :halt, response
   end
 
   # In order to prevent people from overriding the standard Cuba
