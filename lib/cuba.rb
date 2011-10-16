@@ -74,8 +74,8 @@ class Cuba
     catch(:halt) do
       instance_eval(&@blk)
 
-      @res.status = 404
-      @res.finish
+      res.status = 404
+      res.finish
     end
   end
 
@@ -150,7 +150,7 @@ class Cuba
       # are carried out by #consume.
       yield *captures
 
-      halt @res.finish
+      halt res.finish
     end
   end
 
