@@ -71,6 +71,13 @@ class Cuba
     @req = Rack::Request.new(env)
     @res = Rack::Response.new
 
+    # This `catch` statement will either receive a
+    # rack response tuple via a `halt`, or will
+    # fall back to issuing a 404.
+    #
+    # When it `catch`es a throw, the return value
+    # of this whole `_call` method will be the
+    # rack response tuple, which is exactly what we want.
     catch(:halt) do
       instance_eval(&@blk)
 
