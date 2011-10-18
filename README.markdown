@@ -198,7 +198,7 @@ Composition
 
 You can mount a Cuba app, along with middlewares, inside another Cuba app:
 
-    API = Cuba.new
+    API = Cuba.build
 
     API.use SomeMiddleware
 

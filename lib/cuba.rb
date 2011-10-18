@@ -276,7 +276,7 @@ class Cuba
   #
   # @example
   #   def redirect(*args)
-  #     run Cuba::Ron.new { on(default) { res.redirect(*args) }}
+  #     run Cuba.new { on(default) { res.redirect(*args) }}
   #   end
   #
   #   on "account" do
