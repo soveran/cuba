@@ -37,7 +37,7 @@ class Cuba
   end
 
   def self.define(&block)
-    app.run Cuba.new(&block)
+    app.run new(&block)
   end
 
   def self.build
@@ -266,10 +266,10 @@ class Cuba
   #
   #   on post, "signup" do
   #   end
-  def get    ; req.get?    end
-  def post   ; req.post?   end
-  def put    ; req.put?    end
-  def delete ; req.delete? end
+  def get;    req.get?    end
+  def post;   req.post?   end
+  def put;    req.put?    end
+  def delete; req.delete? end
 
   # If you want to halt the processing of an existing handler
   # and continue it via a different handler.
