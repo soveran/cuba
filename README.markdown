@@ -61,7 +61,7 @@ Here's a simple application:
 To run it, you can create a `config.ru` file:
 
     # cat config.ru
-    require "hello_world"
+    require "./hello_world"
 
     run Cuba
 
