@@ -2,7 +2,7 @@ require "./lib/cuba/version"
 
 Gem::Specification.new do |s|
   s.name              = "cuba"
-  s.version           = Cuba::VERSION
+  s.version           = "2.2.1"
   s.summary           = "Microframework for web applications."
   s.description       = "Cuba is a microframework for web applications."
   s.authors           = ["Michel Martens"]
