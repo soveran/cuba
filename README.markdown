@@ -30,40 +30,43 @@ Usage
 
 Here's a simple application:
 
-    # cat hello_world.rb
-    require "cuba"
+``` ruby
+# cat hello_world.rb
+require "cuba"
 
-    Cuba.use Rack::Session::Cookie
+Cuba.use Rack::Session::Cookie
 
-    Cuba.define do
-      on get do
-        on "hello" do
-          res.write "Hello world!"
-        end
-
-        on true do
-          res.redirect "/hello"
-        end
-      end
+Cuba.define do
+  on get do
+    on "hello" do
+      res.write "Hello world!"
     end
 
-    # cat hello_world_test.rb
-    require "cuba/test"
-
-    scope do
-      test "Homepage" do
-        visit "/"
-
-        assert has_content?("Hello world!")
-      end
+    on true do
+      res.redirect "/hello"
     end
+  end
+end
+
+# cat hello_world_test.rb
+require "cuba/test"
+
+scope do
+  test "Homepage" do
+    visit "/"
+    assert has_content?("Hello world!")
+  end
+end
+```
 
 To run it, you can create a `config.ru` file:
 
-    # cat config.ru
-    require "./hello_world"
+``` ruby
+# cat config.ru
+require "./hello_world"
 
-    run Cuba
+run Cuba
+```
 
 You can now run `rackup` and enjoy what you have just created.
 
@@ -72,77 +75,80 @@ Matchers
 
 Here's an example showcasing how different matchers work:
 
-    require "cuba"
+``` ruby
+require "cuba"
 
-    Cuba.use Rack::Session::Cookie
+Cuba.use Rack::Session::Cookie
 
-    Cuba.define do
+Cuba.define do
 
-      # only GET requests
-      on get do
+  # only GET requests
+  on get do
 
-        # /
-        on "" do
-          res.write "Home"
-        end
+    # /
+    on "" do
+      res.write "Home"
+    end
 
-        # /about
-        on "about" do
-          res.write "About"
-        end
+    # /about
+    on "about" do
+      res.write "About"
+    end
 
-        # /styles/basic.css
-        on "styles", extension("css") do |file|
-          res.write "Filename: #{file}" #=> "Filename: basic"
-        end
+    # /styles/basic.css
+    on "styles", extension("css") do |file|
+      res.write "Filename: #{file}" #=> "Filename: basic"
+    end
 
-        # /post/2011/02/16/hello
-        on "post/:y/:m/:d/:slug" do |y, m, d, slug|
-          res.write "#{y}-#{m}-#{d} #{slug}" #=> "2011-02-16 hello"
-        end
+    # /post/2011/02/16/hello
+    on "post/:y/:m/:d/:slug" do |y, m, d, slug|
+      res.write "#{y}-#{m}-#{d} #{slug}" #=> "2011-02-16 hello"
+    end
 
-        # /username/foobar
-        on "username/:username" do |username|
+    # /username/foobar
+    on "username/:username" do |username|
 
-          user = User.find_by_username(username) # username == "foobar"
+      user = User.find_by_username(username) # username == "foobar"
 
-          # /username/foobar/posts
-          on "posts" do
+      # /username/foobar/posts
+      on "posts" do
 
-            # You can access `user` here, because the `on` blocks
-            # are closures.
-            res.write "Total Posts: #{user.posts.size}" #=> "Total Posts: 6"
-          end
-
-          # /username/foobar/following
-          on "following" do
-            res.write user.following.size #=> "1301"
-          end
-        end
-
-        # /search?q=barbaz
-        on "search", param("q") do |query|
-          res.write "Searched for #{query}" #=> "Searched for barbaz"
-        end
+        # You can access `user` here, because the `on` blocks
+        # are closures.
+        res.write "Total Posts: #{user.posts.size}" #=> "Total Posts: 6"
       end
 
-      # only POST requests
-      on post do
-        on "login"
-
-          # POST /login, user: foo, pass: baz
-          on param("user"), param("pass") do |user, pass|
-            res.write "#{user}:#{pass}" #=> "foo:baz"
-          end
-
-          # If the params `user` and `pass` are not provided, this block will
-          # get executed.
-          on true do
-            res.write "You need to provide user and pass!"
-          end
-        end
+      # /username/foobar/following
+      on "following" do
+        res.write user.following.size #=> "1301"
       end
     end
+
+    # /search?q=barbaz
+    on "search", param("q") do |query|
+      res.write "Searched for #{query}" #=> "Searched for barbaz"
+    end
+  end
+
+  # only POST requests
+  on post do
+    on "login"
+
+      # POST /login, user: foo, pass: baz
+      on param("user"), param("pass") do |user, pass|
+        res.write "#{user}:#{pass}" #=> "foo:baz"
+      end
+
+      # If the params `user` and `pass` are not provided, this block will
+      # get executed.
+      on true do
+        res.write "You need to provide user and pass!"
+      end
+    end
+  end
+end
+```
+
 
 HTTP Verbs
 ----------
@@ -156,11 +162,13 @@ and inspect the environment via the `env` object, and check for example if
 
 What follows is an example of different ways of saying the same thing:
 
-    on env["REQUEST_METHOD"] == "GET", "api" do ... end
+``` ruby
+on env["REQUEST_METHOD"] == "GET", "api" do ... end
 
-    on req.get?, "api" do ... end
+on req.get?, "api" do ... end
 
-    on get, "api" do ... end
+on get, "api" do ... end
+```
 
 Actually, `get` is syntax sugar for `req.get?`, which in turn is syntax sugar
 for `env["REQUEST_METHOD"] == "GET"`.
@@ -198,21 +206,23 @@ Composition
 
 You can mount a Cuba app, along with middlewares, inside another Cuba app:
 
-    API = Cuba.build
+``` ruby
+API = Cuba.build
 
-    API.use SomeMiddleware
+API.use SomeMiddleware
 
-    API.define do
-      on param("url") do |url|
-        ...
-      end
-    end
+API.define do
+  on param("url") do |url|
+    ...
+  end
+end
 
-    Cuba.define do
-      on "api" do
-        run API
-      end
-    end
+Cuba.define do
+  on "api" do
+    run API
+  end
+end
+```
 
 Testing
 -------
@@ -222,16 +232,18 @@ Given that Cuba is essentially Rack, it is very easy to test with `Webrat` or
 and [Capybara][capybara], and if you want to use the same for your tests it is
 as easy as requiring `cuba/test`:
 
-    require "cuba/test"
-    require "your/app"
+``` ruby
+require "cuba/test"
+require "your/app"
 
-    scope do
-      test "Homepage" do
-        visit "/"
+scope do
+  test "Homepage" do
+    visit "/"
 
-        assert has_content?("Hello world!")
-      end
-    end
+    assert has_content?("Hello world!")
+  end
+end
+```
 
 To read more about testing, check the documentation for [Cutest][cutest] and
 [Capybara][capybara].
@@ -239,4 +251,6 @@ To read more about testing, check the documentation for [Cutest][cutest] and
 Installation
 ------------
 
-    $ gem install cuba
+``` ruby
+$ gem install cuba
+```
