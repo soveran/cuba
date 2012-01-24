@@ -12,6 +12,8 @@ class Rack::Response
 end
 
 class Cuba
+  autoload :Settings, "cuba/settings"
+
   class RedefinitionError < StandardError
   end
 
@@ -50,6 +52,13 @@ class Cuba
     prototype.call(env)
   end
 
+  def self.plugin(mixin)
+    include mixin
+    extend  mixin::ClassMethods if defined?(mixin::ClassMethods)
+
+    mixin.setup(self) if mixin.respond_to?(:setup)
+  end
+
   attr :env
   attr :req
   attr :res
@@ -82,6 +91,13 @@ class Cuba
       res.status = 404
       res.finish
     end
+  end
+
+  def session
+    env["rack.session"] || raise(RuntimeError,
+      "You're missing a session handler. You can get started " +
+      "by doing \n\n    Cuba.use Rack::Session::Cookie"
+    )
   end
 
   # The heart of the path / verb / any condition matching.
