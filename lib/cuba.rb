@@ -63,10 +63,10 @@ class Cuba
   end
 
   def call(env)
-    dup._call(env)
+    dup.call!(env)
   end
 
-  def _call(env)
+  def call!(env)
     @env = env
     @req = Rack::Request.new(env)
     @res = Rack::Response.new
