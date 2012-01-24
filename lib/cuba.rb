@@ -110,7 +110,7 @@ class Cuba
   #   render("layout.haml") { render("home.haml") }
   #
   def render(template, locals = {}, options = {}, &block)
-    _cache.fetch(template, locals) {
+    _cache.fetch(template) {
       Tilt.new(template, 1, options)
     }.render(self, locals, &block)
   end
