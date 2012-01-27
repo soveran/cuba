@@ -1,5 +1,3 @@
-require "./lib/cuba/version"
-
 Gem::Specification.new do |s|
   s.name              = "cuba"
   s.version           = "2.2.1"

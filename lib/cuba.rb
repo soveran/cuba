@@ -1,6 +1,7 @@
 require "rack"
 
 class Rack::Response
+
   # 301 Moved Permanently
   # 302 Found
   # 303 See Other
@@ -94,8 +95,7 @@ class Cuba
   def session
     env["rack.session"] || raise(RuntimeError,
       "You're missing a session handler. You can get started " +
-      "by doing \n\n    Cuba.use Rack::Session::Cookie"
-    )
+      "by adding Cuba.use Rack::Session::Cookie")
   end
 
   # The heart of the path / verb / any condition matching.
