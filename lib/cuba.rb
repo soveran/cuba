@@ -12,8 +12,6 @@ class Rack::Response
 end
 
 class Cuba
-  autoload :Settings, "cuba/settings"
-
   class RedefinitionError < StandardError
   end
 
