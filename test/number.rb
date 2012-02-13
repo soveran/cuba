@@ -22,7 +22,7 @@ end
 test "paths and decimals" do |env|
   Cuba.define do
     on "about" do
-      on /(\d+)/ do |one|
+      on(/(\d+)/) do |one|
         res.write one
       end
     end

@@ -33,10 +33,10 @@ end
 
 test "regex nesting" do |env|
   Cuba.define do
-    on /u\/(\w+)/ do |uid|
+    on(/u\/(\w+)/) do |uid|
       res.write uid
 
-      on /posts\/(\d+)/ do |id|
+      on(/posts\/(\d+)/) do |id|
         res.write id
       end
     end
@@ -51,10 +51,10 @@ end
 
 test "regex nesting colon param style" do |env|
   Cuba.define do
-    on /u:(\w+)/ do |uid|
+    on(/u:(\w+)/) do |uid|
       res.write uid
 
-      on /posts:(\d+)/ do |id|
+      on(/posts:(\d+)/) do |id|
         res.write id
       end
     end
