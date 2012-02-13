@@ -1,22 +1,14 @@
 require "rack"
 
-class Rack::Response
-
-  # 301 Moved Permanently
-  # 302 Found
-  # 303 See Other
-  # 307 Temporary Redirect
-  def redirect(target, status = 302)
-    self.status = status
-    self["Location"] = target
-  end
-end
-
 class Cuba
   class RedefinitionError < StandardError
   end
 
   @@methods = []
+
+  class << self
+    undef method_added
+  end
 
   def self.method_added(meth)
     @@methods << meth
@@ -138,7 +130,7 @@ class Cuba
       # The captures we yield here were generated and assembled
       # by evaluating each of the `arg`s above. Most of these
       # are carried out by #consume.
-      yield *captures
+      yield(*captures)
 
       halt res.finish
     end
@@ -152,7 +144,7 @@ class Cuba
     yield
 
   ensure
-    env["SCRIPT_NAME"], env["PATH_INFO"] = script, path unless @matched
+    env["SCRIPT_NAME"], env["PATH_INFO"] = script, path
   end
   private :try
 
@@ -273,6 +265,10 @@ class Cuba
 
   def halt(response)
     throw :halt, response
+  end
+
+  class << self
+    undef method_added
   end
 
   # In order to prevent people from overriding the standard Cuba
