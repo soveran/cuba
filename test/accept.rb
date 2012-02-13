@@ -26,8 +26,6 @@ test "tests don't fail when you don't specify an accept type" do
     end
   end
 
-  env = { "SCRIPT_NAME" => "/", "PATH_INFO" => "/post" }
-
   _, _, resp = Cuba.call({})
 
   assert_equal ["Default action"], resp.body
