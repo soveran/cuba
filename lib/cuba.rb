@@ -31,10 +31,6 @@ class Cuba
     app.run new(&block)
   end
 
-  def self.build
-    Class.new(self)
-  end
-
   def self.prototype
     @prototype ||= app.to_app
   end

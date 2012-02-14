@@ -13,13 +13,15 @@ class Shrimp
 end
 
 test do
-  API = Cuba.build
-  API.use Shrimp
-  API.define do
-    on "v1/test" do
-      res.write "OK"
-      res.write "1"
-      res.write "2"
+  class API < Cuba
+    use Shrimp
+
+    define do
+      on "v1/test" do
+        res.write "OK"
+        res.write "1"
+        res.write "2"
+      end
     end
   end
 

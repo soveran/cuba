@@ -207,7 +207,7 @@ Composition
 You can mount a Cuba app, along with middlewares, inside another Cuba app:
 
 ``` ruby
-API = Cuba.build
+class API < Cuba; end
 
 API.use SomeMiddleware
 
