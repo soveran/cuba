@@ -50,6 +50,14 @@ class Cuba
     mixin.setup(self) if mixin.respond_to?(:setup)
   end
 
+  def self.settings
+    @settings ||= {}
+  end
+
+  def self.inherited(child)
+    child.settings.replace(settings)
+  end
+
   attr :env
   attr :req
   attr :res
@@ -58,6 +66,10 @@ class Cuba
   def initialize(&blk)
     @blk = blk
     @captures = []
+  end
+
+  def settings
+    self.class.settings
   end
 
   def call(env)
