@@ -248,6 +248,135 @@ end
 To read more about testing, check the documentation for [Cutest][cutest] and
 [Capybara][capybara].
 
+Settings
+--------
+
+_You need Cuba 3.0.0 release candidate (gem install cuba --pre)._
+
+Each Cuba app can store settings in the `Cuba.settings` hash. The settings are
+inherited if you happen to subclass `Cuba`
+
+```ruby
+Cuba.settings[:layout] = "guest"
+
+class Users < Cuba; end
+class Admin < Cuba; end
+
+Admin.settings[:layout] = "admin"
+
+assert_equal "guest", Users.settings[:layout]
+assert_equal "admin", Admin.settings[:layout]
+
+```
+
+Feel free to store whatever you find convenient.
+
+Plugins
+-------
+
+_You need Cuba 3.0.0 release candidate (gem install cuba --pre)._
+
+Cuba provides a way to extend its functionality with plugins.
+
+### How to use plugins
+
+Some useful plugins can be found in the `cuba-contrib` and `cuba-sugar` gems.
+
+```ruby
+require "cuba/contrib"
+
+Cuba.plugin Cuba::Mote
+Cuba.plugin Cuba::TextHelpers
+```
+
+```ruby
+require "cuba/sugar"
+
+Cuba.plugin Cuba::Sugar
+Cuba.define do
+  on get do
+    as_json do
+      { capital: "La Habana",
+        temperature: "19°C" }
+    end
+  end
+end
+```
+
+Another library that provides a Cuba plugin is the `shield` gem:
+
+```ruby
+require "shield"
+
+Cuba.plugin Shield::Helpers
+```
+
+Make sure to check [cuba-contrib](https://github.com/cyx/cuba-contrib),
+[cuba-sugar](https://github.com/elcuervo/cuba-sugar) and
+[shield](https://github.com/cyx/shield) for more information about their
+features.
+
+### How to create plugins
+
+Authoring your own plugins is pretty straightforward.
+
+``` ruby
+module MyOwnHelper
+  def markdown(str)
+    BlueCloth.new(str).to_html
+  end
+end
+
+Cuba.plugin MyOwnHelper
+```
+
+That's the simplest kind of plugin you'll write. In fact, that's exactly how
+the `markdown` helper is written in `Cuba::TextHelpers`.
+
+A more complicated plugin can make use of `Cuba.settings` to provide default
+values. In the following example, note that if the module has a `setup` method it will
+be called as soon as it is included:
+
+``` ruby
+module Rendering
+  def self.setup(app)
+    app.settings[:template_engine] = "erb"
+  end
+
+  def partial(template, locals = {})
+    render("#{template}.#{settings[:template_engine]}", locals)
+  end
+end
+
+Cuba.plugin Rendering
+```
+
+This sample plugin actually resembles how `Cuba::Rendering` works.
+
+Finally, if a module called `ClassMethods` is present, `Cuba` will be extended
+with it.
+
+``` ruby
+module GetSetter
+  module ClassMethods
+    def set(key, value)
+      settings[key] = value
+    end
+
+    def get(key)
+      settings[key]
+    end
+  end
+end
+
+Cuba.plugin GetSetter
+
+Cuba.set(:foo, "bar")
+
+assert_equal "bar", Cuba.get(:foo)
+assert_equal "bar", Cuba.settings[:foo]
+```
+
 Installation
 ------------
 
