@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name              = "cuba"
-  s.version           = "2.2.1"
+  s.version           = "3.0.0.rc1"
   s.summary           = "Microframework for web applications."
   s.description       = "Cuba is a microframework for web applications."
   s.authors           = ["Michel Martens"]
@@ -9,6 +9,7 @@ Gem::Specification.new do |s|
 
   s.files = Dir[
     "LICENSE",
+    "CHANGELOG",
     "README.markdown",
     "Rakefile",
     "lib/**/*.rb",
