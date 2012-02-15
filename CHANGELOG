@@ -1,0 +1,10 @@
+3.0.0.rc1
+
+* Remove Cuba.build. Use subclassing instead.
+* Remove warnings.
+* Remove redefinition of Rack::Response#redirect.
+* Integrate Cuba.plugin and Cuba.settings.
+* Remove Cuba::VERSION.
+* Rename _call to call! (inspired from Sinatra).
+* Fix a memory leak with the caching used in Tilt.
+* Adding syntax highlighting to the README Code blocks
