@@ -1,8 +1,9 @@
 require "rack"
 
 class Cuba
-  class RedefinitionError < StandardError
-  end
+  class RedefinitionError < StandardError; end
+  
+  autoload :Tilt, "cuba/tilt"
 
   @@methods = []
 
