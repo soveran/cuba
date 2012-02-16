@@ -30,13 +30,13 @@ scope do
   test "partial" do
     _, _, body = Cuba.call({ "PATH_INFO" => "/about", "SCRIPT_NAME" => "/" })
 
-    assert_response body, ["<h1>About Cuba</h1>"]
+    assert_response body, ["<h1>About Cuba</h1>\n"]
   end
 
   test "view" do
     _, _, body = Cuba.call({ "PATH_INFO" => "/home", "SCRIPT_NAME" => "/" })
 
-    assert_response body, ["<title>Cuba: Home</title>\n<h1>Home</h1>\n<p>Hello Agent Smith</p>"]
+    assert_response body, ["<title>Cuba: Home</title>\n<h1>Home</h1>\n<p>Hello Agent Smith</p>\n"]
   end
 
   test "partial with str as engine" do
@@ -44,7 +44,7 @@ scope do
 
     _, _, body = Cuba.call({ "PATH_INFO" => "/about", "SCRIPT_NAME" => "/" })
 
-    assert_response body, ["<h1>About Cuba</h1>"]
+    assert_response body, ["<h1>About Cuba</h1>\n"]
   end
 
   test "view with str as engine" do
@@ -52,6 +52,41 @@ scope do
 
     _, _, body = Cuba.call({ "PATH_INFO" => "/home", "SCRIPT_NAME" => "/" })
 
-    assert_response body, ["<title>Cuba: Home</title>\n<h1>Home</h1>\n<p>Hello Agent Smith</p>"]
+    assert_response body, ["<title>Cuba: Home</title>\n<h1>Home</h1>\n<p>Hello Agent Smith</p>\n\n"]
   end
+end
+
+test "caching behavior" do
+  Thread.current[:_cache] = nil
+
+  Cuba.plugin Cuba::Tilt
+  Cuba.settings[:views] = "./test/views"
+
+  Cuba.define do
+    on "foo/:i" do |i|
+      res.write partial("test", title: i)
+    end
+  end
+
+  10.times do |i|
+    _, _, resp = Cuba.call({ "PATH_INFO" => "/foo/#{i}", "SCRIPT_NAME" => "" })
+  end
+
+  assert_equal 1, Thread.current[:_cache].instance_variable_get(:@cache).size
+end
+
+test "simple layout support" do
+  Cuba.plugin Cuba::Tilt
+
+  Cuba.define do
+    on true do
+      res.write render("test/views/layout-yield.erb") {
+        render("test/views/content-yield.erb")
+      }
+    end
+  end
+
+  _, _, resp = Cuba.call({})
+  
+  assert_equal ["Header\nThis is the actual content.\nFooter\n"], resp.body
 end
