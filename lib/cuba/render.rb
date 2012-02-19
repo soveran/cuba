@@ -1,7 +1,7 @@
 require "tilt"
 
 class Cuba
-  module Tilt
+  module Render
     def self.setup(app)
       app.settings[:template_engine] ||= "erb"
       app.settings[:views] ||= File.expand_path("views", Dir.pwd)
@@ -34,14 +34,14 @@ class Cuba
     #
     def render(template, locals = {}, options = {}, &block)
       _cache.fetch(template) {
-        ::Tilt.new(template, 1, options)
+        Tilt.new(template, 1, options)
       }.render(self, locals, &block)
     end
 
     # @private Used internally by #render to cache the
     #          Tilt templates.
     def _cache
-      Thread.current[:_cache] ||= ::Tilt::Cache.new
+      Thread.current[:_cache] ||= Tilt::Cache.new
     end
     private :_cache
   end

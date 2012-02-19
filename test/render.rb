@@ -1,10 +1,12 @@
 require_relative "helper"
 
+require "cuba/render"
+
 test "doesn't override the settings if they already exist" do
   Cuba.settings[:views] = "./test/views"
   Cuba.settings[:template_engine] = "haml"
 
-  Cuba.plugin Cuba::Tilt
+  Cuba.plugin Cuba::Render
 
   assert_equal "./test/views", Cuba.settings[:views]
   assert_equal "haml", Cuba.settings[:template_engine]
@@ -12,7 +14,7 @@ end
 
 scope do
   setup do
-    Cuba.plugin Cuba::Tilt
+    Cuba.plugin Cuba::Render
     Cuba.settings[:views] = "./test/views"
     Cuba.settings[:template_engine] = "erb"
 
@@ -59,7 +61,7 @@ end
 test "caching behavior" do
   Thread.current[:_cache] = nil
 
-  Cuba.plugin Cuba::Tilt
+  Cuba.plugin Cuba::Render
   Cuba.settings[:views] = "./test/views"
 
   Cuba.define do
@@ -76,7 +78,7 @@ test "caching behavior" do
 end
 
 test "simple layout support" do
-  Cuba.plugin Cuba::Tilt
+  Cuba.plugin Cuba::Render
 
   Cuba.define do
     on true do
@@ -87,6 +89,6 @@ test "simple layout support" do
   end
 
   _, _, resp = Cuba.call({})
-  
+
   assert_equal ["Header\nThis is the actual content.\nFooter\n"], resp.body
 end

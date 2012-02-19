@@ -107,7 +107,6 @@ Cuba.define do
 
     # /username/foobar
     on "username/:username" do |username|
-
       user = User.find_by_username(username) # username == "foobar"
 
       # /username/foobar/posts
@@ -148,7 +147,6 @@ Cuba.define do
   end
 end
 ```
-
 
 HTTP Verbs
 ----------
@@ -256,7 +254,7 @@ _You need Cuba 3.0.0 release candidate (gem install cuba --pre)._
 Each Cuba app can store settings in the `Cuba.settings` hash. The settings are
 inherited if you happen to subclass `Cuba`
 
-```ruby
+``` ruby
 Cuba.settings[:layout] = "guest"
 
 class Users < Cuba; end
@@ -271,50 +269,38 @@ assert_equal "admin", Admin.settings[:layout]
 
 Feel free to store whatever you find convenient.
 
+Rendering
+---------
+
+_You need Cuba 3.0.0 release candidate (gem install cuba --pre)._
+
+Cuba ships with a plugin that provides helpers for rendering templates. It uses
+[Tilt][tilt], a gem that interfaces with many template engines.
+
+``` ruby
+require "cuba/render"
+
+Cuba.plugin Cuba::Render
+
+Cuba.define do
+  on default do
+
+    # Within the partial, you will have access to the local variable `content`,
+    # that will hold the value "hello, world".
+    res.write render("home.haml", content: "hello, world")
+  end
+end
+```
+
+Note that in order to use this plugin you need to have [Tilt][tilt] installed, along
+with the templating engines you want to use.
+
 Plugins
 -------
 
 _You need Cuba 3.0.0 release candidate (gem install cuba --pre)._
 
 Cuba provides a way to extend its functionality with plugins.
-
-### How to use plugins
-
-Some useful plugins can be found in the `cuba-contrib` and `cuba-sugar` gems.
-
-```ruby
-require "cuba/contrib"
-
-Cuba.plugin Cuba::Mote
-Cuba.plugin Cuba::TextHelpers
-```
-
-```ruby
-require "cuba/sugar"
-
-Cuba.plugin Cuba::Sugar
-Cuba.define do
-  on get do
-    as_json do
-      { capital: "La Habana",
-        temperature: "19°C" }
-    end
-  end
-end
-```
-
-Another library that provides a Cuba plugin is the `shield` gem:
-
-```ruby
-require "shield"
-
-Cuba.plugin Shield::Helpers
-```
-
-Make sure to check [cuba-contrib](https://github.com/cyx/cuba-contrib),
-[cuba-sugar](https://github.com/elcuervo/cuba-sugar) and
-[shield](https://github.com/cyx/shield) for more information about their
-features.
 
 ### How to create plugins
 
@@ -338,7 +324,7 @@ values. In the following example, note that if the module has a `setup` method i
 be called as soon as it is included:
 
 ``` ruby
-module Rendering
+module Render
   def self.setup(app)
     app.settings[:template_engine] = "erb"
   end
@@ -348,10 +334,10 @@ module Rendering
   end
 end
 
-Cuba.plugin Rendering
+Cuba.plugin Render
 ```
 
-This sample plugin actually resembles how `Cuba::Rendering` works.
+This sample plugin actually resembles how `Cuba::Render` works.
 
 Finally, if a module called `ClassMethods` is present, `Cuba` will be extended
 with it.
