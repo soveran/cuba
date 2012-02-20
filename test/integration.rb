@@ -85,8 +85,3 @@ test "reset and use" do
   assert "2" == env["m.second"]
   assert "3" == env["m.block"]
 end
-
-test "examples" do
-  `cd example && rake -I../lib`
-  assert $?.exitstatus == 0
-end

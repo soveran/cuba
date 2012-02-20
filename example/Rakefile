@@ -1,7 +1,0 @@
-$LOAD_PATH.unshift(File.expand_path("../lib", File.dirname(__FILE__)))
-
-task :default do
-  require "cutest"
-
-  Cutest.run(Dir["site_test.rb"])
-end

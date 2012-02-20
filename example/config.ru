@@ -1,3 +1,0 @@
-require "site"
-
-run Cuba
