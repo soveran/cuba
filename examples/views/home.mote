@@ -1,0 +1,7 @@
+This is the body
+
+<ul>
+  % list.each do |e|
+    <li>{{ e }}</li>
+  % end
+</ul>
