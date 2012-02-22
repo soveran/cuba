@@ -15,9 +15,9 @@ test "redirect canonical example" do
 
   env = { "SCRIPT_NAME" => "/", "PATH_INFO" => "/account" }
 
-   _, _, resp = Cuba.call(env)
+  status, headers, resp = Cuba.call(env)
 
-  assert_equal "/login", resp["Location"]
-  assert_equal 307, resp.status
-  assert_equal [], resp.body
+  assert_equal "/login", headers["Location"]
+  assert_equal 307, status
+  assert_response resp, []
 end

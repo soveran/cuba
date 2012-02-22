@@ -13,7 +13,7 @@ test "one level path" do |env|
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["About"], resp.body
+  assert_response resp, ["About"]
 end
 
 test "two level nested paths" do |env|
@@ -33,13 +33,13 @@ test "two level nested paths" do |env|
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["+1"], resp.body
+  assert_response resp, ["+1"]
 
   env["PATH_INFO"] = "/about/2"
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["+2"], resp.body
+  assert_response resp, ["+2"]
 end
 
 test "two level inlined paths" do |env|
@@ -54,7 +54,7 @@ test "two level inlined paths" do |env|
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["a", "b"], resp.body
+  assert_response resp, ["a", "b"]
 end
 
 test "a path with some regex captures" do |env|
@@ -68,7 +68,7 @@ test "a path with some regex captures" do |env|
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["123"], resp.body
+  assert_response resp, ["123"]
 end
 
 test "matching the root" do |env|
@@ -82,5 +82,5 @@ test "matching the root" do |env|
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["Home"], resp.body
+  assert_response resp, ["Home"]
 end

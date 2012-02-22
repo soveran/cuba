@@ -90,5 +90,5 @@ test "simple layout support" do
 
   _, _, resp = Cuba.call({})
 
-  assert_equal ["Header\nThis is the actual content.\nFooter\n"], resp.body
+  assert_response resp, ["Header\nThis is the actual content.\nFooter\n"]
 end

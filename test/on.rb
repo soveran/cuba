@@ -9,7 +9,7 @@ test "executes on true" do
 
   _, _, resp = Cuba.call({})
 
-  assert_equal ["+1"], resp.body
+  assert_response resp, ["+1"]
 end
 
 test "executes on non-false" do
@@ -21,7 +21,7 @@ test "executes on non-false" do
 
   _, _, resp = Cuba.call({ "PATH_INFO" => "/123", "SCRIPT_NAME" => "/" })
 
-  assert_equal ["+1"], resp.body
+  assert_response resp, ["+1"]
 end
 
 test "ensures SCRIPT_NAME and PATH_INFO are reverted" do
@@ -37,7 +37,7 @@ test "ensures SCRIPT_NAME and PATH_INFO are reverted" do
 
   assert_equal "/", env["SCRIPT_NAME"]
   assert_equal "/hello", env["PATH_INFO"]
-  assert_equal [], resp.body
+  assert_response resp, []
 end
 
 test "skips consecutive matches" do
@@ -60,7 +60,7 @@ test "skips consecutive matches" do
   _, _, resp = Cuba.call(env)
 
   assert_equal "foo", env["foo"]
-  assert_equal ["foo"], resp.body
+  assert_response resp, ["foo"]
 
   assert ! env["bar"]
 end
@@ -78,7 +78,7 @@ test "finds first match available" do
 
   _, _, resp = Cuba.call({})
 
-  assert_equal ["bar"], resp.body
+  assert_response resp, ["bar"]
 end
 
 test "reverts a half-met matcher" do
@@ -91,7 +91,7 @@ test "reverts a half-met matcher" do
   env = { "PATH_INFO" => "/post", "SCRIPT_NAME" => "/" }
   _, _, resp = Cuba.call(env)
 
-  assert_equal [], resp.body
+  assert_response resp, []
   assert_equal "/post", env["PATH_INFO"]
   assert_equal "/", env["SCRIPT_NAME"]
 end

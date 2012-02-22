@@ -79,7 +79,7 @@ test "reset and use" do
 
   assert 200 == status
   assert "text/html" == headers["Content-Type"]
-  assert ["2nd Default"] == resp.body
+  assert_response resp, ["2nd Default"]
 
   assert "1" == env["m.first"]
   assert "2" == env["m.second"]

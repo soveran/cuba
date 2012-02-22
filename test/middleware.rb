@@ -8,7 +8,10 @@ class Shrimp
   def call(env)
     status, headers, resp = @app.call(env)
 
-    [status, headers, resp.body.reverse]
+    arr = []
+    resp.each { |e| arr << e }
+
+    [status, headers, arr.reverse]
   end
 end
 

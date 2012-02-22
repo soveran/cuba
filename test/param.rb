@@ -20,7 +20,7 @@ test "yields a param" do
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["john@doe.com"], resp.body
+  assert_response resp, ["john@doe.com"]
 end
 
 test "doesn't yield a missing param" do
@@ -30,7 +30,7 @@ test "doesn't yield a missing param" do
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["No email"], resp.body
+  assert_response resp, ["No email"]
 end
 
 test "doesn't yield an empty param" do
@@ -40,5 +40,5 @@ test "doesn't yield an empty param" do
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["No email"], resp.body
+  assert_response resp, ["No email"]
 end

@@ -17,7 +17,7 @@ test "matches numeric ids" do |env|
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["1"], resp.body
+  assert_response resp, ["1"]
 end
 
 test "matches decimal numbers" do |env|
@@ -25,7 +25,7 @@ test "matches decimal numbers" do |env|
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["1.1"], resp.body
+  assert_response resp, ["1.1"]
 end
 
 test "matches slugs" do |env|
@@ -33,7 +33,7 @@ test "matches slugs" do |env|
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["my-blog-post-about-cuba"], resp.body
+  assert_response resp, ["my-blog-post-about-cuba"]
 end
 
 test "matches only the first segment available" do |env|
@@ -41,5 +41,5 @@ test "matches only the first segment available" do |env|
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["one"], resp.body
+  assert_response resp, ["one"]
 end

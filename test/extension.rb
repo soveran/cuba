@@ -17,5 +17,5 @@ test "/styles/reset.css" do |env|
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["reset"], resp.body
+  assert_response resp, ["reset"]
 end

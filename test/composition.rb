@@ -17,5 +17,5 @@ test "composing on top of a PATH" do
 
    _, _, resp = Cuba.call(env)
 
-   assert_equal ["View 101"], resp.body
+   assert_response resp, ["View 101"]
 end

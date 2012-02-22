@@ -7,5 +7,5 @@ def assert_response(body, expected)
   arr = []
   body.each { |line| arr << line }
 
-  assert_equal arr, expected
+  flunk "#{arr.inspect} != #{expected.inspect}" unless arr == expected
 end

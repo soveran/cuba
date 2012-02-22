@@ -13,7 +13,7 @@ test "text-book example" do |env|
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["123"], resp.body
+  assert_response resp, ["123"]
 end
 
 test "multi-param" do |env|
@@ -28,7 +28,7 @@ test "multi-param" do |env|
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["jdoe", "123"], resp.body
+  assert_response resp, ["jdoe", "123"]
 end
 
 test "regex nesting" do |env|
@@ -46,7 +46,7 @@ test "regex nesting" do |env|
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["jdoe", "123"], resp.body
+  assert_response resp, ["jdoe", "123"]
 end
 
 test "regex nesting colon param style" do |env|
@@ -64,7 +64,7 @@ test "regex nesting colon param style" do |env|
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["jdoe", "123"], resp.body
+  assert_response resp, ["jdoe", "123"]
 end
 
 test "symbol matching" do |env|
@@ -82,5 +82,5 @@ test "symbol matching" do |env|
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["jdoe", "123"], resp.body
+  assert_response resp, ["jdoe", "123"]
 end

@@ -3,6 +3,44 @@ require "rack"
 class Cuba
   class RedefinitionError < StandardError; end
 
+  class Response
+    attr_accessor :status
+
+    attr :headers
+
+    def initialize(status = 200, headers = { "Content-Type" => "text/html" })
+      @status  = status
+      @headers = headers
+      @body    = []
+      @length  = 0
+    end
+
+    def [](key)
+      @headers[key]
+    end
+
+    def []=(key, value)
+      @headers[key] = value
+    end
+
+    def write(str)
+      s = str.to_s
+
+      @length += s.bytesize
+      @headers["Content-Length"] = @length.to_s
+      @body << s
+    end
+
+    def redirect(path, status = 302)
+      @headers = { "Location" => path }
+      @status  = status
+    end
+
+    def finish
+      [@status, @headers, @body]
+    end
+  end
+
   @@methods = []
 
   class << self
@@ -74,7 +112,7 @@ class Cuba
   def call!(env)
     @env = env
     @req = Rack::Request.new(env)
-    @res = Rack::Response.new
+    @res = Cuba::Response.new
 
     # This `catch` statement will either receive a
     # rack response tuple via a `halt`, or will

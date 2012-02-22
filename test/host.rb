@@ -11,7 +11,7 @@ test "matches a host" do
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["worked"], resp.body
+  assert_response resp, ["worked"]
 end
 
 test "matches a host with a regexp" do
@@ -25,5 +25,5 @@ test "matches a host with a regexp" do
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["worked"], resp.body
+  assert_response resp, ["worked"]
 end

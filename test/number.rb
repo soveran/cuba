@@ -16,7 +16,7 @@ test "paths and numbers" do |env|
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["1", "2"], resp.body
+  assert_response resp, ["1", "2"]
 end
 
 test "paths and decimals" do |env|
@@ -32,5 +32,5 @@ test "paths and decimals" do |env|
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal [], resp.body
+  assert_response resp, []
 end

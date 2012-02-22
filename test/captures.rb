@@ -11,7 +11,7 @@ test "doesn't yield HOST" do
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["0"], resp.body
+  assert_response resp, ["0"]
 end
 
 test "doesn't yield the verb" do
@@ -25,7 +25,7 @@ test "doesn't yield the verb" do
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["0"], resp.body
+  assert_response resp, ["0"]
 end
 
 test "doesn't yield the path" do
@@ -40,7 +40,7 @@ test "doesn't yield the path" do
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["0"], resp.body
+  assert_response resp, ["0"]
 end
 
 test "yields the segment" do
@@ -55,7 +55,7 @@ test "yields the segment" do
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["johndoe"], resp.body
+  assert_response resp, ["johndoe"]
 end
 
 test "yields a number" do
@@ -70,7 +70,7 @@ test "yields a number" do
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["101"], resp.body
+  assert_response resp, ["101"]
 end
 
 test "yield a file name with a matching extension" do
@@ -85,7 +85,7 @@ test "yield a file name with a matching extension" do
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["app"], resp.body
+  assert_response resp, ["app"]
 end
 
 test "yields a segment per nested block" do
@@ -106,7 +106,7 @@ test "yields a segment per nested block" do
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["one", "two", "three"], resp.body
+  assert_response resp, ["one", "two", "three"]
 end
 
 test "consumes a slash if needed" do
@@ -121,5 +121,5 @@ test "consumes a slash if needed" do
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["foo/bar.css"], resp.body
+  assert_response resp, ["foo/bar.css"]
 end

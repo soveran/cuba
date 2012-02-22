@@ -14,7 +14,7 @@ test "matching an empty segment" do
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["/"], resp.body
+  assert_response resp, ["/"]
 end
 
 test "nested empty segments" do
@@ -36,5 +36,5 @@ test "nested empty segments" do
 
   _, _, resp = Cuba.call(env)
 
-  assert_equal ["IT WORKS!", "///1"], resp.body
+  assert_response resp, ["IT WORKS!", "///1"]
 end

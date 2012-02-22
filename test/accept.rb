@@ -7,12 +7,12 @@ test "accept mimetypes" do
     end
   end
 
-  env = { "HTTP_ACCEPT" => "application/xml", 
+  env = { "HTTP_ACCEPT" => "application/xml",
           "SCRIPT_NAME" => "/", "PATH_INFO" => "/post" }
 
-   _, _, resp = Cuba.call(env)
+   _, _, body = Cuba.call(env)
 
-  assert_equal ["application/xml"], resp.body
+  assert_response body, ["application/xml"]
 end
 
 test "tests don't fail when you don't specify an accept type" do
@@ -26,7 +26,7 @@ test "tests don't fail when you don't specify an accept type" do
     end
   end
 
-  _, _, resp = Cuba.call({})
+  _, _, body = Cuba.call({})
 
-  assert_equal ["Default action"], resp.body
+  assert_response body, ["Default action"]
 end
