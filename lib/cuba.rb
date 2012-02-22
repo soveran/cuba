@@ -1,4 +1,5 @@
 require "rack"
+require "time"
 
 class Cuba
   class RedefinitionError < StandardError; end
@@ -38,6 +39,14 @@ class Cuba
 
     def finish
       [@status, @headers, @body]
+    end
+
+    def set_cookie(key, value)
+      Rack::Utils.set_cookie_header!(@headers, key, value)
+    end
+
+    def delete_cookie(key, value = {})
+      Rack::Utils.delete_cookie_header!(@headers, key, value)
     end
   end
 
