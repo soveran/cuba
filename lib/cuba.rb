@@ -33,7 +33,7 @@ class Cuba
     end
 
     def redirect(path, status = 302)
-      @headers = { "Location" => path }
+      @headers["Location"] = path
       @status  = status
     end
 
