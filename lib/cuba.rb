@@ -2,8 +2,6 @@ require "rack"
 require "time"
 
 class Cuba
-  class RedefinitionError < StandardError; end
-
   class Response
     attr_accessor :status
 
@@ -48,16 +46,6 @@ class Cuba
     def delete_cookie(key, value = {})
       Rack::Utils.delete_cookie_header!(@headers, key, value)
     end
-  end
-
-  @@methods = []
-
-  class << self
-    undef method_added
-  end
-
-  def self.method_added(meth)
-    @@methods << meth
   end
 
   def self.reset!
@@ -319,17 +307,5 @@ class Cuba
 
   def halt(response)
     throw :halt, response
-  end
-
-  class << self
-    undef method_added
-  end
-
-  # In order to prevent people from overriding the standard Cuba
-  # methods like `get`, `put`, etc, we add this as a safety measure.
-  def self.method_added(meth)
-    if @@methods.include?(meth)
-      raise RedefinitionError, meth
-    end
   end
 end
