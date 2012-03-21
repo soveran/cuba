@@ -42,7 +42,7 @@ Cuba.define do
       res.write "Hello world!"
     end
 
-    on true do
+    on root do
       res.redirect "/hello"
     end
   end
@@ -86,7 +86,7 @@ Cuba.define do
   on get do
 
     # /
-    on "" do
+    on root do
       res.write "Home"
     end
 
@@ -264,7 +264,6 @@ Admin.settings[:layout] = "admin"
 
 assert_equal "guest", Users.settings[:layout]
 assert_equal "admin", Admin.settings[:layout]
-
 ```
 
 Feel free to store whatever you find convenient.

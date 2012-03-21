@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.files = Dir[
     "LICENSE",
     "CHANGELOG",
-    "README.markdown",
+    "README.md",
     "Rakefile",
     "lib/**/*.rb",
     "*.gemspec",
