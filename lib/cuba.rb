@@ -275,6 +275,10 @@ class Cuba
     true
   end
 
+  def root
+    env["PATH_INFO"] == "/" || env["PATH_INFO"] == ""
+  end
+
   # Syntatic sugar for providing HTTP Verb matching.
   #
   # @example

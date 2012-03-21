@@ -38,3 +38,46 @@ test "nested empty segments" do
 
   assert_response resp, ["IT WORKS!", "///1"]
 end
+
+test "/events/? scenario" do
+  class Events < Cuba
+    define do
+      on root do
+        res.write "Hooray"
+      end
+    end
+  end
+
+  Cuba.define do
+    on "events" do
+      run Events
+    end
+  end
+
+  env = {
+    "SCRIPT_NAME" => "",
+    "PATH_INFO" => "/events"
+  }
+
+  _, _, resp = Cuba.call(env)
+
+  assert_response resp, ["Hooray"]
+
+  env = {
+    "SCRIPT_NAME" => "",
+    "PATH_INFO" => "/events/"
+  }
+
+  _, _, resp = Cuba.call(env)
+
+  assert_response resp, ["Hooray"]
+
+  env = {
+    "SCRIPT_NAME" => "",
+    "PATH_INFO" => "/events/a"
+  }
+
+  _, _, resp = Cuba.call(env)
+
+  assert_response resp, []
+end
