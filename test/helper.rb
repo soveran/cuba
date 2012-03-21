@@ -8,4 +8,5 @@ def assert_response(body, expected)
   body.each { |line| arr << line }
 
   flunk "#{arr.inspect} != #{expected.inspect}" unless arr == expected
+  print "."
 end
