@@ -275,6 +275,14 @@ class Cuba
     true
   end
 
+  # Access the root of the application.
+  #
+  # @example
+  #
+  #   # GET /
+  #   on root do
+  #     res.write "Home"
+  #   end
   def root
     env["PATH_INFO"] == "/" || env["PATH_INFO"] == ""
   end
