@@ -249,8 +249,6 @@ To read more about testing, check the documentation for [Cutest][cutest] and
 Settings
 --------
 
-_You need Cuba 3.0.0 release candidate (gem install cuba --pre)._
-
 Each Cuba app can store settings in the `Cuba.settings` hash. The settings are
 inherited if you happen to subclass `Cuba`
 
@@ -270,8 +268,6 @@ Feel free to store whatever you find convenient.
 
 Rendering
 ---------
-
-_You need Cuba 3.0.0 release candidate (gem install cuba --pre)._
 
 Cuba ships with a plugin that provides helpers for rendering templates. It uses
 [Tilt][tilt], a gem that interfaces with many template engines.
@@ -296,8 +292,6 @@ with the templating engines you want to use.
 
 Plugins
 -------
-
-_You need Cuba 3.0.0 release candidate (gem install cuba --pre)._
 
 Cuba provides a way to extend its functionality with plugins.
 
