@@ -78,7 +78,7 @@ test "reset and use" do
   status, headers, resp = Cuba.call(env)
 
   assert 200 == status
-  assert "text/html" == headers["Content-Type"]
+  assert "text/html; charset=utf-8" == headers["Content-Type"]
   assert_response resp, ["2nd Default"]
 
   assert "1" == env["m.first"]
