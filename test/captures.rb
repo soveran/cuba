@@ -123,3 +123,40 @@ test "consumes a slash if needed" do
 
   assert_response resp, ["foo/bar.css"]
 end
+
+test "regex captures in string format" do
+  Cuba.define do
+    on get, "posts/(\\d+)-(.*)" do |id, slug|
+      res.write id
+      res.write slug
+    end
+  end
+
+
+  env = { "REQUEST_METHOD" => "GET",
+          "PATH_INFO" => "/posts/123-postal-service",
+          "SCRIPT_NAME" => "/" }
+
+  _, _, resp = Cuba.call(env)
+
+
+  assert_response resp, ["123", "postal-service"]
+end
+
+test "regex captures in regex format" do
+  Cuba.define do
+    on get, %r{posts/(\d+)-(.*)} do |id, slug|
+      res.write id
+      res.write slug
+    end
+  end
+
+  env = { "REQUEST_METHOD" => "GET",
+          "PATH_INFO" => "/posts/123-postal-service",
+          "SCRIPT_NAME" => "/" }
+
+  _, _, resp = Cuba.call(env)
+
+
+  assert_response resp, ["123", "postal-service"]
+end
