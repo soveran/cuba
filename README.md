@@ -148,6 +148,33 @@ Cuba.define do
 end
 ```
 
+Security
+--------
+
+The favorite security layer for Cuba is
+[Rack::Protection](https://github.com/rkh/rack-protection). It is not
+included by default because there are legitimate uses for plain Cuba
+(for instance, when designing an API).
+
+If you are building a web application, by all means make sure to
+include a security layer. As it is the convention for unsafe
+operations, only POST, PUT and DELETE requests are monitored.
+
+``` ruby
+require "cuba"
+require "rack/protection"
+
+Cuba.use Rack::Protection
+Cuba.use Rack::Protection::RemoteReferrer
+Cuba.use Rack::Session::Cookie
+
+Cuba.define do
+
+  # Now your app is protected against a wide range of attacks.
+  ...
+end
+```
+
 HTTP Verbs
 ----------
 

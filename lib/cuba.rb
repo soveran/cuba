@@ -7,7 +7,7 @@ class Cuba
 
     attr :headers
 
-    def initialize(status = 200, headers = { "Content-Type" => "text/html" })
+    def initialize(status = 200, headers = { "Content-Type" => "text/html; charset=utf-8" })
       @status  = status
       @headers = headers
       @body    = []
