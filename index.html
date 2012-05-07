@@ -1,0 +1,432 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Cuba by soveran</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Cuba</h1>
+        <p>Rum based microframework for web development.</p>
+        <p class="view"><a href="https://github.com/soveran/cuba">View the Project on GitHub <small>soveran/cuba</small></a></p>
+        <ul>
+          <li><a href="https://github.com/soveran/cuba/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/soveran/cuba/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/soveran/cuba">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Viva Cuba!</h1>
+
+<p><img src="http://farm3.static.flickr.com/2619/4032103097_8324c6fecf.jpg" alt="Cuba and Rum, by Jan Sochor"></p>
+
+<h2>Community</h2>
+
+<p>Meet us on IRC: <a>#cuba.rb</a> on <a href="http://freenode.net/">freenode.net</a></p>
+
+<h2>Description</h2>
+
+<p>Cuba is a microframework for web development originally inspired by <a href="http://github.com/chneukirchen/rum">Rum</a>,
+a tiny but powerful mapper for <a href="http://github.com/chneukirchen/rack">Rack</a> applications.</p>
+
+<p>It integrates many templates via <a href="http://github.com/rtomayko/tilt">Tilt</a>, and testing via
+<a href="http://github.com/djanowski/cutest">Cutest</a> and <a href="http://github.com/jnicklas/capybara">Capybara</a>.</p>
+
+<h2>Usage</h2>
+
+<p>Here's a simple application:</p>
+
+<div class="highlight">
+<pre><span class="c1"># cat hello_world.rb</span>
+<span class="nb">require</span> <span class="s2">"cuba"</span>
+
+<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Cookie</span>
+
+<span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
+  <span class="n">on</span> <span class="n">get</span> <span class="k">do</span>
+    <span class="n">on</span> <span class="s2">"hello"</span> <span class="k">do</span>
+      <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"Hello world!"</span>
+    <span class="k">end</span>
+
+    <span class="n">on</span> <span class="n">root</span> <span class="k">do</span>
+      <span class="n">res</span><span class="o">.</span><span class="n">redirect</span> <span class="s2">"/hello"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># cat hello_world_test.rb</span>
+<span class="nb">require</span> <span class="s2">"cuba/test"</span>
+
+<span class="n">scope</span> <span class="k">do</span>
+  <span class="nb">test</span> <span class="s2">"Homepage"</span> <span class="k">do</span>
+    <span class="n">visit</span> <span class="s2">"/"</span>
+    <span class="n">assert</span> <span class="n">has_content?</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>To run it, you can create a <code>config.ru</code> file:</p>
+
+<div class="highlight">
+<pre><span class="c1"># cat config.ru</span>
+<span class="nb">require</span> <span class="s2">"./hello_world"</span>
+
+<span class="n">run</span> <span class="no">Cuba</span>
+</pre>
+</div>
+
+
+<p>You can now run <code>rackup</code> and enjoy what you have just created.</p>
+
+<h2>Matchers</h2>
+
+<p>Here's an example showcasing how different matchers work:</p>
+
+<div class="highlight">
+<pre><span class="nb">require</span> <span class="s2">"cuba"</span>
+
+<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Cookie</span>
+
+<span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
+
+  <span class="c1"># only GET requests</span>
+  <span class="n">on</span> <span class="n">get</span> <span class="k">do</span>
+
+    <span class="c1"># /</span>
+    <span class="n">on</span> <span class="n">root</span> <span class="k">do</span>
+      <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"Home"</span>
+    <span class="k">end</span>
+
+    <span class="c1"># /about</span>
+    <span class="n">on</span> <span class="s2">"about"</span> <span class="k">do</span>
+      <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"About"</span>
+    <span class="k">end</span>
+
+    <span class="c1"># /styles/basic.css</span>
+    <span class="n">on</span> <span class="s2">"styles"</span><span class="p">,</span> <span class="n">extension</span><span class="p">(</span><span class="s2">"css"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+      <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"Filename: </span><span class="si">#{</span><span class="n">file</span><span class="si">}</span><span class="s2">"</span> <span class="c1">#=&gt; "Filename: basic"</span>
+    <span class="k">end</span>
+
+    <span class="c1"># /post/2011/02/16/hello</span>
+    <span class="n">on</span> <span class="s2">"post/:y/:m/:d/:slug"</span> <span class="k">do</span> <span class="o">|</span><span class="n">y</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">slug</span><span class="o">|</span>
+      <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"</span><span class="si">#{</span><span class="n">y</span><span class="si">}</span><span class="s2">-</span><span class="si">#{</span><span class="n">m</span><span class="si">}</span><span class="s2">-</span><span class="si">#{</span><span class="n">d</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">slug</span><span class="si">}</span><span class="s2">"</span> <span class="c1">#=&gt; "2011-02-16 hello"</span>
+    <span class="k">end</span>
+
+    <span class="c1"># /username/foobar</span>
+    <span class="n">on</span> <span class="s2">"username/:username"</span> <span class="k">do</span> <span class="o">|</span><span class="n">username</span><span class="o">|</span>
+      <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_by_username</span><span class="p">(</span><span class="n">username</span><span class="p">)</span> <span class="c1"># username == "foobar"</span>
+
+      <span class="c1"># /username/foobar/posts</span>
+      <span class="n">on</span> <span class="s2">"posts"</span> <span class="k">do</span>
+
+        <span class="c1"># You can access `user` here, because the `on` blocks</span>
+        <span class="c1"># are closures.</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"Total Posts: </span><span class="si">#{</span><span class="n">user</span><span class="o">.</span><span class="n">posts</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s2">"</span> <span class="c1">#=&gt; "Total Posts: 6"</span>
+      <span class="k">end</span>
+
+      <span class="c1"># /username/foobar/following</span>
+      <span class="n">on</span> <span class="s2">"following"</span> <span class="k">do</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="n">user</span><span class="o">.</span><span class="n">following</span><span class="o">.</span><span class="n">size</span> <span class="c1">#=&gt; "1301"</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="c1"># /search?q=barbaz</span>
+    <span class="n">on</span> <span class="s2">"search"</span><span class="p">,</span> <span class="n">param</span><span class="p">(</span><span class="s2">"q"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">query</span><span class="o">|</span>
+      <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"Searched for </span><span class="si">#{</span><span class="n">query</span><span class="si">}</span><span class="s2">"</span> <span class="c1">#=&gt; "Searched for barbaz"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="c1"># only POST requests</span>
+  <span class="n">on</span> <span class="n">post</span> <span class="k">do</span>
+    <span class="n">on</span> <span class="s2">"login"</span>
+
+      <span class="c1"># POST /login, user: foo, pass: baz</span>
+      <span class="n">on</span> <span class="n">param</span><span class="p">(</span><span class="s2">"user"</span><span class="p">),</span> <span class="n">param</span><span class="p">(</span><span class="s2">"pass"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">user</span><span class="p">,</span> <span class="n">pass</span><span class="o">|</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"</span><span class="si">#{</span><span class="n">user</span><span class="si">}</span><span class="s2">:</span><span class="si">#{</span><span class="n">pass</span><span class="si">}</span><span class="s2">"</span> <span class="c1">#=&gt; "foo:baz"</span>
+      <span class="k">end</span>
+
+      <span class="c1"># If the params `user` and `pass` are not provided, this block will</span>
+      <span class="c1"># get executed.</span>
+      <span class="n">on</span> <span class="kp">true</span> <span class="k">do</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"You need to provide user and pass!"</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<h2>Security</h2>
+
+<p>The favorite security layer for Cuba is
+<a href="https://github.com/rkh/rack-protection">Rack::Protection</a>. It is not
+included by default because there are legitimate uses for plain Cuba
+(for instance, when designing an API).</p>
+
+<p>If you are building a web application, by all means make sure to
+include a security layer. As it is the convention for unsafe
+operations, only POST, PUT and DELETE requests are monitored.</p>
+
+<div class="highlight">
+<pre><span class="nb">require</span> <span class="s2">"cuba"</span>
+<span class="nb">require</span> <span class="s2">"rack/protection"</span>
+
+<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Cookie</span>
+<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Protection</span>
+<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Protection</span><span class="o">::</span><span class="no">RemoteReferrer</span>
+
+<span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
+
+  <span class="c1"># Now your app is protected against a wide range of attacks.</span>
+  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<h2>HTTP Verbs</h2>
+
+<p>There are four matchers defined for HTTP Verbs: <code>get</code>, <code>post</code>, <code>put</code> and
+<code>delete</code>. But the world doesn't end there, does it? As you have the whole
+request available via the <code>req</code> object, you can query it with helper methods
+like <code>req.options?</code> or <code>req.head?</code>, or you can even go to a lower level
+and inspect the environment via the <code>env</code> object, and check for example if
+<code>env["REQUEST_METHOD"]</code> equals the obscure verb <code>PATCH</code>.</p>
+
+<p>What follows is an example of different ways of saying the same thing:</p>
+
+<div class="highlight">
+<pre><span class="n">on</span> <span class="n">env</span><span class="o">[</span><span class="s2">"REQUEST_METHOD"</span><span class="o">]</span> <span class="o">==</span> <span class="s2">"GET"</span><span class="p">,</span> <span class="s2">"api"</span> <span class="k">do</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="k">end</span>
+
+<span class="n">on</span> <span class="n">req</span><span class="o">.</span><span class="n">get?</span><span class="p">,</span> <span class="s2">"api"</span> <span class="k">do</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="k">end</span>
+
+<span class="n">on</span> <span class="n">get</span><span class="p">,</span> <span class="s2">"api"</span> <span class="k">do</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="k">end</span>
+</pre>
+</div>
+
+
+<p>Actually, <code>get</code> is syntax sugar for <code>req.get?</code>, which in turn is syntax sugar
+for <code>env["REQUEST_METHOD"] == "GET"</code>.</p>
+
+<h2>Captures</h2>
+
+<p>You may have noticed that some matchers yield a value to the block. The rules
+for determining if a matcher will yield a value are simple:</p>
+
+<ol>
+<li>Regex captures: <code>"posts/(\\d+)-(.*)"</code> will yield two values, corresponding to each capture.</li>
+<li>Placeholders: <code>"users/:id"</code> will yield the value in the position of :id.</li>
+<li>Symbols: <code>:foobar</code> will yield if a segment is available.</li>
+<li>File extensions: <code>extension("css")</code> will yield the basename of the matched file.</li>
+<li>Parameters: <code>param("user")</code> will yield the value of the parameter user, if present.</li>
+</ol><p>The first case is important because it shows the underlying effect of regex
+captures.</p>
+
+<p>In the second case, the substring <code>:id</code> gets replaced by <code>([^\\/]+)</code> and the
+string becomes <code>"users/([^\\/]+)"</code> before performing the match, thus it reverts
+to the first form we saw.</p>
+
+<p>In the third case, the symbol ––no matter what it says––gets replaced
+by <code>"([^\\/]+)"</code>, and again we are in presence of case 1.</p>
+
+<p>The fourth case, again, reverts to the basic matcher: it generates the string
+<code>"([^\\/]+?)\.#{ext}\\z"</code> before performing the match.</p>
+
+<p>The fifth case is different: it checks if the the parameter supplied is present
+in the request (via POST or QUERY_STRING) and it pushes the value as a capture.</p>
+
+<h2>Composition</h2>
+
+<p>You can mount a Cuba app, along with middlewares, inside another Cuba app:</p>
+
+<div class="highlight">
+<pre><span class="k">class</span> <span class="nc">API</span> <span class="o">&lt;</span> <span class="no">Cuba</span><span class="p">;</span> <span class="k">end</span>
+
+<span class="no">API</span><span class="o">.</span><span class="n">use</span> <span class="no">SomeMiddleware</span>
+
+<span class="no">API</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
+  <span class="n">on</span> <span class="n">param</span><span class="p">(</span><span class="s2">"url"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">url</span><span class="o">|</span>
+    <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
+  <span class="n">on</span> <span class="s2">"api"</span> <span class="k">do</span>
+    <span class="n">run</span> <span class="no">API</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<h2>Testing</h2>
+
+<p>Given that Cuba is essentially Rack, it is very easy to test with <code>Webrat</code> or
+<code>Capybara</code>. Cuba's own tests are written with a combination of <a href="http://github.com/djanowski/cutest">Cutest</a>
+and <a href="http://github.com/jnicklas/capybara">Capybara</a>, and if you want to use the same for your tests it is
+as easy as requiring <code>cuba/test</code>:</p>
+
+<div class="highlight">
+<pre><span class="nb">require</span> <span class="s2">"cuba/test"</span>
+<span class="nb">require</span> <span class="s2">"your/app"</span>
+
+<span class="n">scope</span> <span class="k">do</span>
+  <span class="nb">test</span> <span class="s2">"Homepage"</span> <span class="k">do</span>
+    <span class="n">visit</span> <span class="s2">"/"</span>
+
+    <span class="n">assert</span> <span class="n">has_content?</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>To read more about testing, check the documentation for <a href="http://github.com/djanowski/cutest">Cutest</a> and
+<a href="http://github.com/jnicklas/capybara">Capybara</a>.</p>
+
+<h2>Settings</h2>
+
+<p>Each Cuba app can store settings in the <code>Cuba.settings</code> hash. The settings are
+inherited if you happen to subclass <code>Cuba</code></p>
+
+<div class="highlight">
+<pre><span class="no">Cuba</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:layout</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"guest"</span>
+
+<span class="k">class</span> <span class="nc">Users</span> <span class="o">&lt;</span> <span class="no">Cuba</span><span class="p">;</span> <span class="k">end</span>
+<span class="k">class</span> <span class="nc">Admin</span> <span class="o">&lt;</span> <span class="no">Cuba</span><span class="p">;</span> <span class="k">end</span>
+
+<span class="no">Admin</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:layout</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"admin"</span>
+
+<span class="n">assert_equal</span> <span class="s2">"guest"</span><span class="p">,</span> <span class="no">Users</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:layout</span><span class="o">]</span>
+<span class="n">assert_equal</span> <span class="s2">"admin"</span><span class="p">,</span> <span class="no">Admin</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:layout</span><span class="o">]</span>
+</pre>
+</div>
+
+
+<p>Feel free to store whatever you find convenient.</p>
+
+<h2>Rendering</h2>
+
+<p>Cuba ships with a plugin that provides helpers for rendering templates. It uses
+<a href="http://github.com/rtomayko/tilt">Tilt</a>, a gem that interfaces with many template engines.</p>
+
+<div class="highlight">
+<pre><span class="nb">require</span> <span class="s2">"cuba/render"</span>
+
+<span class="no">Cuba</span><span class="o">.</span><span class="n">plugin</span> <span class="no">Cuba</span><span class="o">::</span><span class="no">Render</span>
+
+<span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
+  <span class="n">on</span> <span class="n">default</span> <span class="k">do</span>
+
+    <span class="c1"># Within the partial, you will have access to the local variable `content`,</span>
+    <span class="c1"># that will hold the value "hello, world".</span>
+    <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="n">render</span><span class="p">(</span><span class="s2">"home.haml"</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="s2">"hello, world"</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre>
+</div>
+
+
+<p>Note that in order to use this plugin you need to have <a href="http://github.com/rtomayko/tilt">Tilt</a> installed, along
+with the templating engines you want to use.</p>
+
+<h2>Plugins</h2>
+
+<p>Cuba provides a way to extend its functionality with plugins.</p>
+
+<h3>How to create plugins</h3>
+
+<p>Authoring your own plugins is pretty straightforward.</p>
+
+<div class="highlight">
+<pre><span class="k">module</span> <span class="nn">MyOwnHelper</span>
+  <span class="k">def</span> <span class="nf">markdown</span><span class="p">(</span><span class="n">str</span><span class="p">)</span>
+    <span class="no">BlueCloth</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="o">.</span><span class="n">to_html</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">Cuba</span><span class="o">.</span><span class="n">plugin</span> <span class="no">MyOwnHelper</span>
+</pre>
+</div>
+
+
+<p>That's the simplest kind of plugin you'll write. In fact, that's exactly how
+the <code>markdown</code> helper is written in <code>Cuba::TextHelpers</code>.</p>
+
+<p>A more complicated plugin can make use of <code>Cuba.settings</code> to provide default
+values. In the following example, note that if the module has a <code>setup</code> method it will
+be called as soon as it is included:</p>
+
+<div class="highlight">
+<pre><span class="k">module</span> <span class="nn">Render</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">setup</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:template_engine</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"erb"</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">partial</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="n">locals</span> <span class="o">=</span> <span class="p">{})</span>
+    <span class="n">render</span><span class="p">(</span><span class="s2">"</span><span class="si">#{</span><span class="n">template</span><span class="si">}</span><span class="s2">.</span><span class="si">#{</span><span class="n">settings</span><span class="o">[</span><span class="ss">:template_engine</span><span class="o">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">locals</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">Cuba</span><span class="o">.</span><span class="n">plugin</span> <span class="no">Render</span>
+</pre>
+</div>
+
+
+<p>This sample plugin actually resembles how <code>Cuba::Render</code> works.</p>
+
+<p>Finally, if a module called <code>ClassMethods</code> is present, <code>Cuba</code> will be extended
+with it.</p>
+
+<div class="highlight">
+<pre><span class="k">module</span> <span class="nn">GetSetter</span>
+  <span class="k">module</span> <span class="nn">ClassMethods</span>
+    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+      <span class="n">settings</span><span class="o">[</span><span class="n">key</span><span class="o">]</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+      <span class="n">settings</span><span class="o">[</span><span class="n">key</span><span class="o">]</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">Cuba</span><span class="o">.</span><span class="n">plugin</span> <span class="no">GetSetter</span>
+
+<span class="no">Cuba</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="ss">:foo</span><span class="p">,</span> <span class="s2">"bar"</span><span class="p">)</span>
+
+<span class="n">assert_equal</span> <span class="s2">"bar"</span><span class="p">,</span> <span class="no">Cuba</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="ss">:foo</span><span class="p">)</span>
+<span class="n">assert_equal</span> <span class="s2">"bar"</span><span class="p">,</span> <span class="no">Cuba</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:foo</span><span class="o">]</span>
+</pre>
+</div>
+
+
+<h2>Installation</h2>
+
+<div class="highlight">
+<pre><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">cuba</span>
+</pre>
+</div>
+
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/soveran">soveran</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
