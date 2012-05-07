@@ -204,7 +204,7 @@ Captures
 You may have noticed that some matchers yield a value to the block. The rules
 for determining if a matcher will yield a value are simple:
 
-1. Regex captures: `"posts/(\d+)-(.*)"` will yield two values, corresponding to each capture.
+1. Regex captures: `"posts/(\\d+)-(.*)"` will yield two values, corresponding to each capture.
 2. Placeholders: `"users/:id"` will yield the value in the position of :id.
 3. Symbols: `:foobar` will yield if a segment is available.
 4. File extensions: `extension("css")` will yield the basename of the matched file.
