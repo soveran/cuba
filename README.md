@@ -164,9 +164,9 @@ operations, only POST, PUT and DELETE requests are monitored.
 require "cuba"
 require "rack/protection"
 
+Cuba.use Rack::Session::Cookie
 Cuba.use Rack::Protection
 Cuba.use Rack::Protection::RemoteReferrer
-Cuba.use Rack::Session::Cookie
 
 Cuba.define do
 
