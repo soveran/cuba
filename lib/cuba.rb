@@ -88,9 +88,6 @@ class Cuba
     child.settings.replace(settings)
   end
 
-  attr :env
-  attr :req
-  attr :res
   attr :captures
 
   def initialize(&blk)
@@ -106,10 +103,22 @@ class Cuba
     dup.call!(env)
   end
 
+  def req
+    Thread.current[:_req]
+  end
+
+  def res
+    Thread.current[:_res]
+  end
+
+  def env
+    Thread.current[:_env]
+  end
+
   def call!(env)
-    @env = env
-    @req = Rack::Request.new(env)
-    @res = Cuba::Response.new
+    Thread.current[:_env] = env
+    Thread.current[:_req] = Rack::Request.new(env)
+    Thread.current[:_res] = Cuba::Response.new
 
     # This `catch` statement will either receive a
     # rack response tuple via a `halt`, or will
