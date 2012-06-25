@@ -104,21 +104,21 @@ class Cuba
   end
 
   def req
-    Thread.current[:_req]
+    Thread.current[:_cuba_req]
   end
 
   def res
-    Thread.current[:_res]
+    Thread.current[:_cuba_res]
   end
 
   def env
-    Thread.current[:_env]
+    Thread.current[:_cuba_env]
   end
 
   def call!(env)
-    Thread.current[:_env] = env
-    Thread.current[:_req] = Rack::Request.new(env)
-    Thread.current[:_res] = Cuba::Response.new
+    Thread.current[:_cuba_env] = env
+    Thread.current[:_cuba_req] = Rack::Request.new(env)
+    Thread.current[:_cuba_res] = Cuba::Response.new
 
     # This `catch` statement will either receive a
     # rack response tuple via a `halt`, or will
