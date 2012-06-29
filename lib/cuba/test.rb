@@ -1,13 +1,11 @@
 require "cuba"
 require "cutest"
-require "capybara/dsl"
+require "rack/test"
 
 class Cutest::Scope
-  if defined? Capybara::DSL
-    include Capybara::DSL
-  else
-    include Capybara
+  include Rack::Test::Methods
+
+  def app
+    Cuba
   end
 end
-
-Capybara.app = Cuba

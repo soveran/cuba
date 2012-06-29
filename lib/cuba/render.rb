@@ -34,7 +34,7 @@ class Cuba
     #
     def render(template, locals = {}, options = {}, &block)
       _cache.fetch(template) {
-        Tilt.new(template, 1, options.merge(outvar: '@_output')
+        Tilt.new(template, 1, options.merge(outvar: '@_output'))
       }.render(self, locals, &block)
     end
 
