@@ -3,17 +3,28 @@ require "tilt"
 class Cuba
   module Render
     def self.setup(app)
-      app.settings[:template_engine] ||= "erb"
-      app.settings[:views] ||= File.expand_path("views", Dir.pwd)
+      app.settings[:render] ||= {}
+      app.settings[:render][:template_engine] ||= "erb"
+      app.settings[:render][:views] ||= File.expand_path("views", Dir.pwd)
+      app.settings[:render][:options] ||= {
+        default_encoding: Encoding.default_external
+      }
     end
 
     def view(template, locals = {}, layout = "layout")
       partial(layout, { content: partial(template, locals) }.merge(locals))
     end
 
+    def template_path(template)
+      "%s/%s.%s" % [
+        settings[:render][:views],
+        template,
+        settings[:render][:template_engine]
+      ]
+    end
+
     def partial(template, locals = {})
-      render("#{settings[:views]}/#{template}.#{settings[:template_engine]}",
-        locals, default_encoding: Encoding.default_external)
+      render(template_path(template), locals, settings[:render][:options])
     end
 
     # Render any type of template file supported by Tilt.
@@ -34,7 +45,7 @@ class Cuba
     #
     def render(template, locals = {}, options = {}, &block)
       _cache.fetch(template) {
-        Tilt.new(template, 1, options.merge(outvar: '@_output')
+        Tilt.new(template, 1, options.merge(outvar: '@_output'))
       }.render(self, locals, &block)
     end
 
