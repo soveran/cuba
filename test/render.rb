@@ -3,20 +3,22 @@ require_relative "helper"
 require "cuba/render"
 
 test "doesn't override the settings if they already exist" do
-  Cuba.settings[:views] = "./test/views"
-  Cuba.settings[:template_engine] = "haml"
+  Cuba.settings[:render] = {
+    :views => "./test/views",
+    :template_engine => "haml"
+  }
 
   Cuba.plugin Cuba::Render
 
-  assert_equal "./test/views", Cuba.settings[:views]
-  assert_equal "haml", Cuba.settings[:template_engine]
+  assert_equal "./test/views", Cuba.settings[:render][:views]
+  assert_equal "haml", Cuba.settings[:render][:template_engine]
 end
 
 scope do
   setup do
     Cuba.plugin Cuba::Render
-    Cuba.settings[:views] = "./test/views"
-    Cuba.settings[:template_engine] = "erb"
+    Cuba.settings[:render][:views] = "./test/views"
+    Cuba.settings[:render][:template_engine] = "erb"
 
     Cuba.define do
       on "home" do
@@ -42,7 +44,7 @@ scope do
   end
 
   test "partial with str as engine" do
-    Cuba.settings[:template_engine] = "str"
+    Cuba.settings[:render][:template_engine] = "str"
 
     _, _, body = Cuba.call({ "PATH_INFO" => "/about", "SCRIPT_NAME" => "/" })
 
@@ -50,7 +52,7 @@ scope do
   end
 
   test "view with str as engine" do
-    Cuba.settings[:template_engine] = "str"
+    Cuba.settings[:render][:template_engine] = "str"
 
     _, _, body = Cuba.call({ "PATH_INFO" => "/home", "SCRIPT_NAME" => "/" })
 
@@ -62,7 +64,7 @@ test "caching behavior" do
   Thread.current[:_cache] = nil
 
   Cuba.plugin Cuba::Render
-  Cuba.settings[:views] = "./test/views"
+  Cuba.settings[:render][:views] = "./test/views"
 
   Cuba.define do
     on "foo/:i" do |i|
