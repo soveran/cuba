@@ -1,3 +1,10 @@
+3.1.0.rc1
+
+* Do a deep clone of the settings object during inheritance.
+* Start namespacing plugins (i.e. settings[:render]).
+* Use rack/test when doing equire 'cuba/test'.
+* Capybara available via equire 'cuba/capybara'.
+
 3.0.0
 
 * Remove Cuba.build. Use subclassing instead.
