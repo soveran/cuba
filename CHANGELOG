@@ -2,8 +2,9 @@
 
 * Do a deep clone of the settings object during inheritance.
 * Start namespacing plugins (i.e. settings[:render]).
-* Use rack/test when doing equire 'cuba/test'.
-* Capybara available via equire 'cuba/capybara'.
+* Use rack/test when doing `require 'cuba/test'`.
+* Capybara available via `require 'cuba/capybara'`.
+* Use a default hash for the render plugin.
 
 3.0.0
 
