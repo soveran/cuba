@@ -37,3 +37,16 @@ test do
 
   assert_equal ["Hello World"], body
 end
+
+# The following tests the settings clone bug where
+# we share the same reference. Deep cloning is the solution here.
+Cuba.settings[:mote] ||= {}
+Cuba.settings[:mote][:layout] ||= "layout"
+
+class Login < Cuba
+  settings[:mote][:layout] = "layout/guest"
+end
+
+test do
+  assert Login.settings[:mote].object_id != Cuba.settings[:mote].object_id
+end

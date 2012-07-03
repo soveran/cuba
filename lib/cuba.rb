@@ -84,8 +84,12 @@ class Cuba
     @settings ||= {}
   end
 
+  def self.deepclone(obj)
+    Marshal.load(Marshal.dump(obj))
+  end
+
   def self.inherited(child)
-    child.settings.replace(settings)
+    child.settings.replace(deepclone(settings))
   end
 
   attr :env
