@@ -114,8 +114,8 @@ class Cuba
 
   def call!(env)
     @env = env
-    @req = Rack::Request.new(env)
-    @res = Cuba::Response.new
+    @req = settings[:req].new(env)
+    @res = settings[:res].new
 
     # This `catch` statement will either receive a
     # rack response tuple via a `halt`, or will
@@ -332,3 +332,6 @@ class Cuba
     throw :halt, response
   end
 end
+
+Cuba.settings[:req] = Rack::Request
+Cuba.settings[:res] = Cuba::Response

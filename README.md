@@ -198,6 +198,30 @@ on get, "api" do ... end
 Actually, `get` is syntax sugar for `req.get?`, which in turn is syntax sugar
 for `env["REQUEST_METHOD"] == "GET"`.
 
+Request and Response
+--------------------
+
+You may have noticed we use `req` and `res` a lot. Those variables are
+instances of [Rack::Request][request] and `Cuba::Response` respectively, and
+`Cuba::Response` is just an optimized version of
+[Rack::Response][response].
+
+[request]: http://rack.rubyforge.org/doc/classes/Rack/Request.html
+[response]: http://rack.rubyforge.org/doc/classes/Rack/Response.html
+
+Those objects are helpers for accessing the request and for building
+the response. Most of the time, you will just use `req.write`.
+
+If you want to use custom `Request` or `Response` objects, you can
+set the new values as follows:
+
+``` ruby
+Cuba.settings[:req] = MyRequest
+Cuba.settings[:res] = MyResponse
+```
+
+Make sure to provide classes compatible with those from Rack.
+
 Captures
 --------
 

@@ -85,3 +85,30 @@ test "reset and use" do
   assert "2" == env["m.second"]
   assert "3" == env["m.block"]
 end
+
+test "custom response" do
+  class MyResponse < Cuba::Response
+    def foobar
+      write "Default"
+    end
+  end
+
+  Cuba.settings[:res] = MyResponse
+
+  Cuba.define do
+    on get do
+      on "hello" do
+        res.foobar
+      end
+    end
+  end
+
+  env = { "REQUEST_METHOD" => "GET", "PATH_INFO" => "/hello",
+          "SCRIPT_NAME" => "/" }
+
+  status, headers, resp = Cuba.call(env)
+
+  assert 200 == status
+  assert "text/html; charset=utf-8" == headers["Content-Type"]
+  assert_response resp, ["Default"]
+end
