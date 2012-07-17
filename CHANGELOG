@@ -1,10 +1,11 @@
-3.1.0.rc1
+3.1.0.rc2
 
 * Do a deep clone of the settings object during inheritance.
 * Start namespacing plugins (i.e. settings[:render]).
 * Use rack/test when doing `require 'cuba/test'`.
 * Capybara available via `require 'cuba/capybara'`.
 * Use a default hash for the render plugin.
+* Allow the use of custom Request and Response objects.
 
 3.0.0
 
