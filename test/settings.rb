@@ -1,8 +1,8 @@
 require File.expand_path("helper", File.dirname(__FILE__))
 
-test "settings is an empty hash by default" do
-  assert Cuba.settings.kind_of?(Hash)
-  assert Cuba.settings.empty?
+test "settings contains request and response classes by default" do
+  assert_equal Cuba.settings[:req], Rack::Request
+  assert_equal Cuba.settings[:res], Cuba::Response
 end
 
 test "is inheritable and allows overriding" do
