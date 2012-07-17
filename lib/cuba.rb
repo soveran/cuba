@@ -7,7 +7,9 @@ class Cuba
 
     attr :headers
 
-    def initialize(status = 200, headers = { "Content-Type" => "text/html; charset=utf-8" })
+    def initialize(status = 200,
+                   headers = { "Content-Type" => "text/html; charset=utf-8" })
+
       @status  = status
       @headers = headers
       @body    = []
@@ -120,7 +122,7 @@ class Cuba
     # fall back to issuing a 404.
     #
     # When it `catch`es a throw, the return value
-    # of this whole `_call` method will be the
+    # of this whole `call!` method will be the
     # rack response tuple, which is exactly what we want.
     catch(:halt) do
       instance_eval(&@blk)
@@ -195,12 +197,14 @@ class Cuba
   private :try
 
   def consume(pattern)
-    return unless match = env["PATH_INFO"].match(/\A\/(#{pattern})((?:\/|\z))/)
+    matchdata = env["PATH_INFO"].match(/\A\/(#{pattern})((?:\/|\z))/)
 
-    path, *vars = match.captures
+    return false unless matchdata
+
+    path, *vars = matchdata.captures
 
     env["SCRIPT_NAME"] += "/#{path}"
-    env["PATH_INFO"] = "#{vars.pop}#{match.post_match}"
+    env["PATH_INFO"] = "#{vars.pop}#{matchdata.post_match}"
 
     captures.push(*vars)
   end
@@ -264,8 +268,11 @@ class Cuba
   #   end
   def accept(mimetype)
     lambda do
-      String(env["HTTP_ACCEPT"]).split(",").any? { |s| s.strip == mimetype } and
+      accept = String(env["HTTP_ACCEPT"]).split(",")
+
+      if accept.any? { |s| s.strip == mimetype }
         res["Content-Type"] = mimetype
+      end
     end
   end
 
