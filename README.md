@@ -131,7 +131,7 @@ Cuba.define do
 
   # only POST requests
   on post do
-    on "login"
+    on "login" do
 
       # POST /login, user: foo, pass: baz
       on param("user"), param("pass") do |user, pass|
