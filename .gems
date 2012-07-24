@@ -1,4 +1,4 @@
 rack -v 1.4.1
-tilt -v 1.3.3
 cutest -v 1.1.3
 rack-test -v 0.6.1
+tilt -v 1.3.3
