@@ -197,7 +197,7 @@ class Cuba
   private :try
 
   def consume(pattern)
-    matchdata = env["PATH_INFO"].match(/\A\/(#{pattern})((?:\/|\z))/)
+    matchdata = env["PATH_INFO"].match(/\A\/(#{pattern})(\/|\z)/)
 
     return false unless matchdata
 
