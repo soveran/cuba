@@ -17,7 +17,10 @@
       <header>
         <h1>Cuba</h1>
         <p>Rum based microframework for web development.</p>
+
         <p class="view"><a href="https://github.com/soveran/cuba">View the Project on GitHub <small>soveran/cuba</small></a></p>
+
+
         <ul>
           <li><a href="https://github.com/soveran/cuba/zipball/master">Download <strong>ZIP File</strong></a></li>
           <li><a href="https://github.com/soveran/cuba/tarball/master">Download <strong>TAR Ball</strong></a></li>
@@ -45,8 +48,7 @@ a tiny but powerful mapper for <a href="http://github.com/chneukirchen/rack">Rac
 
 <p>Here's a simple application:</p>
 
-<div class="highlight">
-<pre><span class="c1"># cat hello_world.rb</span>
+<div class="highlight"><pre><span class="c1"># cat hello_world.rb</span>
 <span class="nb">require</span> <span class="s2">"cuba"</span>
 
 <span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Cookie</span>
@@ -68,24 +70,22 @@ a tiny but powerful mapper for <a href="http://github.com/chneukirchen/rack">Rac
 
 <span class="n">scope</span> <span class="k">do</span>
   <span class="nb">test</span> <span class="s2">"Homepage"</span> <span class="k">do</span>
-    <span class="n">visit</span> <span class="s2">"/"</span>
-    <span class="n">assert</span> <span class="n">has_content?</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">)</span>
+    <span class="n">get</span> <span class="s2">"/"</span>
+
+    <span class="n">follow_redirect!</span>
+
+    <span class="n">assert_equal</span> <span class="s2">"Hello world!"</span><span class="p">,</span> <span class="n">last_response</span><span class="o">.</span><span class="n">body</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</pre>
-</div>
-
+</pre></div>
 
 <p>To run it, you can create a <code>config.ru</code> file:</p>
 
-<div class="highlight">
-<pre><span class="c1"># cat config.ru</span>
+<div class="highlight"><pre><span class="c1"># cat config.ru</span>
 <span class="nb">require</span> <span class="s2">"./hello_world"</span>
 
 <span class="n">run</span> <span class="no">Cuba</span>
-</pre>
-</div>
-
+</pre></div>
 
 <p>You can now run <code>rackup</code> and enjoy what you have just created.</p>
 
@@ -93,8 +93,7 @@ a tiny but powerful mapper for <a href="http://github.com/chneukirchen/rack">Rac
 
 <p>Here's an example showcasing how different matchers work:</p>
 
-<div class="highlight">
-<pre><span class="nb">require</span> <span class="s2">"cuba"</span>
+<div class="highlight"><pre><span class="nb">require</span> <span class="s2">"cuba"</span>
 
 <span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Cookie</span>
 
@@ -164,9 +163,7 @@ a tiny but powerful mapper for <a href="http://github.com/chneukirchen/rack">Rac
     <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</pre>
-</div>
-
+</pre></div>
 
 <h2>Security</h2>
 
@@ -179,8 +176,7 @@ included by default because there are legitimate uses for plain Cuba
 include a security layer. As it is the convention for unsafe
 operations, only POST, PUT and DELETE requests are monitored.</p>
 
-<div class="highlight">
-<pre><span class="nb">require</span> <span class="s2">"cuba"</span>
+<div class="highlight"><pre><span class="nb">require</span> <span class="s2">"cuba"</span>
 <span class="nb">require</span> <span class="s2">"rack/protection"</span>
 
 <span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Cookie</span>
@@ -192,9 +188,7 @@ operations, only POST, PUT and DELETE requests are monitored.</p>
   <span class="c1"># Now your app is protected against a wide range of attacks.</span>
   <span class="o">.</span><span class="n">.</span><span class="o">.</span>
 <span class="k">end</span>
-</pre>
-</div>
-
+</pre></div>
 
 <h2>HTTP Verbs</h2>
 
@@ -207,15 +201,12 @@ and inspect the environment via the <code>env</code> object, and check for examp
 
 <p>What follows is an example of different ways of saying the same thing:</p>
 
-<div class="highlight">
-<pre><span class="n">on</span> <span class="n">env</span><span class="o">[</span><span class="s2">"REQUEST_METHOD"</span><span class="o">]</span> <span class="o">==</span> <span class="s2">"GET"</span><span class="p">,</span> <span class="s2">"api"</span> <span class="k">do</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="k">end</span>
+<div class="highlight"><pre><span class="n">on</span> <span class="n">env</span><span class="o">[</span><span class="s2">"REQUEST_METHOD"</span><span class="o">]</span> <span class="o">==</span> <span class="s2">"GET"</span><span class="p">,</span> <span class="s2">"api"</span> <span class="k">do</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="k">end</span>
 
 <span class="n">on</span> <span class="n">req</span><span class="o">.</span><span class="n">get?</span><span class="p">,</span> <span class="s2">"api"</span> <span class="k">do</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="k">end</span>
 
 <span class="n">on</span> <span class="n">get</span><span class="p">,</span> <span class="s2">"api"</span> <span class="k">do</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="k">end</span>
-</pre>
-</div>
-
+</pre></div>
 
 <p>Actually, <code>get</code> is syntax sugar for <code>req.get?</code>, which in turn is syntax sugar
 for <code>env["REQUEST_METHOD"] == "GET"</code>.</p>
@@ -251,8 +242,7 @@ in the request (via POST or QUERY_STRING) and it pushes the value as a capture.<
 
 <p>You can mount a Cuba app, along with middlewares, inside another Cuba app:</p>
 
-<div class="highlight">
-<pre><span class="k">class</span> <span class="nc">API</span> <span class="o">&lt;</span> <span class="no">Cuba</span><span class="p">;</span> <span class="k">end</span>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">API</span> <span class="o">&lt;</span> <span class="no">Cuba</span><span class="p">;</span> <span class="k">end</span>
 
 <span class="no">API</span><span class="o">.</span><span class="n">use</span> <span class="no">SomeMiddleware</span>
 
@@ -267,19 +257,32 @@ in the request (via POST or QUERY_STRING) and it pushes the value as a capture.<
     <span class="n">run</span> <span class="no">API</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</pre>
-</div>
-
+</pre></div>
 
 <h2>Testing</h2>
 
-<p>Given that Cuba is essentially Rack, it is very easy to test with <code>Webrat</code> or
-<code>Capybara</code>. Cuba's own tests are written with a combination of <a href="http://github.com/djanowski/cutest">Cutest</a>
-and <a href="http://github.com/jnicklas/capybara">Capybara</a>, and if you want to use the same for your tests it is
-as easy as requiring <code>cuba/test</code>:</p>
+<p>Given that Cuba is essentially Rack, it is very easy to test with
+<code>Rack::Test</code>, <code>Webrat</code> or <code>Capybara</code>. Cuba's own tests are written
+with a combination of <a href="http://github.com/djanowski/cutest">Cutest</a> and <a href="https://github.com/brynary/rack-test">Rack::Test</a>,
+and if you want to use the same for your tests it is as easy as
+requiring <code>cuba/test</code>:</p>
 
-<div class="highlight">
-<pre><span class="nb">require</span> <span class="s2">"cuba/test"</span>
+<div class="highlight"><pre><span class="nb">require</span> <span class="s2">"cuba/test"</span>
+<span class="nb">require</span> <span class="s2">"your/app"</span>
+
+<span class="n">scope</span> <span class="k">do</span>
+  <span class="nb">test</span> <span class="s2">"Homepage"</span> <span class="k">do</span>
+    <span class="n">get</span> <span class="s2">"/"</span>
+
+    <span class="n">assert_equal</span> <span class="s2">"Hello world!"</span><span class="p">,</span> <span class="n">last_response</span><span class="o">.</span><span class="n">body</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+
+<p>If you prefer to use <a href="http://github.com/jnicklas/capybara">Capybara</a>, instead of requiring
+<code>cuba/test</code> you can require <code>cuba/capybara</code>:</p>
+
+<div class="highlight"><pre><span class="nb">require</span> <span class="s2">"cuba/capybara"</span>
 <span class="nb">require</span> <span class="s2">"your/app"</span>
 
 <span class="n">scope</span> <span class="k">do</span>
@@ -289,20 +292,17 @@ as easy as requiring <code>cuba/test</code>:</p>
     <span class="n">assert</span> <span class="n">has_content?</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">)</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</pre>
-</div>
+</pre></div>
 
-
-<p>To read more about testing, check the documentation for <a href="http://github.com/djanowski/cutest">Cutest</a> and
-<a href="http://github.com/jnicklas/capybara">Capybara</a>.</p>
+<p>To read more about testing, check the documentation for
+<a href="http://github.com/djanowski/cutest">Cutest</a>, <a href="https://github.com/brynary/rack-test">Rack::Test</a> and <a href="http://github.com/jnicklas/capybara">Capybara</a>.</p>
 
 <h2>Settings</h2>
 
 <p>Each Cuba app can store settings in the <code>Cuba.settings</code> hash. The settings are
 inherited if you happen to subclass <code>Cuba</code></p>
 
-<div class="highlight">
-<pre><span class="no">Cuba</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:layout</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"guest"</span>
+<div class="highlight"><pre><span class="no">Cuba</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:layout</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"guest"</span>
 
 <span class="k">class</span> <span class="nc">Users</span> <span class="o">&lt;</span> <span class="no">Cuba</span><span class="p">;</span> <span class="k">end</span>
 <span class="k">class</span> <span class="nc">Admin</span> <span class="o">&lt;</span> <span class="no">Cuba</span><span class="p">;</span> <span class="k">end</span>
@@ -311,9 +311,7 @@ inherited if you happen to subclass <code>Cuba</code></p>
 
 <span class="n">assert_equal</span> <span class="s2">"guest"</span><span class="p">,</span> <span class="no">Users</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:layout</span><span class="o">]</span>
 <span class="n">assert_equal</span> <span class="s2">"admin"</span><span class="p">,</span> <span class="no">Admin</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:layout</span><span class="o">]</span>
-</pre>
-</div>
-
+</pre></div>
 
 <p>Feel free to store whatever you find convenient.</p>
 
@@ -322,8 +320,7 @@ inherited if you happen to subclass <code>Cuba</code></p>
 <p>Cuba ships with a plugin that provides helpers for rendering templates. It uses
 <a href="http://github.com/rtomayko/tilt">Tilt</a>, a gem that interfaces with many template engines.</p>
 
-<div class="highlight">
-<pre><span class="nb">require</span> <span class="s2">"cuba/render"</span>
+<div class="highlight"><pre><span class="nb">require</span> <span class="s2">"cuba/render"</span>
 
 <span class="no">Cuba</span><span class="o">.</span><span class="n">plugin</span> <span class="no">Cuba</span><span class="o">::</span><span class="no">Render</span>
 
@@ -335,9 +332,7 @@ inherited if you happen to subclass <code>Cuba</code></p>
     <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="n">render</span><span class="p">(</span><span class="s2">"home.haml"</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="s2">"hello, world"</span><span class="p">)</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</pre>
-</div>
-
+</pre></div>
 
 <p>Note that in order to use this plugin you need to have <a href="http://github.com/rtomayko/tilt">Tilt</a> installed, along
 with the templating engines you want to use.</p>
@@ -350,17 +345,14 @@ with the templating engines you want to use.</p>
 
 <p>Authoring your own plugins is pretty straightforward.</p>
 
-<div class="highlight">
-<pre><span class="k">module</span> <span class="nn">MyOwnHelper</span>
+<div class="highlight"><pre><span class="k">module</span> <span class="nn">MyOwnHelper</span>
   <span class="k">def</span> <span class="nf">markdown</span><span class="p">(</span><span class="n">str</span><span class="p">)</span>
     <span class="no">BlueCloth</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="o">.</span><span class="n">to_html</span>
   <span class="k">end</span>
 <span class="k">end</span>
 
 <span class="no">Cuba</span><span class="o">.</span><span class="n">plugin</span> <span class="no">MyOwnHelper</span>
-</pre>
-</div>
-
+</pre></div>
 
 <p>That's the simplest kind of plugin you'll write. In fact, that's exactly how
 the <code>markdown</code> helper is written in <code>Cuba::TextHelpers</code>.</p>
@@ -369,8 +361,7 @@ the <code>markdown</code> helper is written in <code>Cuba::TextHelpers</code>.</
 values. In the following example, note that if the module has a <code>setup</code> method it will
 be called as soon as it is included:</p>
 
-<div class="highlight">
-<pre><span class="k">module</span> <span class="nn">Render</span>
+<div class="highlight"><pre><span class="k">module</span> <span class="nn">Render</span>
   <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">setup</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
     <span class="n">app</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:template_engine</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"erb"</span>
   <span class="k">end</span>
@@ -381,17 +372,14 @@ be called as soon as it is included:</p>
 <span class="k">end</span>
 
 <span class="no">Cuba</span><span class="o">.</span><span class="n">plugin</span> <span class="no">Render</span>
-</pre>
-</div>
-
+</pre></div>
 
 <p>This sample plugin actually resembles how <code>Cuba::Render</code> works.</p>
 
 <p>Finally, if a module called <code>ClassMethods</code> is present, <code>Cuba</code> will be extended
 with it.</p>
 
-<div class="highlight">
-<pre><span class="k">module</span> <span class="nn">GetSetter</span>
+<div class="highlight"><pre><span class="k">module</span> <span class="nn">GetSetter</span>
   <span class="k">module</span> <span class="nn">ClassMethods</span>
     <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
       <span class="n">settings</span><span class="o">[</span><span class="n">key</span><span class="o">]</span> <span class="o">=</span> <span class="n">value</span>
@@ -409,17 +397,12 @@ with it.</p>
 
 <span class="n">assert_equal</span> <span class="s2">"bar"</span><span class="p">,</span> <span class="no">Cuba</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="ss">:foo</span><span class="p">)</span>
 <span class="n">assert_equal</span> <span class="s2">"bar"</span><span class="p">,</span> <span class="no">Cuba</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:foo</span><span class="o">]</span>
-</pre>
-</div>
-
+</pre></div>
 
 <h2>Installation</h2>
 
-<div class="highlight">
-<pre><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">cuba</span>
-</pre>
-</div>
-
+<div class="highlight"><pre><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">cuba</span>
+</pre></div>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/soveran">soveran</a></p>
