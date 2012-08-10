@@ -24,6 +24,7 @@ It integrates many templates via [Tilt][tilt], and testing via
 [tilt]: http://github.com/rtomayko/tilt
 [cutest]: http://github.com/djanowski/cutest
 [capybara]: http://github.com/jnicklas/capybara
+[rack-test]: https://github.com/brynary/rack-test
 
 Usage
 -----
@@ -279,13 +280,30 @@ end
 Testing
 -------
 
-Given that Cuba is essentially Rack, it is very easy to test with `Webrat` or
-`Capybara`. Cuba's own tests are written with a combination of [Cutest][cutest]
-and [Capybara][capybara], and if you want to use the same for your tests it is
-as easy as requiring `cuba/test`:
+Given that Cuba is essentially Rack, it is very easy to test with
+`Rack::Test`, `Webrat` or `Capybara`. Cuba's own tests are written
+with a combination of [Cutest][cutest] and [Rack::Test][rack-test],
+and if you want to use the same for your tests it is as easy as
+requiring `cuba/test`:
 
 ``` ruby
 require "cuba/test"
+require "your/app"
+
+scope do
+  test "Homepage" do
+    get "/"
+
+    assert_equal "Hello world!", last_response.body
+  end
+end
+```
+
+If you prefer to use [Capybara][capybara], instead of requiring
+`cuba/test` you can require `cuba/capybara`:
+
+``` ruby
+require "cuba/capybara"
 require "your/app"
 
 scope do
@@ -297,8 +315,8 @@ scope do
 end
 ```
 
-To read more about testing, check the documentation for [Cutest][cutest] and
-[Capybara][capybara].
+To read more about testing, check the documentation for
+[Cutest][cutest], [Rack::Test][rack-test] and [Capybara][capybara].
 
 Settings
 --------
