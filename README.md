@@ -53,8 +53,11 @@ require "cuba/test"
 
 scope do
   test "Homepage" do
-    visit "/"
-    assert has_content?("Hello world!")
+    get "/"
+
+    follow_redirect!
+
+    assert_equal "Hello world!", last_response.body
   end
 end
 ```
