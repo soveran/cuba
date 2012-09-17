@@ -214,7 +214,7 @@ instances of [Rack::Request][request] and `Cuba::Response` respectively, and
 [response]: http://rack.rubyforge.org/doc/classes/Rack/Response.html
 
 Those objects are helpers for accessing the request and for building
-the response. Most of the time, you will just use `req.write`.
+the response. Most of the time, you will just use `res.write`.
 
 If you want to use custom `Request` or `Response` objects, you can
 set the new values as follows:
