@@ -40,7 +40,7 @@ scope do
   test "view" do
     _, _, body = Cuba.call({ "PATH_INFO" => "/home", "SCRIPT_NAME" => "/" })
 
-    assert_response body, ["<title>Cuba: Home</title>\n<h1>Home</h1>\n<p>Hello Agent Smith</p>\n"]
+    assert_response body, ["<title>Cuba: Home</title>\n<h1>Home</h1>\n<p>Hello Agent Smith</p>\n\n"]
   end
 
   test "partial with str as engine" do
@@ -92,5 +92,5 @@ test "simple layout support" do
 
   _, _, resp = Cuba.call({})
 
-  assert_response resp, ["Header\nThis is the actual content.\nFooter\n"]
+  assert_response resp, ["Header\nThis is the actual content.\n\nFooter\n"]
 end
