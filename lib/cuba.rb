@@ -50,7 +50,6 @@ class Cuba
     end
 
     def chunked(enumerable = Enumerator.new { |y| yield(y) })
-      @headers["Transfer-Encoding"] = "chunked"
       @body = enumerable
     end
   end
