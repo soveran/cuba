@@ -34,8 +34,10 @@ Here's a simple application:
 ``` ruby
 # cat hello_world.rb
 require "cuba"
+require "rack/protection"
 
 Cuba.use Rack::Session::Cookie
+Cuba.use Rack::Protection
 
 Cuba.define do
   on get do
@@ -81,8 +83,11 @@ Here's an example showcasing how different matchers work:
 
 ``` ruby
 require "cuba"
+require "rack/protection"
+require "securerandom"
 
-Cuba.use Rack::Session::Cookie
+Cuba.use Rack::Session::Cookie, :secret => SecureRandom.hex(64)
+Cuba.use Rack::Protection
 
 Cuba.define do
 
@@ -164,11 +169,15 @@ If you are building a web application, by all means make sure to
 include a security layer. As it is the convention for unsafe
 operations, only POST, PUT and DELETE requests are monitored.
 
+You should also always set a session secret to some undisclosed value.
+Keep in mind that the content in the session cookie is *not* encrypted.
+
 ``` ruby
 require "cuba"
 require "rack/protection"
+require "securerandom"
 
-Cuba.use Rack::Session::Cookie
+Cuba.use Rack::Session::Cookie, :secret => SecureRandom.hex(64)
 Cuba.use Rack::Protection
 Cuba.use Rack::Protection::RemoteReferrer
 
