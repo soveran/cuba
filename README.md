@@ -26,6 +26,13 @@ It integrates many templates via [Tilt][tilt], and testing via
 [capybara]: http://github.com/jnicklas/capybara
 [rack-test]: https://github.com/brynary/rack-test
 
+Installation
+------------
+
+``` ruby
+$ gem install cuba
+```
+
 Usage
 -----
 
@@ -436,11 +443,4 @@ Cuba.set(:foo, "bar")
 
 assert_equal "bar", Cuba.get(:foo)
 assert_equal "bar", Cuba.settings[:foo]
-```
-
-Installation
-------------
-
-``` ruby
-$ gem install cuba
 ```
