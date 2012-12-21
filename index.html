@@ -34,7 +34,7 @@
 
 <h2>Community</h2>
 
-<p>Meet us on IRC: <a href="irc://irc.freenode.net/cuba.rb">#cuba.rb</a> on <a href="http://freenode.net/">freenode.net</a></p>
+<p>Meet us on IRC: <a>#cuba.rb</a> on <a href="http://freenode.net/">freenode.net</a></p>
 
 <h2>Description</h2>
 
@@ -63,9 +63,13 @@
     <span class="k">end</span>
   <span class="k">end</span>
 <span class="k">end</span>
+</pre></div>
 
-<span class="c1"># cat hello_world_test.rb</span>
+<p>And the test file:</p>
+
+<div class="highlight"><pre><span class="c1"># cat hello_world_test.rb</span>
 <span class="nb">require</span> <span class="s2">"cuba/test"</span>
+<span class="nb">require</span> <span class="s2">"./hello_world"</span>
 
 <span class="n">scope</span> <span class="k">do</span>
   <span class="nb">test</span> <span class="s2">"Homepage"</span> <span class="k">do</span>
