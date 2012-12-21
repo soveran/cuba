@@ -58,9 +58,14 @@ Cuba.define do
     end
   end
 end
+```
 
+And the test file:
+
+``` ruby
 # cat hello_world_test.rb
 require "cuba/test"
+require "./hello_world"
 
 scope do
   test "Homepage" do
