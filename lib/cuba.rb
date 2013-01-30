@@ -48,6 +48,10 @@ class Cuba
     def delete_cookie(key, value = {})
       Rack::Utils.delete_cookie_header!(@headers, key, value)
     end
+
+    def chunked(enumerable = Enumerator.new { |y| yield(y) })
+      @body = enumerable
+    end
   end
 
   def self.reset!

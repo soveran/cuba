@@ -384,6 +384,41 @@ end
 Note that in order to use this plugin you need to have [Tilt][tilt] installed, along
 with the templating engines you want to use.
 
+### Chunked responses
+
+Chunked transfer encoding is an alternative way of sending responses
+to clients. Instead of sending a `Content-Length` header, which has
+to be known before finishing all headers, the server specifies a
+`Transfer-Encoding: chunked` header which allows for it to send an
+unlimited amount of chunks back to the client. This is useful for
+rendering responses for which you don't know their lengths upfront, or
+even for rendering large responses for which you don't want to allocate
+a huge string just to call `Response#write`.
+
+```ruby
+  on default do
+    big_strings = ["foo", "bar", "baz"]
+
+    res.chunked(big_strings)
+  end
+```
+
+Or using a block:
+
+```ruby
+  on default do
+    res.chunked do |body|
+      body << "foo"
+      body << "bar"
+      body << "baz"
+    end
+  end
+```
+
+Note: Not all Ruby web servers support chunked encoding.
+[Unicorn](http://unicorn.bogomips.org) and
+[Rainbows!](http://rainbows.bogomips.org) do.
+
 Plugins
 -------
 

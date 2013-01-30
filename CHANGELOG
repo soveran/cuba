@@ -1,3 +1,5 @@
+* Add support for chunked responses.
+
 3.1.0
 
 * Do a deep clone of the settings object during inheritance.
