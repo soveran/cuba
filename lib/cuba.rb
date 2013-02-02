@@ -235,13 +235,20 @@ class Cuba
   # Used to ensure that certain request parameters are present. Acts like a
   # precondition / assertion for your route.
   #
+  # forced: determines whether the parameter is required, true by default
+  #
   # @example
   #   # POST with data like user[fname]=John&user[lname]=Doe
   #   on "signup", param("user") do |atts|
   #     User.create(atts)
   #   end
-  def param(key)
-    lambda { captures << req[key] unless req[key].to_s.empty? }
+  #  
+  #   # GET when parameter is not required
+  #   on "search", param("email", false) do |email|
+  #     SearchModule.search(email)
+  #   end
+  def param(key, forced=true)
+	forced ? lambda { captures << req[key] unless req[key].to_s.empty?  } : lambda { captures << req[key] }
   end
 
   def header(key)
