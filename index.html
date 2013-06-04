@@ -28,29 +28,33 @@
         </ul>
       </header>
       <section>
-        <h1>Viva Cuba!</h1>
+        <h1>
+<a name="viva-cuba" class="anchor" href="#viva-cuba"><span class="octicon octicon-link"></span></a>Viva Cuba!</h1>
 
 <p>Cuba is a Ruby microframework for web development.</p>
 
-<h2>Community</h2>
+<h2>
+<a name="community" class="anchor" href="#community"><span class="octicon octicon-link"></span></a>Community</h2>
 
 <p>Meet us on IRC: <a>#cuba.rb</a> on <a href="http://freenode.net/">freenode.net</a></p>
 
-<h2>Description</h2>
+<h2>
+<a name="description" class="anchor" href="#description"><span class="octicon octicon-link"></span></a>Description</h2>
 
 <p>Cuba was originally inspired by <a href="http://github.com/chneukirchen/rum">Rum</a>, a tiny but powerful mapper for <a href="http://github.com/chneukirchen/rack">Rack</a> applications.</p>
 
 <p>It integrates many templates via <a href="http://github.com/rtomayko/tilt">Tilt</a>, and testing via
 <a href="http://github.com/djanowski/cutest">Cutest</a> and <a href="http://github.com/jnicklas/capybara">Capybara</a>.</p>
 
-<h2>Usage</h2>
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 
 <p>Here's a simple application:</p>
 
 <div class="highlight"><pre><span class="c1"># cat hello_world.rb</span>
 <span class="nb">require</span> <span class="s2">"cuba"</span>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Cookie</span>
+<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="ss">Rack</span><span class="p">:</span><span class="ss">:Session</span><span class="o">::</span><span class="no">Cookie</span>
 
 <span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
   <span class="n">on</span> <span class="n">get</span> <span class="k">do</span>
@@ -92,13 +96,14 @@
 
 <p>You can now run <code>rackup</code> and enjoy what you have just created.</p>
 
-<h2>Matchers</h2>
+<h2>
+<a name="matchers" class="anchor" href="#matchers"><span class="octicon octicon-link"></span></a>Matchers</h2>
 
 <p>Here's an example showcasing how different matchers work:</p>
 
 <div class="highlight"><pre><span class="nb">require</span> <span class="s2">"cuba"</span>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Cookie</span>
+<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="ss">Rack</span><span class="p">:</span><span class="ss">:Session</span><span class="o">::</span><span class="no">Cookie</span>
 
 <span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
 
@@ -168,7 +173,8 @@
 <span class="k">end</span>
 </pre></div>
 
-<h2>Security</h2>
+<h2>
+<a name="security" class="anchor" href="#security"><span class="octicon octicon-link"></span></a>Security</h2>
 
 <p>The favorite security layer for Cuba is
 <a href="https://github.com/rkh/rack-protection">Rack::Protection</a>. It is not
@@ -182,9 +188,9 @@ operations, only POST, PUT and DELETE requests are monitored.</p>
 <div class="highlight"><pre><span class="nb">require</span> <span class="s2">"cuba"</span>
 <span class="nb">require</span> <span class="s2">"rack/protection"</span>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Cookie</span>
-<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Protection</span>
-<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Protection</span><span class="o">::</span><span class="no">RemoteReferrer</span>
+<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="ss">Rack</span><span class="p">:</span><span class="ss">:Session</span><span class="o">::</span><span class="no">Cookie</span><span class="p">,</span> <span class="ss">secret</span><span class="p">:</span> <span class="s2">"__a_very_long_string__"</span>
+<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="ss">Rack</span><span class="p">:</span><span class="ss">:Protection</span>
+<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="ss">Rack</span><span class="p">:</span><span class="ss">:Protection</span><span class="o">::</span><span class="no">RemoteReferrer</span>
 
 <span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
 
@@ -193,7 +199,8 @@ operations, only POST, PUT and DELETE requests are monitored.</p>
 <span class="k">end</span>
 </pre></div>
 
-<h2>HTTP Verbs</h2>
+<h2>
+<a name="http-verbs" class="anchor" href="#http-verbs"><span class="octicon octicon-link"></span></a>HTTP Verbs</h2>
 
 <p>There are four matchers defined for HTTP Verbs: <code>get</code>, <code>post</code>, <code>put</code> and
 <code>delete</code>. But the world doesn't end there, does it? As you have the whole
@@ -214,7 +221,8 @@ and inspect the environment via the <code>env</code> object, and check for examp
 <p>Actually, <code>get</code> is syntax sugar for <code>req.get?</code>, which in turn is syntax sugar
 for <code>env["REQUEST_METHOD"] == "GET"</code>.</p>
 
-<h2>Captures</h2>
+<h2>
+<a name="captures" class="anchor" href="#captures"><span class="octicon octicon-link"></span></a>Captures</h2>
 
 <p>You may have noticed that some matchers yield a value to the block. The rules
 for determining if a matcher will yield a value are simple:</p>
@@ -241,7 +249,8 @@ by <code>"([^\\/]+)"</code>, and again we are in presence of case 1.</p>
 <p>The fifth case is different: it checks if the the parameter supplied is present
 in the request (via POST or QUERY_STRING) and it pushes the value as a capture.</p>
 
-<h2>Composition</h2>
+<h2>
+<a name="composition" class="anchor" href="#composition"><span class="octicon octicon-link"></span></a>Composition</h2>
 
 <p>You can mount a Cuba app, along with middlewares, inside another Cuba app:</p>
 
@@ -262,7 +271,8 @@ in the request (via POST or QUERY_STRING) and it pushes the value as a capture.<
 <span class="k">end</span>
 </pre></div>
 
-<h2>Testing</h2>
+<h2>
+<a name="testing" class="anchor" href="#testing"><span class="octicon octicon-link"></span></a>Testing</h2>
 
 <p>Given that Cuba is essentially Rack, it is very easy to test with
 <code>Rack::Test</code>, <code>Webrat</code> or <code>Capybara</code>. Cuba's own tests are written
@@ -300,7 +310,8 @@ requiring <code>cuba/test</code>:</p>
 <p>To read more about testing, check the documentation for
 <a href="http://github.com/djanowski/cutest">Cutest</a>, <a href="https://github.com/brynary/rack-test">Rack::Test</a> and <a href="http://github.com/jnicklas/capybara">Capybara</a>.</p>
 
-<h2>Settings</h2>
+<h2>
+<a name="settings" class="anchor" href="#settings"><span class="octicon octicon-link"></span></a>Settings</h2>
 
 <p>Each Cuba app can store settings in the <code>Cuba.settings</code> hash. The settings are
 inherited if you happen to subclass <code>Cuba</code></p>
@@ -318,21 +329,22 @@ inherited if you happen to subclass <code>Cuba</code></p>
 
 <p>Feel free to store whatever you find convenient.</p>
 
-<h2>Rendering</h2>
+<h2>
+<a name="rendering" class="anchor" href="#rendering"><span class="octicon octicon-link"></span></a>Rendering</h2>
 
 <p>Cuba ships with a plugin that provides helpers for rendering templates. It uses
 <a href="http://github.com/rtomayko/tilt">Tilt</a>, a gem that interfaces with many template engines.</p>
 
 <div class="highlight"><pre><span class="nb">require</span> <span class="s2">"cuba/render"</span>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">plugin</span> <span class="no">Cuba</span><span class="o">::</span><span class="no">Render</span>
+<span class="no">Cuba</span><span class="o">.</span><span class="n">plugin</span> <span class="ss">Cuba</span><span class="p">:</span><span class="ss">:Render</span>
 
 <span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
   <span class="n">on</span> <span class="n">default</span> <span class="k">do</span>
 
     <span class="c1"># Within the partial, you will have access to the local variable `content`,</span>
     <span class="c1"># that will hold the value "hello, world".</span>
-    <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="n">render</span><span class="p">(</span><span class="s2">"home.haml"</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="s2">"hello, world"</span><span class="p">)</span>
+    <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="n">render</span><span class="p">(</span><span class="s2">"home.haml"</span><span class="p">,</span> <span class="ss">content</span><span class="p">:</span> <span class="s2">"hello, world"</span><span class="p">)</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </pre></div>
@@ -340,11 +352,13 @@ inherited if you happen to subclass <code>Cuba</code></p>
 <p>Note that in order to use this plugin you need to have <a href="http://github.com/rtomayko/tilt">Tilt</a> installed, along
 with the templating engines you want to use.</p>
 
-<h2>Plugins</h2>
+<h2>
+<a name="plugins" class="anchor" href="#plugins"><span class="octicon octicon-link"></span></a>Plugins</h2>
 
 <p>Cuba provides a way to extend its functionality with plugins.</p>
 
-<h3>How to create plugins</h3>
+<h3>
+<a name="how-to-create-plugins" class="anchor" href="#how-to-create-plugins"><span class="octicon octicon-link"></span></a>How to create plugins</h3>
 
 <p>Authoring your own plugins is pretty straightforward.</p>
 
@@ -402,7 +416,8 @@ with it.</p>
 <span class="n">assert_equal</span> <span class="s2">"bar"</span><span class="p">,</span> <span class="no">Cuba</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:foo</span><span class="o">]</span>
 </pre></div>
 
-<h2>Installation</h2>
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
 
 <div class="highlight"><pre><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">cuba</span>
 </pre></div>
