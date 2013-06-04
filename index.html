@@ -54,7 +54,8 @@
 <div class="highlight"><pre><span class="c1"># cat hello_world.rb</span>
 <span class="nb">require</span> <span class="s2">"cuba"</span>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="ss">Rack</span><span class="p">:</span><span class="ss">:Session</span><span class="o">::</span><span class="no">Cookie</span>
+<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="ss">Rack</span><span class="p">:</span><span class="ss">:Session</span><span class="o">::</span><span class="no">Cookie</span><span class="p">,</span>
+  <span class="ss">secret</span><span class="p">:</span> <span class="s2">"__a_very_long_string__"</span>
 
 <span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
   <span class="n">on</span> <span class="n">get</span> <span class="k">do</span>
@@ -103,7 +104,8 @@
 
 <div class="highlight"><pre><span class="nb">require</span> <span class="s2">"cuba"</span>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="ss">Rack</span><span class="p">:</span><span class="ss">:Session</span><span class="o">::</span><span class="no">Cookie</span>
+<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="ss">Rack</span><span class="p">:</span><span class="ss">:Session</span><span class="o">::</span><span class="no">Cookie</span><span class="p">,</span>
+  <span class="ss">secret</span><span class="p">:</span> <span class="s2">"__a_very_long_string__"</span>
 
 <span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
 
@@ -188,7 +190,8 @@ operations, only POST, PUT and DELETE requests are monitored.</p>
 <div class="highlight"><pre><span class="nb">require</span> <span class="s2">"cuba"</span>
 <span class="nb">require</span> <span class="s2">"rack/protection"</span>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="ss">Rack</span><span class="p">:</span><span class="ss">:Session</span><span class="o">::</span><span class="no">Cookie</span><span class="p">,</span> <span class="ss">secret</span><span class="p">:</span> <span class="s2">"__a_very_long_string__"</span>
+<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="ss">Rack</span><span class="p">:</span><span class="ss">:Session</span><span class="o">::</span><span class="no">Cookie</span><span class="p">,</span>
+  <span class="ss">secret</span><span class="p">:</span> <span class="s2">"__a_very_long_string__"</span>
 <span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="ss">Rack</span><span class="p">:</span><span class="ss">:Protection</span>
 <span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="ss">Rack</span><span class="p">:</span><span class="ss">:Protection</span><span class="o">::</span><span class="no">RemoteReferrer</span>
 
