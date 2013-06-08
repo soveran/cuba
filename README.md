@@ -8,13 +8,17 @@ _n_. a microframework for web development.
 Community
 ---------
 
-Meet us on IRC: [#cuba.rb](irc://chat.freenode.net/#cuba.rb) on [freenode.net](http://freenode.net/)
+Meet us on IRC: [#cuba.rb][irc] on [freenode.net][freenode].
+
+[irc]: irc://chat.freenode.net/#cuba.rb
+[freenode]: http://freenode.net/
 
 Description
 -----------
 
-Cuba is a microframework for web development originally inspired by [Rum][rum],
-a tiny but powerful mapper for [Rack][rack] applications.
+Cuba is a microframework for web development originally inspired
+by [Rum][rum], a tiny but powerful mapper for [Rack][rack]
+applications.
 
 It integrates many templates via [Tilt][tilt], and testing via
 [Cutest][cutest] and [Capybara][capybara].
@@ -29,7 +33,7 @@ It integrates many templates via [Tilt][tilt], and testing via
 Installation
 ------------
 
-``` ruby
+``` console
 $ gem install cuba
 ```
 
@@ -168,20 +172,188 @@ Cuba.define do
 end
 ```
 
+Status codes
+------------
+
+As soon as an `on` block is executed, the status code for the
+response is changed to 200. The default status code is 404, and it
+is returned if no `on` block succeeds inside a Cuba app.
+
+As this behavior can be tricky, let's look at some examples:
+
+``` ruby
+Cuba.define do
+  on get do
+    on "hello" do
+      res.write "hello world"
+    end
+  end
+end
+
+# Requests:
+#
+# GET /            # 200, ""
+# GET /hello       # 200, "hello world"
+# GET /hello/world # 200, "hello world"
+```
+
+As you can see, as soon as `on get` matched, the status code was
+changed to 200. If you expected some of those requests to return a
+404 status code, you may be surprised by this behavior.
+
+In the following example, as both arguments to `on` must match,
+the requests to `/` return 404.
+
+``` ruby
+Cuba.define do
+  on get, "hello" do
+    res.write "hello world"
+  end
+end
+
+# Requests:
+#
+# GET /            # 404, ""
+# GET /hello       # 200, "hello world"
+# GET /hello/world # 200, "hello world"
+```
+
+Another way is to add a default block:
+
+``` ruby
+Cuba.define do
+  on get do
+    on "hello" do
+      res.write "hello world"
+    end
+
+    on default do
+      res.status = 404
+    end
+  end
+end
+
+# Requests:
+#
+# GET /            # 404, ""
+# GET /hello       # 200, "hello world"
+# GET /hello/world # 200, "hello world"
+```
+
+Yet another way is to mount an application with routes that don't
+match the request:
+
+``` ruby
+SomeApp = Cuba.new do
+  on "bye" do
+    res.write "bye!"
+  end
+end
+
+Cuba.define do
+  on get do
+    run SomeApp
+  end
+end
+
+# Requests:
+#
+# GET /            # 404, ""
+# GET /hello       # 404, ""
+# GET /hello/world # 404, ""
+```
+
+As Cuba encourages the composition of applications, this last
+example is a very common pattern.
+
+You can also change the status code at any point inside the define
+block. That way you can change the default status, as shown in the
+following example:
+
+``` ruby
+Cuba.define do
+  res.status = 404
+
+  on get do
+    on "hello" do
+      res.status = 200
+      res.write "hello world"
+    end
+  end
+end
+
+# Requests:
+#
+# GET /            # 404, ""
+# GET /hello       # 200, "hello world"
+# GET /hello/world # 200, "hello world"
+```
+
+If you really want to return 404 for everything under "hello", you
+can match the end of line:
+
+``` ruby
+Cuba.define do
+  res.status = 404
+
+  on get do
+    on /hello\/?\z/ do
+      res.status = 200
+      res.write "hello world"
+    end
+  end
+end
+
+# Requests:
+#
+# GET /            # 404, ""
+# GET /hello       # 200, "hello world"
+# GET /hello/world # 404, ""
+```
+
+This last example is not a common usage pattern. It's here only to
+illustrate how Cuba can be adapted for different use cases.
+
+If you need this behavior, you can create a helper:
+
+``` ruby
+module TerminalMatcher
+  def terminal(path)
+    /#{path}\/?\z/
+  end
+end
+
+Cuba.plugin TerminalMatcher
+
+Cuba.define do
+  res.status = 404
+
+  on get do
+    on terminal("hello") do
+      res.status = 200
+      res.write "hello world"
+    end
+  end
+end
+```
+
 Security
 --------
 
 The favorite security layer for Cuba is
-[Rack::Protection](https://github.com/rkh/rack-protection). It is not
-included by default because there are legitimate uses for plain Cuba
-(for instance, when designing an API).
+[Rack::Protection][rack-protection]. It is not included by default
+because there are legitimate uses for plain Cuba (for instance,
+when designing an API).
 
-If you are building a web application, by all means make sure to
-include a security layer. As it is the convention for unsafe
+If you are building a web application, by all means make sure
+to include a security layer. As it is the convention for unsafe
 operations, only POST, PUT and DELETE requests are monitored.
 
-You should also always set a session secret to some undisclosed value.
-Keep in mind that the content in the session cookie is *not* encrypted.
+You should also always set a session secret to some undisclosed
+value. Keep in mind that the content in the session cookie is
+*not* encrypted.
+
+[rack-protection]: https://github.com/rkh/rack-protection
 
 ``` ruby
 require "cuba"
@@ -380,6 +552,26 @@ end
 
 Note that in order to use this plugin you need to have [Tilt][tilt] installed, along
 with the templating engines you want to use.
+
+You can also configure the template engine in the app's settings,
+and that will allow you skip the file extension when rendering a
+file:
+
+``` ruby
+require "cuba/render"
+
+Cuba.plugin Cuba::Render
+Cuba.settings[:render][:template_engine] = "slim"
+
+Cuba.define do
+  on default do
+
+    # Now we can use the `view` helper, which guesses the file
+    # extension based on the configured template_engine.
+    res.write view("home", content: "hello, world")
+  end
+end
+```
 
 Plugins
 -------
