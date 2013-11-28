@@ -554,7 +554,7 @@ Note that in order to use this plugin you need to have [Tilt][tilt] installed, a
 with the templating engines you want to use.
 
 You can also configure the template engine in the app's settings,
-and that will allow you skip the file extension when rendering a
+and that will allow you to skip the file extension when rendering a
 file:
 
 ``` ruby
@@ -596,7 +596,7 @@ That's the simplest kind of plugin you'll write. In fact, that's exactly how
 the `markdown` helper is written in `Cuba::TextHelpers`.
 
 A more complicated plugin can make use of `Cuba.settings` to provide default
-values. In the following example, note that if the module has a `setup` method it will
+values. In the following example, note that if the module has a `setup` method, it will
 be called as soon as it is included:
 
 ``` ruby
