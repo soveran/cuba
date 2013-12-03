@@ -7,7 +7,7 @@ class Cuba
 
     attr :headers
 
-    def initialize(status = 200,
+    def initialize(status = nil,
                    headers = { "Content-Type" => "text/html; charset=utf-8" })
 
       @status  = status
@@ -26,7 +26,7 @@ class Cuba
 
     def write(str)
       s = str.to_s
-
+      @status ||= 200
       @length += s.bytesize
       @headers["Content-Length"] = @length.to_s
       @body << s
@@ -38,7 +38,7 @@ class Cuba
     end
 
     def finish
-      [@status, @headers, @body]
+      [@status || 404, @headers, @body]
     end
 
     def set_cookie(key, value)
