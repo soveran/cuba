@@ -58,6 +58,14 @@ scope do
 
     assert_response body, ["<title>Cuba: Home</title>\n<h1>Home</h1>\n<p>Hello Agent Smith</p>\n\n"]
   end
+
+  test "custom default layout support" do
+    Cuba.settings[:render][:layout] = "layout-alternative"
+
+    _, _, body = Cuba.call({ "PATH_INFO" => "/home", "SCRIPT_NAME" => "/" })
+
+    assert_response body, ["<title>Alternative Layout: Home</title>\n<h1>Home</h1>\n<p>Hello Agent Smith</p>\n"]
+  end
 end
 
 test "caching behavior" do
@@ -93,4 +101,19 @@ test "simple layout support" do
   _, _, resp = Cuba.call({})
 
   assert_response resp, ["Header\nThis is the actual content.\nFooter\n"]
+end
+
+test "overrides layout" do
+  Cuba.plugin Cuba::Render
+  Cuba.settings[:render][:views] = "./test/views"
+
+  Cuba.define do
+    on true do
+      res.write view("home", { name: "Agent Smith", title: "Home" }, "layout-alternative")
+    end
+  end
+
+  _, _, body = Cuba.call({})
+
+  assert_response body, ["<title>Alternative Layout: Home</title>\n<h1>Home</h1>\n<p>Hello Agent Smith</p>\n"]
 end
