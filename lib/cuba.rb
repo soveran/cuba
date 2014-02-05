@@ -147,7 +147,7 @@ class Cuba
   #   end
   #
   #   on get, "signup" do
-  #     res.write "Signup
+  #     res.write "Signup"
   #   end
   #
   #   on "user/:id" do |uid|
