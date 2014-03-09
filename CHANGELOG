@@ -1,3 +1,7 @@
+3.1.1
+
+* Add support for custom default layouts.
+
 3.1.0
 
 * Do a deep clone of the settings object during inheritance.
