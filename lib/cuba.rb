@@ -3,13 +3,9 @@ require "time"
 
 class Cuba
   class Response
-    attr_accessor :status
+    attr_accessor :status, :headers
 
-    attr :headers
-
-    def initialize(status = 200,
-                   headers = { "Content-Type" => "text/html; charset=utf-8" })
-
+    def initialize(status = 200, headers = { "Content-Type" => "text/html; charset=utf-8" })
       @status  = status
       @headers = headers
       @body    = []
@@ -94,10 +90,7 @@ class Cuba
     child.settings.replace(deepclone(settings))
   end
 
-  attr :env
-  attr :req
-  attr :res
-  attr :captures
+  attr_accessor :env, :req, :res, :captures
 
   def initialize(&blk)
     @blk = blk
@@ -185,15 +178,15 @@ class Cuba
   end
 
   # @private Used internally by #on to ensure that SCRIPT_NAME and
-  #          PATH_INFO are reset to their proper values.
+  # PATH_INFO are reset to their proper values.
   def try
     script, path = env["SCRIPT_NAME"], env["PATH_INFO"]
 
     yield
-
   ensure
     env["SCRIPT_NAME"], env["PATH_INFO"] = script, path
   end
+
   private :try
 
   def consume(pattern)
@@ -208,6 +201,7 @@ class Cuba
 
     captures.push(*vars)
   end
+
   private :consume
 
   def match(matcher, segment = "([^\\/]+)")
