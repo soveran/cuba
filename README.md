@@ -638,3 +638,13 @@ Cuba.set(:foo, "bar")
 assert_equal "bar", Cuba.get(:foo)
 assert_equal "bar", Cuba.settings[:foo]
 ```
+
+Extensions:
+-----------
+
+This is a list of known extensions:
+
+* [basica](https://github.com/soveran/basica/) - Basic Authentication Library.
+* [cuba-contrib](https://github.com/cyx/cuba-contrib) - A collection of useful modules for Cuba.
+* [cuba-sendfile](https://github.com/frodsan/cuba-sendfile) - File sending for Cuba apps.
+* [shield](https://github.com/cyx/shield) - Authentication protocol for Rack apps.
