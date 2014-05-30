@@ -5,17 +5,10 @@ Gem::Specification.new do |s|
   s.description       = "Cuba is a microframework for web applications."
   s.authors           = ["Michel Martens"]
   s.email             = ["michel@soveran.com"]
-  s.homepage          = "http://github.com/soveran/cuba"
+  s.homepage          = "https://github.com/soveran/cuba"
+  s.license           = "MIT"
 
-  s.files = Dir[
-    "LICENSE",
-    "CHANGELOG",
-    "README.md",
-    "Rakefile",
-    "lib/**/*.rb",
-    "*.gemspec",
-    "test/*.*"
-  ]
+  s.files = `git ls-files`.split("\n")
 
   s.add_dependency "rack"
   s.add_development_dependency "cutest"
