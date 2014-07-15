@@ -38,7 +38,7 @@ to build web applications by following a minimalistic approach. It
 is recommended reading for anyone trying to learn the basics of
 Cuba and other related tools.
 
-[guide]: https://www.gitbook.io/book/frodsan/theguidetocuba
+[guide]: http://theguidetocuba.io
 
 Installation
 ------------
