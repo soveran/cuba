@@ -186,7 +186,7 @@ class Cuba
 
   # @private Used internally by #on to ensure that SCRIPT_NAME and
   #          PATH_INFO are reset to their proper values.
-  def try
+  private def try
     script, path = env["SCRIPT_NAME"], env["PATH_INFO"]
 
     yield
@@ -194,9 +194,8 @@ class Cuba
   ensure
     env["SCRIPT_NAME"], env["PATH_INFO"] = script, path
   end
-  private :try
 
-  def consume(pattern)
+  private def consume(pattern)
     matchdata = env["PATH_INFO"].match(/\A\/(#{pattern})(\/|\z)/)
 
     return false unless matchdata
@@ -208,7 +207,6 @@ class Cuba
 
     captures.push(*vars)
   end
-  private :consume
 
   def match(matcher, segment = "([^\\/]+)")
     case matcher

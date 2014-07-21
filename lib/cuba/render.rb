@@ -52,9 +52,8 @@ class Cuba
 
     # @private Used internally by #render to cache the
     #          Tilt templates.
-    def _cache
+    private def _cache
       Thread.current[:_cache] ||= Tilt::Cache.new
     end
-    private :_cache
   end
 end
