@@ -663,6 +663,10 @@ If you want to test Cuba, you may want to use a gemset to isolate
 the requirements. We recommend the use of tools like [dep][dep] and
 [gs][gs], but you can use similar tools like [gst][gst] or [bs][bs].
 
+The required gems for testing and development are listed in the
+`.gems` file. If you are using [dep][dep], you can create a gemset
+and run `dep install`.
+
 [dep]: http://cyx.github.io/dep/
 [gs]: http://soveran.github.io/gs/
 [gst]: https://github.com/tonchis/gst
