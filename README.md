@@ -648,3 +648,22 @@ Cuba.set(:foo, "bar")
 assert_equal "bar", Cuba.get(:foo)
 assert_equal "bar", Cuba.settings[:foo]
 ```
+
+Contributing
+------------
+
+A good first step is to meet us on IRC and discuss ideas. If that's
+not possible, you can create an issue explaning the proposed change
+and a use case. We pay a lot of attention to use cases, because our
+goal is to keep the code base simple. In many cases, the result of
+a conversation will be the creation of another tool, instead of the
+modification of Cuba itself.
+
+If you want to test Cuba, you may want to use a gemset to isolate
+the requirements. We recommend the use of tools like [dep][dep] and
+[gs][gs], but you can use similar tools like [gst][gst] or [bs][bs].
+
+[dep]: http://cyx.github.io/dep/
+[gs]: http://soveran.github.io/gs/
+[gst]: https://github.com/tonchis/gst
+[bs]: https://github.com/educabilia/bs
