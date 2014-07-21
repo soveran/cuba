@@ -46,7 +46,13 @@ class Cuba
     #
     def render(template, locals = {}, options = {}, &block)
       _cache.fetch(template) {
-        Tilt.new(template, 1, options.merge(outvar: '@_output'))
+        if template_block = options[:template_block]
+          template_class = Tilt[settings[:render][:template_engine]]
+        else
+          template_class = Tilt
+        end
+
+        template_class.new(template, 1, options.merge(outvar: '@_output'), &template_block)
       }.render(self, locals, &block)
     end
 

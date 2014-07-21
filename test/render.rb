@@ -28,6 +28,11 @@ scope do
       on "about" do
         res.write partial("about", title: "About Cuba")
       end
+
+      on "inline" do
+        template = "Hello <%= name %>"
+        res.write render(template, {name: "Agent Smith"}, :template_block=>proc{template})
+      end
     end
   end
 
@@ -41,6 +46,12 @@ scope do
     _, _, body = Cuba.call({ "PATH_INFO" => "/home", "SCRIPT_NAME" => "/" })
 
     assert_response body, ["<title>Cuba: Home</title>\n<h1>Home</h1>\n<p>Hello Agent Smith</p>\n"]
+  end
+
+  test "inline render" do
+    _, _, body = Cuba.call({ "PATH_INFO" => "/inline", "SCRIPT_NAME" => "/" })
+
+    assert_response body, ["Hello Agent Smith"]
   end
 
   test "partial with str as engine" do
