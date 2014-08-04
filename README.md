@@ -542,46 +542,69 @@ Feel free to store whatever you find convenient.
 Rendering
 ---------
 
-Cuba ships with a plugin that provides helpers for rendering templates. It uses
-[Tilt][tilt], a gem that interfaces with many template engines.
+Cuba includes a plugin called `Cuba::Render` that provides a couple of helper
+methods for rendering templates. This plugin uses [Tilt][tilt], which serves as
+an interface to a bunch of different Ruby template engines (ERB, Haml, Sass,
+CoffeeScript, etc.), so you can use the template engine of your choice.
 
-``` ruby
+To set up `Cuba::Render`, do:
+
+```ruby
+require "cuba"
 require "cuba/render"
+require "erb"
 
-Cuba.plugin Cuba::Render
+Cuba.plugin(Cuba::Render)
+```
 
+This example use ERB, a template engine that comes with Ruby. If you want to
+use another template engine, one [supported by Tilt][templates], you need to
+install the required gem and change the `template_engine` setting as shown
+below.
+
+```ruby
+Cuba.settings[:render][:template_engine] = "haml"
+```
+
+The plugin provides three helper methods for rendering templates: `partial`,
+`view` and `render`.
+
+```ruby
 Cuba.define do
-  on default do
+  on "about" do
+    # `partial` renders a template called `about.erb` without a layout.
+    res.write partial("about")
+  end
 
-    # Within the partial, you will have access to the local variable `content`,
-    # that will hold the value "hello, world".
-    res.write render("home.haml", content: "hello, world")
+  on "home" do
+    # Opposed to `partial`, `view` renders the same template
+    # within a layout called `layout.erb`.
+    res.write view("about")
+  end
+
+  on "contact" do
+    # `render` is a shortcut to `res.write view(...)`
+    render("contact")
   end
 end
 ```
 
-Note that in order to use this plugin you need to have [Tilt][tilt] installed, along
-with the templating engines you want to use.
+By default, `Cuba::Render` assumes that all templates are placed in a folder
+named `views` and that they use the proper extension for the chosen template
+engine. Also for the `view` and `render` methods, it assumes that the layout
+template is called `layout`.
 
-You can also configure the template engine in the app's settings,
-and that will allow you to skip the file extension when rendering a
-file:
+The defaults can be changed through the `Cuba.settings` method:
 
-``` ruby
-require "cuba/render"
-
-Cuba.plugin Cuba::Render
-Cuba.settings[:render][:template_engine] = "slim"
-
-Cuba.define do
-  on default do
-
-    # Now we can use the `view` helper, which guesses the file
-    # extension based on the configured template_engine.
-    res.write view("home", content: "hello, world")
-  end
-end
+```ruby
+Cuba.settings[:render][:template_engine] = "haml"
+Cuba.settings[:render][:views] = "./views/admin/"
+Cuba.settings[:render][:layout] = "admin"
 ```
+
+NOTE: Cuba doesn't ship with Tilt. You need to install it (`gem install tilt`).
+
+[templates]: https://github.com/rtomayko/tilt/blob/master/docs/TEMPLATES.md
 
 Plugins
 -------
