@@ -25,11 +25,10 @@ class Cuba
     end
 
     def template_path(template)
-      "%s/%s.%s" % [
-        settings[:render][:views],
-        template,
-        settings[:render][:template_engine]
-      ]
+      dir = settings[:render][:views]
+      ext = settings[:render][:template_engine]
+
+      return File.join(dir, "#{ template }.#{ ext }")
     end
 
     # @private Renders any type of template file supported by Tilt.
