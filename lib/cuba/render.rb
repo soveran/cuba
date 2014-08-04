@@ -17,7 +17,11 @@ class Cuba
     end
 
     def view(template, locals = {}, layout = settings[:render][:layout])
-      partial(layout, { content: partial(template, locals) }.merge(locals))
+      partial(layout, locals.merge(content: partial(template, locals)))
+    end
+
+    def partial(template, locals = {})
+      _render(template_path(template), locals, settings[:render][:options])
     end
 
     def template_path(template)
@@ -26,10 +30,6 @@ class Cuba
         template,
         settings[:render][:template_engine]
       ]
-    end
-
-    def partial(template, locals = {})
-      _render(template_path(template), locals, settings[:render][:options])
     end
 
     # @private Renders any type of template file supported by Tilt.
