@@ -87,22 +87,6 @@ test "caching behavior" do
   assert_equal 1, Thread.current[:_cache].instance_variable_get(:@cache).size
 end
 
-test "simple layout support" do
-  Cuba.plugin Cuba::Render
-
-  Cuba.define do
-    on true do
-      res.write render("test/views/layout-yield.erb") {
-        render("test/views/content-yield.erb")
-      }
-    end
-  end
-
-  _, _, resp = Cuba.call({})
-
-  assert_response resp, ["Header\nThis is the actual content.\nFooter\n"]
-end
-
 test "overrides layout" do
   Cuba.plugin Cuba::Render
   Cuba.settings[:render][:views] = "./test/views"
