@@ -28,6 +28,10 @@ scope do
       on "about" do
         res.write partial("about", title: "About Cuba")
       end
+
+      on "render" do
+        render("about", title: "About Cuba")
+      end
     end
   end
 
@@ -41,6 +45,12 @@ scope do
     _, _, body = Cuba.call({ "PATH_INFO" => "/home", "SCRIPT_NAME" => "/" })
 
     assert_response body, ["<title>Cuba: Home</title>\n<h1>Home</h1>\n<p>Hello Agent Smith</p>\n"]
+  end
+
+  test "render" do
+    _, _, body = Cuba.call({ "PATH_INFO" => "/render", "SCRIPT_NAME" => "/" })
+
+    assert_response body, ["<title>Cuba: About Cuba</title>\n<h1>About Cuba</h1>\n"]
   end
 
   test "partial with str as engine" do
@@ -85,22 +95,6 @@ test "caching behavior" do
   end
 
   assert_equal 1, Thread.current[:_cache].instance_variable_get(:@cache).size
-end
-
-test "simple layout support" do
-  Cuba.plugin Cuba::Render
-
-  Cuba.define do
-    on true do
-      res.write render("test/views/layout-yield.erb") {
-        render("test/views/content-yield.erb")
-      }
-    end
-  end
-
-  _, _, resp = Cuba.call({})
-
-  assert_response resp, ["Header\nThis is the actual content.\nFooter\n"]
 end
 
 test "overrides layout" do
