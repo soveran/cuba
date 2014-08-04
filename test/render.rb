@@ -28,6 +28,10 @@ scope do
       on "about" do
         res.write partial("about", title: "About Cuba")
       end
+
+      on "render" do
+        render("about", title: "About Cuba")
+      end
     end
   end
 
@@ -41,6 +45,12 @@ scope do
     _, _, body = Cuba.call({ "PATH_INFO" => "/home", "SCRIPT_NAME" => "/" })
 
     assert_response body, ["<title>Cuba: Home</title>\n<h1>Home</h1>\n<p>Hello Agent Smith</p>\n"]
+  end
+
+  test "render" do
+    _, _, body = Cuba.call({ "PATH_INFO" => "/render", "SCRIPT_NAME" => "/" })
+
+    assert_response body, ["<title>Cuba: About Cuba</title>\n<h1>About Cuba</h1>\n"]
   end
 
   test "partial with str as engine" do

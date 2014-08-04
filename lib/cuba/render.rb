@@ -12,6 +12,10 @@ class Cuba
       }
     end
 
+    def render(template, locals = {}, layout = settings[:render][:layout])
+      res.write(view(template, locals, layout))
+    end
+
     def view(template, locals = {}, layout = settings[:render][:layout])
       partial(layout, { content: partial(template, locals) }.merge(locals))
     end
