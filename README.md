@@ -557,7 +557,7 @@ require "erb"
 Cuba.plugin(Cuba::Render)
 ```
 
-This example use ERB, a template engine that comes with Ruby. If you want to
+This example uses ERB, a template engine that comes with Ruby. If you want to
 use another template engine, one [supported by Tilt][templates], you need to
 install the required gem and change the `template_engine` setting as shown
 below.
