@@ -95,3 +95,25 @@ test "reverts a half-met matcher" do
   assert_equal "/post", env["PATH_INFO"]
   assert_equal "/", env["SCRIPT_NAME"]
 end
+
+test "responds 404 if block never wrote to response" do
+  Cuba.define do
+    on get do
+      on "hello" do
+        res.write "world"
+      end
+    end
+  end
+
+  env = { "REQUEST_METHOD" => "GET", "PATH_INFO" => "/hello",
+          "SCRIPT_NAME" => "/" }
+  status, _, resp = Cuba.call(env)
+  assert_equal 200, status
+  assert_response resp, ["world"]
+
+  env = { "REQUEST_METHOD" => "GET", "PATH_INFO" => "/",
+          "SCRIPT_NAME" => "/" }
+  status, _, resp = Cuba.call(env)
+  assert_equal 404, status
+  assert_response resp, []
+end
