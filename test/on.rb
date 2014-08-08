@@ -95,3 +95,17 @@ test "reverts a half-met matcher" do
   assert_equal "/post", env["PATH_INFO"]
   assert_equal "/", env["SCRIPT_NAME"]
 end
+
+test "responds 404 if conditions are not met" do
+  Cuba.define do
+    on root do
+      res.write("Should be unmet")
+    end
+  end
+
+  env = { "PATH_INFO" => "/home", "SCRIPT_NAME" => "/" }
+  status, _, resp = Cuba.call(env)
+
+  assert_equal 404, status
+  assert_response resp, []
+end
