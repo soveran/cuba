@@ -103,9 +103,30 @@ test "responds 404 if conditions are not met" do
     end
   end
 
-  env = { "PATH_INFO" => "/home", "SCRIPT_NAME" => "/" }
-  status, _, resp = Cuba.call(env)
+  env = { "PATH_INFO" => "/notexists", "SCRIPT_NAME" => "/" }
+  status, _, body = Cuba.call(env)
 
   assert_equal 404, status
-  assert_response resp, []
+  assert body.empty?
+end
+
+test "responds 404 if nested conditions are not met" do
+  Cuba.define do
+    on get do
+      on root do
+        res.write("Should be unmet")
+      end
+    end
+  end
+
+  env = {
+    "REQUEST_METHOD" => "GET",
+    "PATH_INFO" => "/notexists",
+    "SCRIPT_NAME" => "/"
+  }
+
+  status, _, body = Cuba.call(env)
+
+  assert_equal 404, status
+  assert body.empty?
 end

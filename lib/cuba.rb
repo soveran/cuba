@@ -5,6 +5,7 @@ class Cuba
   class Response
     attr_accessor :status
 
+    attr :body
     attr :headers
 
     def initialize(status = 200,
@@ -180,7 +181,9 @@ class Cuba
       # are carried out by #consume.
       yield(*captures)
 
-      halt res.finish
+      unless res.status == 200 and res.body.empty?
+        halt(res.finish)
+      end
     end
   end
 
