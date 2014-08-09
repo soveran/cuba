@@ -117,6 +117,10 @@ test "responds 404 if nested conditions are not met" do
         res.write("Should be unmet")
       end
     end
+
+    on default do
+      res.write("Should be unmet")
+    end
   end
 
   env = {
