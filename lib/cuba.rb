@@ -8,7 +8,7 @@ class Cuba
     attr :body
     attr :headers
 
-    def initialize(status = 200,
+    def initialize(status = nil,
                    headers = { "Content-Type" => "text/html; charset=utf-8" })
 
       @status  = status
@@ -181,9 +181,15 @@ class Cuba
       # are carried out by #consume.
       yield(*captures)
 
-      unless res.status == 200 and res.body.empty?
-        halt(res.finish)
+      if res.status.nil?
+        if res.body.empty?
+          res.status = 404
+        else
+          res.status = 200
+        end
       end
+
+      halt(res.finish)
     end
   end
 

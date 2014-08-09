@@ -130,3 +130,24 @@ test "responds 404 if nested conditions are not met" do
   assert_equal 404, status
   assert body.empty?
 end
+
+test "responds 200 even with an empty body if status is set" do
+  Cuba.define do
+    on get do
+      on root do
+        res.status = 200
+      end
+    end
+  end
+
+  env = {
+    "REQUEST_METHOD" => "GET",
+    "PATH_INFO" => "/",
+    "SCRIPT_NAME" => "/"
+  }
+
+  status, _, body = Cuba.call(env)
+
+  assert_equal 200, status
+  assert body.empty?
+end
