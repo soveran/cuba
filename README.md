@@ -172,8 +172,8 @@ Cuba.define do
         res.write "#{user}:#{pass}" #=> "foo:baz"
       end
 
-      # If the params `user` and `pass` are not provided, this block will
-      # get executed.
+      # If the params `user` and `pass` are not provided, this
+      # block will get executed.
       on true do
         res.write "You need to provide user and pass!"
       end
@@ -185,50 +185,10 @@ end
 Status codes
 ------------
 
-As soon as an `on` block is executed, the status code for the
-response is changed to 200. The default status code is 404, and it
-is returned if no `on` block succeeds inside a Cuba app.
+If you don't assign a status code and you don't write to the `res`
+object, the status will be set as `404`.
 
-As this behavior can be tricky, let's look at some examples:
-
-``` ruby
-Cuba.define do
-  on get do
-    on "hello" do
-      res.write "hello world"
-    end
-  end
-end
-
-# Requests:
-#
-# GET /            # 200, ""
-# GET /hello       # 200, "hello world"
-# GET /hello/world # 200, "hello world"
-```
-
-As you can see, as soon as `on get` matched, the status code was
-changed to 200. If you expected some of those requests to return a
-404 status code, you may be surprised by this behavior.
-
-In the following example, as both arguments to `on` must match,
-the requests to `/` return 404.
-
-``` ruby
-Cuba.define do
-  on get, "hello" do
-    res.write "hello world"
-  end
-end
-
-# Requests:
-#
-# GET /            # 404, ""
-# GET /hello       # 200, "hello world"
-# GET /hello/world # 200, "hello world"
-```
-
-Another way is to add a default block:
+For example:
 
 ``` ruby
 Cuba.define do
@@ -236,79 +196,46 @@ Cuba.define do
     on "hello" do
       res.write "hello world"
     end
-
-    on default do
-      res.status = 404
-    end
   end
 end
 
 # Requests:
 #
-# GET /            # 404, ""
-# GET /hello       # 200, "hello world"
-# GET /hello/world # 200, "hello world"
+# GET /            # 404
+# GET /hello       # 200
+# GET /hello/world # 200
 ```
 
-Yet another way is to mount an application with routes that don't
-match the request:
+As you can see, as soon as something was written to the response,
+the status code was changed to 200.
 
-``` ruby
-SomeApp = Cuba.new do
-  on "bye" do
-    res.write "bye!"
-  end
-end
-
-Cuba.define do
-  on get do
-    run SomeApp
-  end
-end
-
-# Requests:
-#
-# GET /            # 404, ""
-# GET /hello       # 404, ""
-# GET /hello/world # 404, ""
-```
-
-As Cuba encourages the composition of applications, this last
-example is a very common pattern.
-
-You can also change the status code at any point inside the define
-block. That way you can change the default status, as shown in the
-following example:
+If you want to match just "hello", but not "hello/world", you can do
+as follows:
 
 ``` ruby
 Cuba.define do
-  res.status = 404
-
   on get do
     on "hello" do
-      res.status = 200
-      res.write "hello world"
+      on root do
+      	res.write "hello world"
+      end
     end
   end
 end
 
 # Requests:
 #
-# GET /            # 404, ""
-# GET /hello       # 200, "hello world"
-# GET /hello/world # 200, "hello world"
+# GET /            # 404
+# GET /hello       # 200
+# GET /hello/world # 404
 ```
 
-If you really want to return 404 for everything under "hello", you
-can match the end of line:
+You can also use a regular expression to match the end of line:
 
 ``` ruby
 Cuba.define do
-  res.status = 404
-
   on get do
     on /hello\/?\z/ do
-      res.status = 200
       res.write "hello world"
     end
   end
@@ -316,9 +243,9 @@ end
 
 # Requests:
 #
-# GET /            # 404, ""
-# GET /hello       # 200, "hello world"
-# GET /hello/world # 404, ""
+# GET /            # 404
+# GET /hello       # 200
+# GET /hello/world # 404
 ```
 
 This last example is not a common usage pattern. It's here only to
@@ -336,11 +263,8 @@ end
 Cuba.plugin TerminalMatcher
 
 Cuba.define do
-  res.status = 404
-
   on get do
     on terminal("hello") do
-      res.status = 200
       res.write "hello world"
     end
   end
