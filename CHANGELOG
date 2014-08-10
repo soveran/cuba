@@ -1,3 +1,7 @@
+3.2.0
+
+* Return 404 when status is not explicitly set and body is empty.
+
 3.1.1
 
 * Add support for custom default layouts.
