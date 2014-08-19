@@ -1,3 +1,7 @@
+3.3.0
+
+* Restrict when to add the default content type.
+
 3.2.0
 
 * Return 404 when status is not explicitly set and body is empty.
