@@ -8,9 +8,7 @@ class Cuba
     attr :body
     attr :headers
 
-    def initialize(status = nil,
-                   headers = { "Content-Type" => "text/html; charset=utf-8" })
-
+    def initialize(status = nil, headers = {})
       @status  = status
       @headers = headers
       @body    = []
@@ -185,6 +183,7 @@ class Cuba
         if res.body.empty?
           res.status = 404
         else
+          res.headers["Content-Type"] ||= "text/html; charset=utf-8"
           res.status = 200
         end
       end

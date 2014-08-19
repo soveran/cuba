@@ -16,8 +16,6 @@ test "redirect" do
   status, headers, body = Cuba.call(env)
 
   assert_equal status, 302
-  assert_equal headers, {
-    "Content-Type" => "text/html; charset=utf-8",
-    "Location" => "/hello" }
+  assert_equal headers, { "Location" => "/hello" }
   assert_response body, []
 end
