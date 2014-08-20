@@ -36,26 +36,43 @@
 <h2>
 <a name="community" class="anchor" href="#community"><span class="octicon octicon-link"></span></a>Community</h2>
 
-<p>Meet us on IRC: <a>#cuba.rb</a> on <a href="http://freenode.net/">freenode.net</a></p>
+<p>Meet us on IRC: #cuba.rb on <a href="http://freenode.net/">freenode.net</a>.</p>
 
 <h2>
 <a name="description" class="anchor" href="#description"><span class="octicon octicon-link"></span></a>Description</h2>
 
-<p>Cuba was originally inspired by <a href="http://github.com/chneukirchen/rum">Rum</a>, a tiny but powerful mapper for <a href="http://github.com/chneukirchen/rack">Rack</a> applications.</p>
+<p>Cuba is a microframework for web development originally inspired
+by <a href="http://github.com/chneukirchen/rum">Rum</a>, a tiny but powerful mapper for <a href="http://github.com/chneukirchen/rack">Rack</a>
+applications.</p>
 
 <p>It integrates many templates via <a href="http://github.com/rtomayko/tilt">Tilt</a>, and testing via
 <a href="http://github.com/djanowski/cutest">Cutest</a> and <a href="http://github.com/jnicklas/capybara">Capybara</a>.</p>
+
+<h2>
+<a name="guide" class="anchor" href="#guide"><span class="octicon octicon-link"></span></a>Guide</h2>
+
+<p>There's a book called <a href="http://theguidetocuba.io">The Guide to Cuba</a> that explains how
+to build web applications by following a minimalistic approach. It
+is recommended reading for anyone trying to learn the basics of
+Cuba and other related tools.</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<div class="highlight highlight-console"><pre><span class="gp">$</span> gem install cuba
+</pre></div>
 
 <h2>
 <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 
 <p>Here's a simple application:</p>
 
-<div class="highlight"><pre><span class="c1"># cat hello_world.rb</span>
+<div class="highlight highlight-ruby"><pre><span class="c1"># cat hello_world.rb</span>
 <span class="nb">require</span> <span class="s2">"cuba"</span>
+<span class="nb">require</span> <span class="s2">"rack/protection"</span>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="ss">Rack</span><span class="p">:</span><span class="ss">:Session</span><span class="o">::</span><span class="no">Cookie</span><span class="p">,</span>
-  <span class="ss">secret</span><span class="p">:</span> <span class="s2">"__a_very_long_string__"</span>
+<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Cookie</span><span class="p">,</span> <span class="ss">:secret</span> <span class="o">=&gt;</span> <span class="s2">"__a_very_long_string__"</span>
+<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Protection</span>
 
 <span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
   <span class="n">on</span> <span class="n">get</span> <span class="k">do</span>
@@ -72,7 +89,7 @@
 
 <p>And the test file:</p>
 
-<div class="highlight"><pre><span class="c1"># cat hello_world_test.rb</span>
+<div class="highlight highlight-ruby"><pre><span class="c1"># cat hello_world_test.rb</span>
 <span class="nb">require</span> <span class="s2">"cuba/test"</span>
 <span class="nb">require</span> <span class="s2">"./hello_world"</span>
 
@@ -89,7 +106,7 @@
 
 <p>To run it, you can create a <code>config.ru</code> file:</p>
 
-<div class="highlight"><pre><span class="c1"># cat config.ru</span>
+<div class="highlight highlight-ruby"><pre><span class="c1"># cat config.ru</span>
 <span class="nb">require</span> <span class="s2">"./hello_world"</span>
 
 <span class="n">run</span> <span class="no">Cuba</span>
@@ -102,10 +119,11 @@
 
 <p>Here's an example showcasing how different matchers work:</p>
 
-<div class="highlight"><pre><span class="nb">require</span> <span class="s2">"cuba"</span>
+<div class="highlight highlight-ruby"><pre><span class="nb">require</span> <span class="s2">"cuba"</span>
+<span class="nb">require</span> <span class="s2">"rack/protection"</span>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="ss">Rack</span><span class="p">:</span><span class="ss">:Session</span><span class="o">::</span><span class="no">Cookie</span><span class="p">,</span>
-  <span class="ss">secret</span><span class="p">:</span> <span class="s2">"__a_very_long_string__"</span>
+<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Cookie</span><span class="p">,</span> <span class="ss">:secret</span> <span class="o">=&gt;</span> <span class="s2">"__a_very_long_string__"</span>
+<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Protection</span>
 
 <span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
 
@@ -158,15 +176,15 @@
 
   <span class="c1"># only POST requests</span>
   <span class="n">on</span> <span class="n">post</span> <span class="k">do</span>
-    <span class="n">on</span> <span class="s2">"login"</span>
+    <span class="n">on</span> <span class="s2">"login"</span> <span class="k">do</span>
 
       <span class="c1"># POST /login, user: foo, pass: baz</span>
       <span class="n">on</span> <span class="n">param</span><span class="p">(</span><span class="s2">"user"</span><span class="p">),</span> <span class="n">param</span><span class="p">(</span><span class="s2">"pass"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">user</span><span class="p">,</span> <span class="n">pass</span><span class="o">|</span>
         <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"</span><span class="si">#{</span><span class="n">user</span><span class="si">}</span><span class="s2">:</span><span class="si">#{</span><span class="n">pass</span><span class="si">}</span><span class="s2">"</span> <span class="c1">#=&gt; "foo:baz"</span>
       <span class="k">end</span>
 
-      <span class="c1"># If the params `user` and `pass` are not provided, this block will</span>
-      <span class="c1"># get executed.</span>
+      <span class="c1"># If the params `user` and `pass` are not provided, this</span>
+      <span class="c1"># block will get executed.</span>
       <span class="n">on</span> <span class="kp">true</span> <span class="k">do</span>
         <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"You need to provide user and pass!"</span>
       <span class="k">end</span>
@@ -176,24 +194,112 @@
 </pre></div>
 
 <h2>
+<a name="status-codes" class="anchor" href="#status-codes"><span class="octicon octicon-link"></span></a>Status codes</h2>
+
+<p>If you don't assign a status code and you don't write to the <code>res</code>
+object, the status will be set as <code>404</code>.</p>
+
+<p>For example:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
+  <span class="n">on</span> <span class="n">get</span> <span class="k">do</span>
+    <span class="n">on</span> <span class="s2">"hello"</span> <span class="k">do</span>
+      <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"hello world"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># Requests:</span>
+<span class="c1">#</span>
+<span class="c1"># GET /            # 404</span>
+<span class="c1"># GET /hello       # 200</span>
+<span class="c1"># GET /hello/world # 200</span>
+</pre></div>
+
+<p>As you can see, as soon as something was written to the response,
+the status code was changed to 200.</p>
+
+<p>If you want to match just "hello", but not "hello/world", you can do
+as follows:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
+  <span class="n">on</span> <span class="n">get</span> <span class="k">do</span>
+    <span class="n">on</span> <span class="s2">"hello"</span> <span class="k">do</span>
+      <span class="n">on</span> <span class="n">root</span> <span class="k">do</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"hello world"</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># Requests:</span>
+<span class="c1">#</span>
+<span class="c1"># GET /            # 404</span>
+<span class="c1"># GET /hello       # 200</span>
+<span class="c1"># GET /hello/world # 404</span>
+</pre></div>
+
+<p>You can also use a regular expression to match the end of line:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
+  <span class="n">on</span> <span class="n">get</span> <span class="k">do</span>
+    <span class="n">on</span> <span class="sr">/hello\/?\z/</span> <span class="k">do</span>
+      <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"hello world"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># Requests:</span>
+<span class="c1">#</span>
+<span class="c1"># GET /            # 404</span>
+<span class="c1"># GET /hello       # 200</span>
+<span class="c1"># GET /hello/world # 404</span>
+</pre></div>
+
+<p>This last example is not a common usage pattern. It's here only to
+illustrate how Cuba can be adapted for different use cases.</p>
+
+<p>If you need this behavior, you can create a helper:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="k">module</span> <span class="nn">TerminalMatcher</span>
+  <span class="k">def</span> <span class="nf">terminal</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="sr">/</span><span class="si">#{</span><span class="n">path</span><span class="si">}</span><span class="sr">\/?\z/</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">Cuba</span><span class="o">.</span><span class="n">plugin</span> <span class="no">TerminalMatcher</span>
+
+<span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
+  <span class="n">on</span> <span class="n">get</span> <span class="k">do</span>
+    <span class="n">on</span> <span class="n">terminal</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">)</span> <span class="k">do</span>
+      <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"hello world"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+
+<h2>
 <a name="security" class="anchor" href="#security"><span class="octicon octicon-link"></span></a>Security</h2>
 
 <p>The favorite security layer for Cuba is
-<a href="https://github.com/rkh/rack-protection">Rack::Protection</a>. It is not
-included by default because there are legitimate uses for plain Cuba
-(for instance, when designing an API).</p>
+<a href="https://github.com/rkh/rack-protection">Rack::Protection</a>. It is not included by default
+because there are legitimate uses for plain Cuba (for instance,
+when designing an API).</p>
 
-<p>If you are building a web application, by all means make sure to
-include a security layer. As it is the convention for unsafe
+<p>If you are building a web application, by all means make sure
+to include a security layer. As it is the convention for unsafe
 operations, only POST, PUT and DELETE requests are monitored.</p>
 
-<div class="highlight"><pre><span class="nb">require</span> <span class="s2">"cuba"</span>
+<p>You should also always set a session secret to some undisclosed
+value. Keep in mind that the content in the session cookie is
+<em>not</em> encrypted.</p>
+
+<div class="highlight highlight-ruby"><pre><span class="nb">require</span> <span class="s2">"cuba"</span>
 <span class="nb">require</span> <span class="s2">"rack/protection"</span>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="ss">Rack</span><span class="p">:</span><span class="ss">:Session</span><span class="o">::</span><span class="no">Cookie</span><span class="p">,</span>
-  <span class="ss">secret</span><span class="p">:</span> <span class="s2">"__a_very_long_string__"</span>
-<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="ss">Rack</span><span class="p">:</span><span class="ss">:Protection</span>
-<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="ss">Rack</span><span class="p">:</span><span class="ss">:Protection</span><span class="o">::</span><span class="no">RemoteReferrer</span>
+<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Cookie</span><span class="p">,</span> <span class="ss">:secret</span> <span class="o">=&gt;</span> <span class="s2">"__a_very_long_string__"</span>
+<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Protection</span>
+<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Protection</span><span class="o">::</span><span class="no">RemoteReferrer</span>
 
 <span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
 
@@ -214,7 +320,7 @@ and inspect the environment via the <code>env</code> object, and check for examp
 
 <p>What follows is an example of different ways of saying the same thing:</p>
 
-<div class="highlight"><pre><span class="n">on</span> <span class="n">env</span><span class="o">[</span><span class="s2">"REQUEST_METHOD"</span><span class="o">]</span> <span class="o">==</span> <span class="s2">"GET"</span><span class="p">,</span> <span class="s2">"api"</span> <span class="k">do</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="k">end</span>
+<div class="highlight highlight-ruby"><pre><span class="n">on</span> <span class="n">env</span><span class="o">[</span><span class="s2">"REQUEST_METHOD"</span><span class="o">]</span> <span class="o">==</span> <span class="s2">"GET"</span><span class="p">,</span> <span class="s2">"api"</span> <span class="k">do</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="k">end</span>
 
 <span class="n">on</span> <span class="n">req</span><span class="o">.</span><span class="n">get?</span><span class="p">,</span> <span class="s2">"api"</span> <span class="k">do</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="k">end</span>
 
@@ -223,6 +329,26 @@ and inspect the environment via the <code>env</code> object, and check for examp
 
 <p>Actually, <code>get</code> is syntax sugar for <code>req.get?</code>, which in turn is syntax sugar
 for <code>env["REQUEST_METHOD"] == "GET"</code>.</p>
+
+<h2>
+<a name="request-and-response" class="anchor" href="#request-and-response"><span class="octicon octicon-link"></span></a>Request and Response</h2>
+
+<p>You may have noticed we use <code>req</code> and <code>res</code> a lot. Those variables are
+instances of <a href="http://rack.rubyforge.org/doc/classes/Rack/Request.html">Rack::Request</a> and <code>Cuba::Response</code> respectively, and
+<code>Cuba::Response</code> is just an optimized version of
+<a href="http://rack.rubyforge.org/doc/classes/Rack/Response.html">Rack::Response</a>.</p>
+
+<p>Those objects are helpers for accessing the request and for building
+the response. Most of the time, you will just use <code>res.write</code>.</p>
+
+<p>If you want to use custom <code>Request</code> or <code>Response</code> objects, you can
+set the new values as follows:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="no">Cuba</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:req</span><span class="o">]</span> <span class="o">=</span> <span class="no">MyRequest</span>
+<span class="no">Cuba</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:res</span><span class="o">]</span> <span class="o">=</span> <span class="no">MyResponse</span>
+</pre></div>
+
+<p>Make sure to provide classes compatible with those from Rack.</p>
 
 <h2>
 <a name="captures" class="anchor" href="#captures"><span class="octicon octicon-link"></span></a>Captures</h2>
@@ -257,7 +383,7 @@ in the request (via POST or QUERY_STRING) and it pushes the value as a capture.<
 
 <p>You can mount a Cuba app, along with middlewares, inside another Cuba app:</p>
 
-<div class="highlight"><pre><span class="k">class</span> <span class="nc">API</span> <span class="o">&lt;</span> <span class="no">Cuba</span><span class="p">;</span> <span class="k">end</span>
+<div class="highlight highlight-ruby"><pre><span class="k">class</span> <span class="nc">API</span> <span class="o">&lt;</span> <span class="no">Cuba</span><span class="p">;</span> <span class="k">end</span>
 
 <span class="no">API</span><span class="o">.</span><span class="n">use</span> <span class="no">SomeMiddleware</span>
 
@@ -283,7 +409,7 @@ with a combination of <a href="http://github.com/djanowski/cutest">Cutest</a> an
 and if you want to use the same for your tests it is as easy as
 requiring <code>cuba/test</code>:</p>
 
-<div class="highlight"><pre><span class="nb">require</span> <span class="s2">"cuba/test"</span>
+<div class="highlight highlight-ruby"><pre><span class="nb">require</span> <span class="s2">"cuba/test"</span>
 <span class="nb">require</span> <span class="s2">"your/app"</span>
 
 <span class="n">scope</span> <span class="k">do</span>
@@ -298,7 +424,7 @@ requiring <code>cuba/test</code>:</p>
 <p>If you prefer to use <a href="http://github.com/jnicklas/capybara">Capybara</a>, instead of requiring
 <code>cuba/test</code> you can require <code>cuba/capybara</code>:</p>
 
-<div class="highlight"><pre><span class="nb">require</span> <span class="s2">"cuba/capybara"</span>
+<div class="highlight highlight-ruby"><pre><span class="nb">require</span> <span class="s2">"cuba/capybara"</span>
 <span class="nb">require</span> <span class="s2">"your/app"</span>
 
 <span class="n">scope</span> <span class="k">do</span>
@@ -319,7 +445,7 @@ requiring <code>cuba/test</code>:</p>
 <p>Each Cuba app can store settings in the <code>Cuba.settings</code> hash. The settings are
 inherited if you happen to subclass <code>Cuba</code></p>
 
-<div class="highlight"><pre><span class="no">Cuba</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:layout</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"guest"</span>
+<div class="highlight highlight-ruby"><pre><span class="no">Cuba</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:layout</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"guest"</span>
 
 <span class="k">class</span> <span class="nc">Users</span> <span class="o">&lt;</span> <span class="no">Cuba</span><span class="p">;</span> <span class="k">end</span>
 <span class="k">class</span> <span class="nc">Admin</span> <span class="o">&lt;</span> <span class="no">Cuba</span><span class="p">;</span> <span class="k">end</span>
@@ -335,25 +461,63 @@ inherited if you happen to subclass <code>Cuba</code></p>
 <h2>
 <a name="rendering" class="anchor" href="#rendering"><span class="octicon octicon-link"></span></a>Rendering</h2>
 
-<p>Cuba ships with a plugin that provides helpers for rendering templates. It uses
-<a href="http://github.com/rtomayko/tilt">Tilt</a>, a gem that interfaces with many template engines.</p>
+<p>Cuba includes a plugin called <code>Cuba::Render</code> that provides a couple of helper
+methods for rendering templates. This plugin uses <a href="http://github.com/rtomayko/tilt">Tilt</a>, which serves as
+an interface to a bunch of different Ruby template engines (ERB, Haml, Sass,
+CoffeeScript, etc.), so you can use the template engine of your choice.</p>
 
-<div class="highlight"><pre><span class="nb">require</span> <span class="s2">"cuba/render"</span>
+<p>To set up <code>Cuba::Render</code>, do:</p>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">plugin</span> <span class="ss">Cuba</span><span class="p">:</span><span class="ss">:Render</span>
+<div class="highlight highlight-ruby"><pre><span class="nb">require</span> <span class="s2">"cuba"</span>
+<span class="nb">require</span> <span class="s2">"cuba/render"</span>
+<span class="nb">require</span> <span class="s2">"erb"</span>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
-  <span class="n">on</span> <span class="n">default</span> <span class="k">do</span>
+<span class="no">Cuba</span><span class="o">.</span><span class="n">plugin</span><span class="p">(</span><span class="no">Cuba</span><span class="o">::</span><span class="no">Render</span><span class="p">)</span>
+</pre></div>
 
-    <span class="c1"># Within the partial, you will have access to the local variable `content`,</span>
-    <span class="c1"># that will hold the value "hello, world".</span>
-    <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="n">render</span><span class="p">(</span><span class="s2">"home.haml"</span><span class="p">,</span> <span class="ss">content</span><span class="p">:</span> <span class="s2">"hello, world"</span><span class="p">)</span>
+<p>This example uses ERB, a template engine that comes with Ruby. If you want to
+use another template engine, one <a href="https://github.com/rtomayko/tilt/blob/master/docs/TEMPLATES.md">supported by Tilt</a>, you need to
+install the required gem and change the <code>template_engine</code> setting as shown
+below.</p>
+
+<div class="highlight highlight-ruby"><pre><span class="no">Cuba</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:render</span><span class="o">][</span><span class="ss">:template_engine</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"haml"</span>
+</pre></div>
+
+<p>The plugin provides three helper methods for rendering templates: <code>partial</code>,
+<code>view</code> and <code>render</code>.</p>
+
+<div class="highlight highlight-ruby"><pre><span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
+  <span class="n">on</span> <span class="s2">"about"</span> <span class="k">do</span>
+    <span class="c1"># `partial` renders a template called `about.erb` without a layout.</span>
+    <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="n">partial</span><span class="p">(</span><span class="s2">"about"</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="n">on</span> <span class="s2">"home"</span> <span class="k">do</span>
+    <span class="c1"># Opposed to `partial`, `view` renders the same template</span>
+    <span class="c1"># within a layout called `layout.erb`.</span>
+    <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="n">view</span><span class="p">(</span><span class="s2">"about"</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="n">on</span> <span class="s2">"contact"</span> <span class="k">do</span>
+    <span class="c1"># `render` is a shortcut to `res.write view(...)`</span>
+    <span class="n">render</span><span class="p">(</span><span class="s2">"contact"</span><span class="p">)</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </pre></div>
 
-<p>Note that in order to use this plugin you need to have <a href="http://github.com/rtomayko/tilt">Tilt</a> installed, along
-with the templating engines you want to use.</p>
+<p>By default, <code>Cuba::Render</code> assumes that all templates are placed in a folder
+named <code>views</code> and that they use the proper extension for the chosen template
+engine. Also for the <code>view</code> and <code>render</code> methods, it assumes that the layout
+template is called <code>layout</code>.</p>
+
+<p>The defaults can be changed through the <code>Cuba.settings</code> method:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="no">Cuba</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:render</span><span class="o">][</span><span class="ss">:template_engine</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"haml"</span>
+<span class="no">Cuba</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:render</span><span class="o">][</span><span class="ss">:views</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"./views/admin/"</span>
+<span class="no">Cuba</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:render</span><span class="o">][</span><span class="ss">:layout</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"admin"</span>
+</pre></div>
+
+<p>NOTE: Cuba doesn't ship with Tilt. You need to install it (<code>gem install tilt</code>).</p>
 
 <h2>
 <a name="plugins" class="anchor" href="#plugins"><span class="octicon octicon-link"></span></a>Plugins</h2>
@@ -365,7 +529,7 @@ with the templating engines you want to use.</p>
 
 <p>Authoring your own plugins is pretty straightforward.</p>
 
-<div class="highlight"><pre><span class="k">module</span> <span class="nn">MyOwnHelper</span>
+<div class="highlight highlight-ruby"><pre><span class="k">module</span> <span class="nn">MyOwnHelper</span>
   <span class="k">def</span> <span class="nf">markdown</span><span class="p">(</span><span class="n">str</span><span class="p">)</span>
     <span class="no">BlueCloth</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="o">.</span><span class="n">to_html</span>
   <span class="k">end</span>
@@ -378,10 +542,10 @@ with the templating engines you want to use.</p>
 the <code>markdown</code> helper is written in <code>Cuba::TextHelpers</code>.</p>
 
 <p>A more complicated plugin can make use of <code>Cuba.settings</code> to provide default
-values. In the following example, note that if the module has a <code>setup</code> method it will
+values. In the following example, note that if the module has a <code>setup</code> method, it will
 be called as soon as it is included:</p>
 
-<div class="highlight"><pre><span class="k">module</span> <span class="nn">Render</span>
+<div class="highlight highlight-ruby"><pre><span class="k">module</span> <span class="nn">Render</span>
   <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">setup</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
     <span class="n">app</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:template_engine</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"erb"</span>
   <span class="k">end</span>
@@ -399,7 +563,7 @@ be called as soon as it is included:</p>
 <p>Finally, if a module called <code>ClassMethods</code> is present, <code>Cuba</code> will be extended
 with it.</p>
 
-<div class="highlight"><pre><span class="k">module</span> <span class="nn">GetSetter</span>
+<div class="highlight highlight-ruby"><pre><span class="k">module</span> <span class="nn">GetSetter</span>
   <span class="k">module</span> <span class="nn">ClassMethods</span>
     <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
       <span class="n">settings</span><span class="o">[</span><span class="n">key</span><span class="o">]</span> <span class="o">=</span> <span class="n">value</span>
@@ -420,10 +584,22 @@ with it.</p>
 </pre></div>
 
 <h2>
-<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
 
-<div class="highlight"><pre><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">cuba</span>
-</pre></div>
+<p>A good first step is to meet us on IRC and discuss ideas. If that's
+not possible, you can create an issue explaning the proposed change
+and a use case. We pay a lot of attention to use cases, because our
+goal is to keep the code base simple. In many cases, the result of
+a conversation will be the creation of another tool, instead of the
+modification of Cuba itself.</p>
+
+<p>If you want to test Cuba, you may want to use a gemset to isolate
+the requirements. We recommend the use of tools like <a href="http://cyx.github.io/dep/">dep</a> and
+<a href="http://soveran.github.io/gs/">gs</a>, but you can use similar tools like <a href="https://github.com/tonchis/gst">gst</a> or <a href="https://github.com/educabilia/bs">bs</a>.</p>
+
+<p>The required gems for testing and development are listed in the
+<code>.gems</code> file. If you are using <a href="http://cyx.github.io/dep/">dep</a>, you can create a gemset
+and run <code>dep install</code>.</p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/soveran">soveran</a></p>
