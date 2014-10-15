@@ -254,20 +254,25 @@ class Cuba
 
   # Used to capture an optional querystring parameter. This allows for single
   # route definition, but when you might want to have querystring paramters
-  # be optional to a particular route
+  # be optional to a particular route. Second parameter to this method is the
+  # default value if not supplied in the route.
   #
   # @example
   #   # GET route like /contacts?limit=50
-  #   on "contacts", param?("limit") do |limit|
+  #   on "contacts", param?("limit", 50) do |limit|
   #     contacts_to_fetch = limit.to_i
-  #     if contacts_to_fetch == 0
-  #       contacts_to_fetch = 50 # default
-  #     end
   #     contact_service.select.take(contacts_to_fetch)
   #   end
   #
-  def param?(key)
-    lambda { captures << req[key] }
+  def param?(key, default = nil)
+    lambda {
+
+      if req[key].to_s.empty?
+        req[key] = default
+      end
+
+      captures << req[key]
+    }
   end
 
   def header(key)
