@@ -86,11 +86,26 @@ class Cuba
   end
 
   def self.deepclone(obj)
-    Marshal.load(Marshal.dump(obj))
+    # Hashes with a default_proc cannot be serialized by Marshal.dump.
+    if obj.respond_to?(:default_proc)
+      proc = obj.default_proc
+      obj.default_proc = nil
+    end
+
+    new_obj = Marshal.load(Marshal.dump(obj))
+
+    if obj.respond_to?(:default_proc)
+      obj.default_proc = proc
+    end
+
+    new_obj
   end
 
   def self.inherited(child)
     child.settings.replace(deepclone(settings))
+    child.settings.default_proc = proc do |hash,key|
+      hash[key] = self.settings[key]
+    end
   end
 
   attr :env
