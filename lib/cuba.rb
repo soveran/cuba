@@ -8,8 +8,8 @@ class Cuba
     attr :body
     attr :headers
 
-    def initialize(status = nil, headers = {})
-      @status  = status
+    def initialize(headers = {})
+      @status  = nil
       @headers = headers
       @body    = []
       @length  = 0
@@ -114,7 +114,7 @@ class Cuba
   def call!(env)
     @env = env
     @req = settings[:req].new(env)
-    @res = settings[:res].new
+    @res = settings[:res].new(settings[:default_headers].dup)
 
     # This `catch` statement will either receive a
     # rack response tuple via a `halt`, or will
@@ -343,3 +343,4 @@ end
 
 Cuba.settings[:req] = Rack::Request
 Cuba.settings[:res] = Cuba::Response
+Cuba.settings[:default_headers] = {}
