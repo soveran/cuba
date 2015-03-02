@@ -13,6 +13,7 @@ class Cuba
     end
 
     def render(template, locals = {}, layout = settings[:render][:layout])
+      res.headers["Content-Type"] ||= "text/html; charset=utf-8"
       res.write(view(template, locals, layout))
     end
 

@@ -111,3 +111,18 @@ test "overrides layout" do
 
   assert_response body, ["<title>Alternative Layout: Home</title>\n<h1>Home</h1>\n<p>Hello Agent Smith</p>\n"]
 end
+
+test "ensures content-type header is set" do
+  Cuba.plugin(Cuba::Render)
+
+  Cuba.define do
+    on default do
+      res.status = 403
+      render("about", title: "Hello Cuba")
+    end
+  end
+
+  _, headers, _ = Cuba.call({})
+
+  assert_equal("text/html; charset=utf-8", headers["Content-Type"])
+end
