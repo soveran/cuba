@@ -23,7 +23,7 @@ scope do
       end
     end
 
-    secure_headers = Cuba::Safe::SECURE_HEADERS
+    secure_headers = Cuba::Safe::SecureHeaders::HEADERS
 
     _, headers, _ = Cuba.call("PATH_INFO" => "/", "SCRIPT_NAME" => "/")
     secure_headers.each do |header, value|
@@ -59,7 +59,7 @@ scope do
       end
     end
 
-    secure_headers = Cuba::Safe::SECURE_HEADERS
+    secure_headers = Cuba::Safe::SecureHeaders::HEADERS
 
     _, headers, _ = Cuba.call("PATH_INFO" => "/", "SCRIPT_NAME" => "/")
     secure_headers.each do |header, _|
