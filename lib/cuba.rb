@@ -339,6 +339,49 @@ class Cuba
   def halt(response)
     throw :halt, response
   end
+
+  # Adds ability to pass information to a nested Cuba application.
+  # It receives two parameters: a hash that represents the passed
+  # information and a block. The #vars method is used to retrieve
+  # a hash with the passed information.
+  #
+  #   class Platforms < Cuba
+  #     define do
+  #       platform = vars[:platform]
+  #
+  #       on default do
+  #         res.write(platform) # => "heroku" or "salesforce"
+  #       end
+  #     end
+  #   end
+  #
+  #   Cuba.define do
+  #     on "(heroku|salesforce)" do |platform|
+  #       with(platform: platform) do
+  #         run(Platforms)
+  #       end
+  #     end
+  #   end
+  #
+  def with(dict = {})
+    old, env["cuba.vars"] = vars, vars.merge(dict)
+    yield
+  ensure
+    env["cuba.vars"] = old
+  end
+
+  # Returns a hash with the information set by the #with method.
+  #
+  #   with(role: "admin", site: "main") do
+  #     on default do
+  #       res.write(vars.inspect)
+  #     end
+  #   end
+  #   # => '{:role=>"admin", :site=>"main"}'
+  #
+  def vars
+    env["cuba.vars"] ||= {}
+  end
 end
 
 Cuba.settings[:req] = Rack::Request
