@@ -1,3 +1,5 @@
+3.4.0
+
 * Add `Cuba::Safe` plugin. This plugin contains security related
   defaults.
 
