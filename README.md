@@ -217,7 +217,7 @@ Cuba.define do
   on get do
     on "hello" do
       on root do
-      	res.write "hello world"
+        res.write "hello world"
       end
     end
   end
@@ -274,34 +274,118 @@ end
 Security
 --------
 
-The favorite security layer for Cuba is
-[Rack::Protection][rack-protection]. It is not included by default
+The most important security consideration is to use `https` for all
+requests. If that's not the case, any attempt to secure the application
+could be in vain. The rest of this section assumes `https` is
+enforced.
+
+When building a web application, you need to include a security
+layer. Cuba ships with the `Cuba::Safe` plugin, which applies several
+security related headers to prevent attacks like clickjacking and
+cross-site scripting, among others. It is not included by default
 because there are legitimate uses for plain Cuba (for instance,
 when designing an API).
 
-If you are building a web application, by all means make sure
-to include a security layer. As it is the convention for unsafe
-operations, only POST, PUT and DELETE requests are monitored.
+Here's how to include it:
+
+```ruby
+Cuba.plugin(Cuba::Safe)
+```
 
 You should also always set a session secret to some undisclosed
 value. Keep in mind that the content in the session cookie is
 *not* encrypted.
 
-[rack-protection]: https://github.com/rkh/rack-protection
-
 ``` ruby
+Cuba.use(Rack::Session::Cookie, :secret => "__a_very_long_string__")
+```
+
+In the end, your application should look like this:
+
+```ruby
 require "cuba"
-require "rack/protection"
 
 Cuba.use Rack::Session::Cookie, :secret => "__a_very_long_string__"
-Cuba.use Rack::Protection
-Cuba.use Rack::Protection::RemoteReferrer
+
+Cuba.plugin Cuba::Safe
 
 Cuba.define do
+  on csrf.unsafe? do
+    csrf.reset!
+
+    res.status = 403
+    res.write("Not authorized")
+
+    halt(res.finish)
+  end
 
   # Now your app is protected against a wide range of attacks.
   ...
 end
+```
+
+The `Cuba::Safe` plugin is composed of two modules:
+
+* `Cuba::Safe::SecureHeaders`
+* `Cuba::Safe::CSRF`
+
+You can include them individually, but while the modularity is good
+for development, it's very common to use them in tandem. As that's
+the normal use case, including `Cuba::Safe` is the preferred way.
+
+Cross-Site Request Forgery
+--------------------------
+
+The `Cuba::Safe::CSRF` plugin provides a `csrf` object with the
+following methods:
+
+* `token`: the current security token.
+* `reset!`: forces the token to be recreated.
+* `safe?`: returns `true` if the request is safe.
+* `unsafe?`: returns `true` if the request is unsafe.
+* `form_tag`: returns a string with the `csrf_token` hidden input tag.
+* `meta_tag`: returns a string with the `csrf_token` meta tag.
+
+Here's an example of how to use it:
+
+```ruby
+Cuba.plugin(Cuba::Safe)
+
+Cuba.define do
+  on csrf.unsafe? do
+    csrf.reset!
+
+    res.status = 403
+    res.write("Not authorized")
+
+    halt(res.finish)
+  end
+
+  # Here comes the rest of your application
+  # ...
+end
+```
+
+You have to include `csrf.form_tag` in your forms and `csrf.meta_tag`
+among your meta tags. Here's an example that assumes you are using
+`Cuba::Mote` from `cuba-contrib`:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    {{ this.csrf.meta_tag }}
+    ...
+  </head>
+  ...
+  <body>
+    <form action="/foo" method="POST">
+      {{ this.csrf.form_tag }}
+      ...
+    </form>
+  ...
+  </body>
+</html>
 ```
 
 HTTP Verbs
@@ -370,7 +454,7 @@ In the second case, the substring `:id` gets replaced by `([^\\/]+)` and the
 string becomes `"users/([^\\/]+)"` before performing the match, thus it reverts
 to the first form we saw.
 
-In the third case, the symbol ––no matter what it says––gets replaced
+In the third case, the symbol â€“â€“no matter what it saysâ€“â€“gets replaced
 by `"([^\\/]+)"`, and again we are in presence of case 1.
 
 The fourth case, again, reverts to the basic matcher: it generates the string
