@@ -7,6 +7,8 @@ def assert_no_raise
   success
 end
 
+class UnsafeRequest < RuntimeError; end
+
 scope do
   setup do
     Cuba.reset!
@@ -17,7 +19,7 @@ scope do
 
   test "safe http methods" do
     Cuba.define do
-      raise if csrf.unsafe?
+      raise UnsafeRequest if csrf.unsafe?
     end
 
     assert_no_raise do
@@ -93,14 +95,14 @@ scope do
     end
 
     Cuba.define do
-      raise unless csrf.safe?
+      raise UnsafeRequest unless csrf.safe?
 
       on "app" do
         run(App)
       end
     end
 
-    assert_raise do
+    assert_raise(UnsafeRequest) do
       post "/app"
     end
   end
@@ -108,7 +110,7 @@ scope do
   test "only sub app" do
     class App < Cuba
       define do
-        protect_from_forgery!
+        raise UnsafeRequest unless csrf.safe?
 
         on post do
           res.write("unsafe")
@@ -130,7 +132,7 @@ scope do
       post "/"
     end
 
-    assert_raise do
+    assert_raise(UnsafeRequest) do
       post "/app"
     end
   end
