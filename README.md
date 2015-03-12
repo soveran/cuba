@@ -289,6 +289,8 @@ when designing an API).
 Here's how to include it:
 
 ```ruby
+require "cuba/safe"
+
 Cuba.plugin(Cuba::Safe)
 ```
 
@@ -304,6 +306,7 @@ In the end, your application should look like this:
 
 ```ruby
 require "cuba"
+require "cuba/safe"
 
 Cuba.use Rack::Session::Cookie, :secret => "__a_very_long_string__"
 
@@ -349,6 +352,9 @@ following methods:
 Here's an example of how to use it:
 
 ```ruby
+require "cuba"
+require "cuba/safe"
+
 Cuba.plugin(Cuba::Safe)
 
 Cuba.define do
