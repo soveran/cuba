@@ -55,10 +55,11 @@ Here's a simple application:
 ``` ruby
 # cat hello_world.rb
 require "cuba"
-require "rack/protection"
+require "cuba/safe"
 
 Cuba.use Rack::Session::Cookie, :secret => "__a_very_long_string__"
-Cuba.use Rack::Protection
+
+Cuba.plugin Cuba::Safe
 
 Cuba.define do
   on get do
@@ -109,10 +110,11 @@ Here's an example showcasing how different matchers work:
 
 ``` ruby
 require "cuba"
-require "rack/protection"
+require "cuba/safe"
 
 Cuba.use Rack::Session::Cookie, :secret => "__a_very_long_string__"
-Cuba.use Rack::Protection
+
+Cuba.plugin Cuba::Safe
 
 Cuba.define do
 
