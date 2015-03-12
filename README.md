@@ -293,7 +293,7 @@ Here's how to include it:
 ```ruby
 require "cuba/safe"
 
-Cuba.plugin(Cuba::Safe)
+Cuba.plugin Cuba::Safe
 ```
 
 You should also always set a session secret to some undisclosed
@@ -357,7 +357,7 @@ Here's an example of how to use it:
 require "cuba"
 require "cuba/safe"
 
-Cuba.plugin(Cuba::Safe)
+Cuba.plugin Cuba::Safe
 
 Cuba.define do
   on csrf.unsafe? do
@@ -570,7 +570,7 @@ require "cuba"
 require "cuba/render"
 require "erb"
 
-Cuba.plugin(Cuba::Render)
+Cuba.plugin Cuba::Render
 ```
 
 This example uses ERB, a template engine that comes with Ruby. If you want to
