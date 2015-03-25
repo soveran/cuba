@@ -494,6 +494,29 @@ Cuba.define do
 end
 ```
 
+If you need to pass information to one sub-app, you can use the
+`with` method and access it with `vars`:
+
+```ruby
+class Platforms < Cuba
+  define do
+    platform = vars[:platform]
+
+    on default do
+      res.write(platform) # => "heroku" or "salesforce"
+    end
+  end
+end
+
+Cuba.define do
+  on "(heroku|salesforce)" do |platform|
+    with(platform: platform) do
+      run(Platforms)
+    end
+  end
+end
+```
+
 Testing
 -------
 
