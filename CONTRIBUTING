@@ -8,7 +8,7 @@ happens we are ready to adapt if necessary.
 A good first step for contributing is to meet us on IRC and discuss
 ideas. We spend a lot of time on #lesscode at freenode, always ready
 to talk about code and simplicity. If connecting to IRC is not an
-option, you can create an issue explaning the proposed change and
+option, you can create an issue explaining the proposed change and
 a use case. We pay a lot of attention to use cases, because our
 goal is to keep the code base simple. Usually the result of a
 conversation is the creation of a different tool.
