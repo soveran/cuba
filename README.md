@@ -357,6 +357,8 @@ Here's an example of how to use it:
 require "cuba"
 require "cuba/safe"
 
+Cuba.use Rack::Session::Cookie, :secret => "__a_very_long_string__"
+
 Cuba.plugin Cuba::Safe
 
 Cuba.define do
@@ -382,13 +384,13 @@ among your meta tags. Here's an example that assumes you are using
 <!DOCTYPE html>
 <html>
   <head>
-    {{ this.csrf.meta_tag }}
+    {{ app.csrf.meta_tag }}
     ...
   </head>
   ...
   <body>
     <form action="/foo" method="POST">
-      {{ this.csrf.form_tag }}
+      {{ app.csrf.form_tag }}
       ...
     </form>
   ...
