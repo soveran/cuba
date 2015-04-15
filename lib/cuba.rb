@@ -2,7 +2,18 @@ require "rack"
 require "time"
 
 class Cuba
+  DEFAULT_CONTENT_TYPE = "text/html; charset=utf-8"
+  CONTENT_TYPE = "Content-Type"
+  EMPTY_STRING = "".freeze
+  PATH_INFO = "PATH_INFO".freeze
+  SCRIPT_NAME = "SCRIPT_NAME".freeze
+  SLASH = "/".freeze
+  SEGMENT = "([^\\/]+)".freeze
+
   class Response
+    CONTENT_LENGTH = "Content-Length".freeze
+    LOCATION = "Location".freeze
+
     attr_accessor :status
 
     attr :body
@@ -27,12 +38,12 @@ class Cuba
       s = str.to_s
 
       @length += s.bytesize
-      @headers["Content-Length"] = @length.to_s
+      @headers[CONTENT_LENGTH] = @length.to_s
       @body << s
     end
 
     def redirect(path, status = 302)
-      @headers["Location"] = path
+      @headers[LOCATION] = path
       @status  = status
     end
 
@@ -183,7 +194,7 @@ class Cuba
         if res.body.empty?
           res.status = 404
         else
-          res.headers["Content-Type"] ||= "text/html; charset=utf-8"
+          res.headers[CONTENT_TYPE] ||= DEFAULT_CONTENT_TYPE
           res.status = 200
         end
       end
@@ -195,30 +206,30 @@ class Cuba
   # @private Used internally by #on to ensure that SCRIPT_NAME and
   #          PATH_INFO are reset to their proper values.
   def try
-    script, path = env["SCRIPT_NAME"], env["PATH_INFO"]
+    script, path = env[SCRIPT_NAME], env[PATH_INFO]
 
     yield
 
   ensure
-    env["SCRIPT_NAME"], env["PATH_INFO"] = script, path
+    env[SCRIPT_NAME], env[PATH_INFO] = script, path
   end
   private :try
 
   def consume(pattern)
-    matchdata = env["PATH_INFO"].match(/\A\/(#{pattern})(\/|\z)/)
+    matchdata = env[PATH_INFO].match(/\A\/(#{pattern})(\/|\z)/)
 
     return false unless matchdata
 
     path, *vars = matchdata.captures
 
-    env["SCRIPT_NAME"] += "/#{path}"
-    env["PATH_INFO"] = "#{vars.pop}#{matchdata.post_match}"
+    env[SCRIPT_NAME] += "/#{path}"
+    env[PATH_INFO] = "#{vars.pop}#{matchdata.post_match}"
 
     captures.push(*vars)
   end
   private :consume
 
-  def match(matcher, segment = "([^\\/]+)")
+  def match(matcher, segment = SEGMENT)
     case matcher
     when String then consume(matcher.gsub(/:\w+/, segment))
     when Regexp then consume(matcher)
@@ -279,7 +290,7 @@ class Cuba
       accept = String(env["HTTP_ACCEPT"]).split(",")
 
       if accept.any? { |s| s.strip == mimetype }
-        res["Content-Type"] = mimetype
+        res[CONTENT_TYPE] = mimetype
       end
     end
   end
@@ -303,7 +314,7 @@ class Cuba
   #     res.write "Home"
   #   end
   def root
-    env["PATH_INFO"] == "/" || env["PATH_INFO"] == ""
+    env[PATH_INFO] == SLASH || env[PATH_INFO] == EMPTY_STRING
   end
 
   # Syntatic sugar for providing HTTP Verb matching.
