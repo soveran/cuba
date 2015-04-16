@@ -111,7 +111,7 @@ end
 
 test "consumes a slash if needed" do
   Cuba.define do
-    on get, "(.+\\.css)" do |file|
+    on get, /(.+\.css)/ do |file|
       res.write file
     end
   end
@@ -126,7 +126,7 @@ end
 
 test "regex captures in string format" do
   Cuba.define do
-    on get, "posts/(\\d+)-(.*)" do |id, slug|
+    on get, /posts\/(\d+)-(.*)/ do |id, slug|
       res.write id
       res.write slug
     end

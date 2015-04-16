@@ -59,7 +59,7 @@ end
 
 test "a path with some regex captures" do |env|
   Cuba.define do
-    on "user(\\d+)" do |uid|
+    on /user(\d+)/ do |uid|
       res.write uid
     end
   end

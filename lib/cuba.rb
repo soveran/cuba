@@ -9,6 +9,7 @@ class Cuba
   SCRIPT_NAME = "SCRIPT_NAME".freeze
   SLASH = "/".freeze
   SEGMENT = "([^\\/]+)".freeze
+  ANYTHING = /\A\/(#{SEGMENT})(\/|\z)/.freeze
 
   class Response
     CONTENT_LENGTH = "Content-Length".freeze
@@ -187,7 +188,7 @@ class Cuba
 
       # The captures we yield here were generated and assembled
       # by evaluating each of the `arg`s above. Most of these
-      # are carried out by #consume.
+      # are carried out by #_consume.
       yield(*captures)
 
       if res.status.nil?
@@ -215,8 +216,32 @@ class Cuba
   end
   private :try
 
-  def consume(pattern)
-    matchdata = env[PATH_INFO].match(/\A\/(#{pattern})(\/|\z)/)
+  def _match_string(pattern)
+    str = env[PATH_INFO]
+
+    return false unless str[0] == SLASH
+
+    len = pattern.size
+
+    case str[len + 1]
+    when nil, SLASH
+      return str[1, len] == pattern
+    else
+      return false
+    end
+  end
+
+  def _consume_string(pattern)
+    return false unless _match_string(pattern)
+
+    env[SCRIPT_NAME] += "/#{pattern}"
+    env[PATH_INFO] = env[PATH_INFO][(pattern.size + 1)..-1].to_s
+
+    return true
+  end
+
+  def _consume_regexp(pattern)
+    matchdata = env[PATH_INFO].match(pattern)
 
     return false unless matchdata
 
@@ -227,17 +252,36 @@ class Cuba
 
     captures.push(*vars)
   end
-  private :consume
 
-  def match(matcher, segment = SEGMENT)
+  def _consume(pattern)
+    case pattern
+    when String then _consume_string(pattern)
+    when Regexp then _consume_regexp(pattern)
+    end
+  end
+  private :_consume
+
+  def match(matcher)
     case matcher
-    when String then consume(matcher.gsub(/:\w+/, segment))
-    when Regexp then consume(matcher)
-    when Symbol then consume(segment)
+    when String then _consume(_preprocess_string_matcher(matcher))
+    when Regexp then _consume(_preprocess_regexp_matcher(matcher))
+    when Symbol then _consume(ANYTHING)
     when Proc   then matcher.call
     else
       matcher
     end
+  end
+
+  def _preprocess_string_matcher(matcher)
+    if matcher[':']
+      return _preprocess_regexp_matcher(matcher.gsub(/:\w+/, SEGMENT))
+    else
+      return matcher
+    end
+  end
+
+  def _preprocess_regexp_matcher(pattern)
+    return /\A\/(#{pattern})(\/|\z)/
   end
 
   # A matcher for files with a certain extension.
@@ -248,7 +292,7 @@ class Cuba
   #     res.write file # writes app
   #   end
   def extension(ext = "\\w+")
-    lambda { consume("([^\\/]+?)\.#{ext}\\z") }
+    lambda { match(/([^\/]+?)\.#{ext}\z/) }
   end
 
   # Used to ensure that certain request parameters are present. Acts like a
