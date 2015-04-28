@@ -2,8 +2,8 @@ require "rack"
 require "time"
 
 class Cuba
-  DEFAULT_CONTENT_TYPE = "text/html; charset=utf-8"
-  CONTENT_TYPE = "Content-Type"
+  DEFAULT_CONTENT_TYPE = "text/html; charset=utf-8".freeze
+  CONTENT_TYPE = "Content-Type".freeze
   EMPTY_STRING = "".freeze
   PATH_INFO = "PATH_INFO".freeze
   SCRIPT_NAME = "SCRIPT_NAME".freeze
