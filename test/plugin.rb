@@ -1,68 +1,55 @@
 require_relative "helper"
 
-scope do
-  module Helper
-    def clean(str)
-      str.strip
+module Helper
+  def clean(str)
+    return str.strip
+  end
+
+  module Number
+    def one
+      return 1
     end
   end
 
-  test do
-    Cuba.plugin Helper
+  def self.setup(app)
+    app.plugin(Number)
+  end
 
-    Cuba.define do
-      on default do
-        res.write clean " foo "
-      end
+  module ClassMethods
+    def foo
+      "foo"
     end
-
-    _, _, body = Cuba.call({})
-
-    assert_response body, ["foo"]
   end
 end
 
-scope do
-  module Number
-    def num
-      1
+setup do
+  Cuba.plugin(Helper)
+
+  Driver.new(Cuba)
+end
+
+test "plugin" do |app|
+  Cuba.define do
+    get do
+      res.write(clean(" foo "))
     end
   end
 
-  module Plugin
-    def self.setup(app)
-      app.plugin Number
-    end
+  app.get("/")
 
-    def bar
-      "baz"
-    end
+  assert_equal "foo", app.res.body
+end
 
-    module ClassMethods
-      def foo
-        "bar"
-      end
-    end
+test "class methods" do |app|
+  assert_equal "foo", Cuba.foo
+end
+
+test "setup" do |app|
+  Cuba.define do
+    res.write(one)
   end
 
-  setup do
-    Cuba.plugin Plugin
+  app.get("/")
 
-    Cuba.define do
-      on default do
-        res.write bar
-        res.write num
-      end
-    end
-  end
-
-  test do
-    assert_equal "bar", Cuba.foo
-  end
-
-  test do
-    _, _, body = Cuba.call({})
-
-    assert_response body, ["baz", "1"]
-  end
+  assert_equal "1", app.res.body
 end

@@ -1,12 +1,20 @@
-$:.unshift(File.expand_path("../lib", File.dirname(__FILE__)))
-require "cuba"
+require_relative "../lib/cuba"
+require "rack/test"
 
-prepare { Cuba.reset! }
+prepare do
+  Cuba.reset!
+end
 
-def assert_response(body, expected)
-  arr = []
-  body.each { |line| arr << line }
+class Driver
+  include Rack::Test::Methods
 
-  flunk "#{arr.inspect} != #{expected.inspect}" unless arr == expected
-  print "."
+  attr :app
+
+  def initialize(app)
+    @app = app
+  end
+
+  def res
+    last_response
+  end
 end

@@ -1,4 +1,6 @@
 cutest -v 1.2.2
-rack -v 1.6.0
-tilt -v 2.0.1
+rack -v 1.6.4
 rack-test -v 0.6.3
+seg -v 0.0.1
+syro -v 0.0.7
+tilt -v 2.0.1
