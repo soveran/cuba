@@ -325,10 +325,17 @@ class Cuba
   #
   #   on post, "signup" do
   #   end
-  def get;    req.get?    end
-  def post;   req.post?   end
-  def put;    req.put?    end
-  def delete; req.delete? end
+  def get;     req.get?     end
+  def post;    req.post?    end
+  def put;     req.put?     end
+  def patch;   req.patch?   end
+  def delete;  req.delete?  end
+  def head;    req.head?    end
+  def options; req.options? end
+  def trace;   req.trace?   end
+  def link;    req.link?    end
+  def unlink;  req.unlink?  end
+
 
   # If you want to halt the processing of an existing handler
   # and continue it via a different handler.
