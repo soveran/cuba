@@ -137,7 +137,7 @@ class Cuba
     catch(:halt) do
       instance_eval(&@blk)
 
-      res.status = 404
+      not_found
       res.finish
     end
   end
@@ -192,7 +192,7 @@ class Cuba
 
       if res.status.nil?
         if res.body.empty?
-          res.status = 404
+          not_found
         else
           res.headers[CONTENT_TYPE] ||= DEFAULT_CONTENT_TYPE
           res.status = 200
@@ -393,6 +393,11 @@ class Cuba
   def vars
     env["cuba.vars"] ||= {}
   end
+
+  def not_found
+    res.status = 404
+  end
+
 end
 
 Cuba.settings[:req] = Rack::Request
