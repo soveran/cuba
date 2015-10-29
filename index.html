@@ -6,8 +6,8 @@
     <title>Cuba by soveran</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -29,17 +29,17 @@
       </header>
       <section>
         <h1>
-<a name="viva-cuba" class="anchor" href="#viva-cuba"><span class="octicon octicon-link"></span></a>Viva Cuba!</h1>
+<a id="viva-cuba" class="anchor" href="#viva-cuba" aria-hidden="true"><span class="octicon octicon-link"></span></a>Viva Cuba!</h1>
 
 <p>Cuba is a Ruby microframework for web development.</p>
 
 <h2>
-<a name="community" class="anchor" href="#community"><span class="octicon octicon-link"></span></a>Community</h2>
+<a id="community" class="anchor" href="#community" aria-hidden="true"><span class="octicon octicon-link"></span></a>Community</h2>
 
 <p>Meet us on IRC: #cuba.rb on <a href="http://freenode.net/">freenode.net</a>.</p>
 
 <h2>
-<a name="description" class="anchor" href="#description"><span class="octicon octicon-link"></span></a>Description</h2>
+<a id="description" class="anchor" href="#description" aria-hidden="true"><span class="octicon octicon-link"></span></a>Description</h2>
 
 <p>Cuba is a microframework for web development originally inspired
 by <a href="http://github.com/chneukirchen/rum">Rum</a>, a tiny but powerful mapper for <a href="http://github.com/chneukirchen/rack">Rack</a>
@@ -49,7 +49,7 @@ applications.</p>
 <a href="http://github.com/djanowski/cutest">Cutest</a> and <a href="http://github.com/jnicklas/capybara">Capybara</a>.</p>
 
 <h2>
-<a name="guide" class="anchor" href="#guide"><span class="octicon octicon-link"></span></a>Guide</h2>
+<a id="guide" class="anchor" href="#guide" aria-hidden="true"><span class="octicon octicon-link"></span></a>Guide</h2>
 
 <p>There's a book called <a href="http://theguidetocuba.io">The Guide to Cuba</a> that explains how
 to build web applications by following a minimalistic approach. It
@@ -57,164 +57,160 @@ is recommended reading for anyone trying to learn the basics of
 Cuba and other related tools.</p>
 
 <h2>
-<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
 
-<div class="highlight highlight-console"><pre><span class="gp">$</span> gem install cuba
-</pre></div>
+<div class="highlight highlight-text-shell-session"><pre>$ <span class="pl-s1">gem install cuba</span></pre></div>
 
 <h2>
-<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
 
 <p>Here's a simple application:</p>
 
-<div class="highlight highlight-ruby"><pre><span class="c1"># cat hello_world.rb</span>
-<span class="nb">require</span> <span class="s2">"cuba"</span>
-<span class="nb">require</span> <span class="s2">"rack/protection"</span>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-c"># cat hello_world.rb</span>
+<span class="pl-k">require</span> <span class="pl-s"><span class="pl-pds">"</span>cuba<span class="pl-pds">"</span></span>
+<span class="pl-k">require</span> <span class="pl-s"><span class="pl-pds">"</span>cuba/safe<span class="pl-pds">"</span></span>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Cookie</span><span class="p">,</span> <span class="ss">:secret</span> <span class="o">=&gt;</span> <span class="s2">"__a_very_long_string__"</span>
-<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Protection</span>
+<span class="pl-c1">Cuba</span>.use <span class="pl-c1">Rack</span>::<span class="pl-c1">Session</span>::<span class="pl-c1">Cookie</span>, <span class="pl-c1">:secret</span> =&gt; <span class="pl-s"><span class="pl-pds">"</span>__a_very_long_string__<span class="pl-pds">"</span></span>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
-  <span class="n">on</span> <span class="n">get</span> <span class="k">do</span>
-    <span class="n">on</span> <span class="s2">"hello"</span> <span class="k">do</span>
-      <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"Hello world!"</span>
-    <span class="k">end</span>
+<span class="pl-c1">Cuba</span>.plugin <span class="pl-c1">Cuba</span>::<span class="pl-c1">Safe</span>
 
-    <span class="n">on</span> <span class="n">root</span> <span class="k">do</span>
-      <span class="n">res</span><span class="o">.</span><span class="n">redirect</span> <span class="s2">"/hello"</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</pre></div>
+<span class="pl-c1">Cuba</span>.define <span class="pl-k">do</span>
+  on get <span class="pl-k">do</span>
+    on <span class="pl-s"><span class="pl-pds">"</span>hello<span class="pl-pds">"</span></span> <span class="pl-k">do</span>
+      res.write <span class="pl-s"><span class="pl-pds">"</span>Hello world!<span class="pl-pds">"</span></span>
+    <span class="pl-k">end</span>
+
+    on root <span class="pl-k">do</span>
+      res.redirect <span class="pl-s"><span class="pl-pds">"</span>/hello<span class="pl-pds">"</span></span>
+    <span class="pl-k">end</span>
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span></pre></div>
 
 <p>And the test file:</p>
 
-<div class="highlight highlight-ruby"><pre><span class="c1"># cat hello_world_test.rb</span>
-<span class="nb">require</span> <span class="s2">"cuba/test"</span>
-<span class="nb">require</span> <span class="s2">"./hello_world"</span>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-c"># cat hello_world_test.rb</span>
+<span class="pl-k">require</span> <span class="pl-s"><span class="pl-pds">"</span>cuba/test<span class="pl-pds">"</span></span>
+<span class="pl-k">require</span> <span class="pl-s"><span class="pl-pds">"</span>./hello_world<span class="pl-pds">"</span></span>
 
-<span class="n">scope</span> <span class="k">do</span>
-  <span class="nb">test</span> <span class="s2">"Homepage"</span> <span class="k">do</span>
-    <span class="n">get</span> <span class="s2">"/"</span>
+scope <span class="pl-k">do</span>
+  test <span class="pl-s"><span class="pl-pds">"</span>Homepage<span class="pl-pds">"</span></span> <span class="pl-k">do</span>
+    get <span class="pl-s"><span class="pl-pds">"</span>/<span class="pl-pds">"</span></span>
 
-    <span class="n">follow_redirect!</span>
+    follow_redirect!
 
-    <span class="n">assert_equal</span> <span class="s2">"Hello world!"</span><span class="p">,</span> <span class="n">last_response</span><span class="o">.</span><span class="n">body</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</pre></div>
+    assert_equal <span class="pl-s"><span class="pl-pds">"</span>Hello world!<span class="pl-pds">"</span></span>, last_response.body
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span></pre></div>
 
 <p>To run it, you can create a <code>config.ru</code> file:</p>
 
-<div class="highlight highlight-ruby"><pre><span class="c1"># cat config.ru</span>
-<span class="nb">require</span> <span class="s2">"./hello_world"</span>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-c"># cat config.ru</span>
+<span class="pl-k">require</span> <span class="pl-s"><span class="pl-pds">"</span>./hello_world<span class="pl-pds">"</span></span>
 
-<span class="n">run</span> <span class="no">Cuba</span>
-</pre></div>
+run <span class="pl-c1">Cuba</span></pre></div>
 
 <p>You can now run <code>rackup</code> and enjoy what you have just created.</p>
 
 <h2>
-<a name="matchers" class="anchor" href="#matchers"><span class="octicon octicon-link"></span></a>Matchers</h2>
+<a id="matchers" class="anchor" href="#matchers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Matchers</h2>
 
 <p>Here's an example showcasing how different matchers work:</p>
 
-<div class="highlight highlight-ruby"><pre><span class="nb">require</span> <span class="s2">"cuba"</span>
-<span class="nb">require</span> <span class="s2">"rack/protection"</span>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-k">require</span> <span class="pl-s"><span class="pl-pds">"</span>cuba<span class="pl-pds">"</span></span>
+<span class="pl-k">require</span> <span class="pl-s"><span class="pl-pds">"</span>cuba/safe<span class="pl-pds">"</span></span>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Cookie</span><span class="p">,</span> <span class="ss">:secret</span> <span class="o">=&gt;</span> <span class="s2">"__a_very_long_string__"</span>
-<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Protection</span>
+<span class="pl-c1">Cuba</span>.use <span class="pl-c1">Rack</span>::<span class="pl-c1">Session</span>::<span class="pl-c1">Cookie</span>, <span class="pl-c1">:secret</span> =&gt; <span class="pl-s"><span class="pl-pds">"</span>__a_very_long_string__<span class="pl-pds">"</span></span>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
+<span class="pl-c1">Cuba</span>.plugin <span class="pl-c1">Cuba</span>::<span class="pl-c1">Safe</span>
 
-  <span class="c1"># only GET requests</span>
-  <span class="n">on</span> <span class="n">get</span> <span class="k">do</span>
+<span class="pl-c1">Cuba</span>.define <span class="pl-k">do</span>
 
-    <span class="c1"># /</span>
-    <span class="n">on</span> <span class="n">root</span> <span class="k">do</span>
-      <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"Home"</span>
-    <span class="k">end</span>
+  <span class="pl-c"># only GET requests</span>
+  on get <span class="pl-k">do</span>
 
-    <span class="c1"># /about</span>
-    <span class="n">on</span> <span class="s2">"about"</span> <span class="k">do</span>
-      <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"About"</span>
-    <span class="k">end</span>
+    <span class="pl-c"># /</span>
+    on root <span class="pl-k">do</span>
+      res.write <span class="pl-s"><span class="pl-pds">"</span>Home<span class="pl-pds">"</span></span>
+    <span class="pl-k">end</span>
 
-    <span class="c1"># /styles/basic.css</span>
-    <span class="n">on</span> <span class="s2">"styles"</span><span class="p">,</span> <span class="n">extension</span><span class="p">(</span><span class="s2">"css"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
-      <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"Filename: </span><span class="si">#{</span><span class="n">file</span><span class="si">}</span><span class="s2">"</span> <span class="c1">#=&gt; "Filename: basic"</span>
-    <span class="k">end</span>
+    <span class="pl-c"># /about</span>
+    on <span class="pl-s"><span class="pl-pds">"</span>about<span class="pl-pds">"</span></span> <span class="pl-k">do</span>
+      res.write <span class="pl-s"><span class="pl-pds">"</span>About<span class="pl-pds">"</span></span>
+    <span class="pl-k">end</span>
 
-    <span class="c1"># /post/2011/02/16/hello</span>
-    <span class="n">on</span> <span class="s2">"post/:y/:m/:d/:slug"</span> <span class="k">do</span> <span class="o">|</span><span class="n">y</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">slug</span><span class="o">|</span>
-      <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"</span><span class="si">#{</span><span class="n">y</span><span class="si">}</span><span class="s2">-</span><span class="si">#{</span><span class="n">m</span><span class="si">}</span><span class="s2">-</span><span class="si">#{</span><span class="n">d</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">slug</span><span class="si">}</span><span class="s2">"</span> <span class="c1">#=&gt; "2011-02-16 hello"</span>
-    <span class="k">end</span>
+    <span class="pl-c"># /styles/basic.css</span>
+    on <span class="pl-s"><span class="pl-pds">"</span>styles<span class="pl-pds">"</span></span>, extension(<span class="pl-s"><span class="pl-pds">"</span>css<span class="pl-pds">"</span></span>) <span class="pl-k">do </span>|<span class="pl-smi">file</span>|
+      res.write <span class="pl-s"><span class="pl-pds">"</span>Filename: <span class="pl-pse">#{</span><span class="pl-s1">file</span><span class="pl-pse"><span class="pl-s1">}</span></span><span class="pl-pds">"</span></span> <span class="pl-c">#=&gt; "Filename: basic"</span>
+    <span class="pl-k">end</span>
 
-    <span class="c1"># /username/foobar</span>
-    <span class="n">on</span> <span class="s2">"username/:username"</span> <span class="k">do</span> <span class="o">|</span><span class="n">username</span><span class="o">|</span>
-      <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_by_username</span><span class="p">(</span><span class="n">username</span><span class="p">)</span> <span class="c1"># username == "foobar"</span>
+    <span class="pl-c"># /post/2011/02/16/hello</span>
+    on <span class="pl-s"><span class="pl-pds">"</span>post/:y/:m/:d/:slug<span class="pl-pds">"</span></span> <span class="pl-k">do </span>|<span class="pl-smi">y</span>, <span class="pl-smi">m</span>, <span class="pl-smi">d</span>, <span class="pl-smi">slug</span>|
+      res.write <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pse">#{</span><span class="pl-s1">y</span><span class="pl-pse"><span class="pl-s1">}</span></span>-<span class="pl-pse">#{</span><span class="pl-s1">m</span><span class="pl-pse"><span class="pl-s1">}</span></span>-<span class="pl-pse">#{</span><span class="pl-s1">d</span><span class="pl-pse"><span class="pl-s1">}</span></span> <span class="pl-pse">#{</span><span class="pl-s1">slug</span><span class="pl-pse"><span class="pl-s1">}</span></span><span class="pl-pds">"</span></span> <span class="pl-c">#=&gt; "2011-02-16 hello"</span>
+    <span class="pl-k">end</span>
 
-      <span class="c1"># /username/foobar/posts</span>
-      <span class="n">on</span> <span class="s2">"posts"</span> <span class="k">do</span>
+    <span class="pl-c"># /username/foobar</span>
+    on <span class="pl-s"><span class="pl-pds">"</span>username/:username<span class="pl-pds">"</span></span> <span class="pl-k">do </span>|<span class="pl-smi">username</span>|
+      user <span class="pl-k">=</span> <span class="pl-c1">User</span>.find_by_username(username) <span class="pl-c"># username == "foobar"</span>
 
-        <span class="c1"># You can access `user` here, because the `on` blocks</span>
-        <span class="c1"># are closures.</span>
-        <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"Total Posts: </span><span class="si">#{</span><span class="n">user</span><span class="o">.</span><span class="n">posts</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s2">"</span> <span class="c1">#=&gt; "Total Posts: 6"</span>
-      <span class="k">end</span>
+      <span class="pl-c"># /username/foobar/posts</span>
+      on <span class="pl-s"><span class="pl-pds">"</span>posts<span class="pl-pds">"</span></span> <span class="pl-k">do</span>
 
-      <span class="c1"># /username/foobar/following</span>
-      <span class="n">on</span> <span class="s2">"following"</span> <span class="k">do</span>
-        <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="n">user</span><span class="o">.</span><span class="n">following</span><span class="o">.</span><span class="n">size</span> <span class="c1">#=&gt; "1301"</span>
-      <span class="k">end</span>
-    <span class="k">end</span>
+        <span class="pl-c"># You can access `user` here, because the `on` blocks</span>
+        <span class="pl-c"># are closures.</span>
+        res.write <span class="pl-s"><span class="pl-pds">"</span>Total Posts: <span class="pl-pse">#{</span><span class="pl-s1">user.posts.size</span><span class="pl-pse"><span class="pl-s1">}</span></span><span class="pl-pds">"</span></span> <span class="pl-c">#=&gt; "Total Posts: 6"</span>
+      <span class="pl-k">end</span>
 
-    <span class="c1"># /search?q=barbaz</span>
-    <span class="n">on</span> <span class="s2">"search"</span><span class="p">,</span> <span class="n">param</span><span class="p">(</span><span class="s2">"q"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">query</span><span class="o">|</span>
-      <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"Searched for </span><span class="si">#{</span><span class="n">query</span><span class="si">}</span><span class="s2">"</span> <span class="c1">#=&gt; "Searched for barbaz"</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
+      <span class="pl-c"># /username/foobar/following</span>
+      on <span class="pl-s"><span class="pl-pds">"</span>following<span class="pl-pds">"</span></span> <span class="pl-k">do</span>
+        res.write user.following.size <span class="pl-c">#=&gt; "1301"</span>
+      <span class="pl-k">end</span>
+    <span class="pl-k">end</span>
 
-  <span class="c1"># only POST requests</span>
-  <span class="n">on</span> <span class="n">post</span> <span class="k">do</span>
-    <span class="n">on</span> <span class="s2">"login"</span> <span class="k">do</span>
+    <span class="pl-c"># /search?q=barbaz</span>
+    on <span class="pl-s"><span class="pl-pds">"</span>search<span class="pl-pds">"</span></span>, param(<span class="pl-s"><span class="pl-pds">"</span>q<span class="pl-pds">"</span></span>) <span class="pl-k">do </span>|<span class="pl-smi">query</span>|
+      res.write <span class="pl-s"><span class="pl-pds">"</span>Searched for <span class="pl-pse">#{</span><span class="pl-s1">query</span><span class="pl-pse"><span class="pl-s1">}</span></span><span class="pl-pds">"</span></span> <span class="pl-c">#=&gt; "Searched for barbaz"</span>
+    <span class="pl-k">end</span>
+  <span class="pl-k">end</span>
 
-      <span class="c1"># POST /login, user: foo, pass: baz</span>
-      <span class="n">on</span> <span class="n">param</span><span class="p">(</span><span class="s2">"user"</span><span class="p">),</span> <span class="n">param</span><span class="p">(</span><span class="s2">"pass"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">user</span><span class="p">,</span> <span class="n">pass</span><span class="o">|</span>
-        <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"</span><span class="si">#{</span><span class="n">user</span><span class="si">}</span><span class="s2">:</span><span class="si">#{</span><span class="n">pass</span><span class="si">}</span><span class="s2">"</span> <span class="c1">#=&gt; "foo:baz"</span>
-      <span class="k">end</span>
+  <span class="pl-c"># only POST requests</span>
+  on post <span class="pl-k">do</span>
+    on <span class="pl-s"><span class="pl-pds">"</span>login<span class="pl-pds">"</span></span> <span class="pl-k">do</span>
 
-      <span class="c1"># If the params `user` and `pass` are not provided, this</span>
-      <span class="c1"># block will get executed.</span>
-      <span class="n">on</span> <span class="kp">true</span> <span class="k">do</span>
-        <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"You need to provide user and pass!"</span>
-      <span class="k">end</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</pre></div>
+      <span class="pl-c"># POST /login, user: foo, pass: baz</span>
+      on param(<span class="pl-s"><span class="pl-pds">"</span>user<span class="pl-pds">"</span></span>), param(<span class="pl-s"><span class="pl-pds">"</span>pass<span class="pl-pds">"</span></span>) <span class="pl-k">do </span>|<span class="pl-smi">user</span>, <span class="pl-smi">pass</span>|
+        res.write <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pse">#{</span><span class="pl-s1">user</span><span class="pl-pse"><span class="pl-s1">}</span></span>:<span class="pl-pse">#{</span><span class="pl-s1">pass</span><span class="pl-pse"><span class="pl-s1">}</span></span><span class="pl-pds">"</span></span> <span class="pl-c">#=&gt; "foo:baz"</span>
+      <span class="pl-k">end</span>
+
+      <span class="pl-c"># If the params `user` and `pass` are not provided, this</span>
+      <span class="pl-c"># block will get executed.</span>
+      on <span class="pl-c1">true</span> <span class="pl-k">do</span>
+        res.write <span class="pl-s"><span class="pl-pds">"</span>You need to provide user and pass!<span class="pl-pds">"</span></span>
+      <span class="pl-k">end</span>
+    <span class="pl-k">end</span>
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span></pre></div>
 
 <h2>
-<a name="status-codes" class="anchor" href="#status-codes"><span class="octicon octicon-link"></span></a>Status codes</h2>
+<a id="status-codes" class="anchor" href="#status-codes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Status codes</h2>
 
 <p>If you don't assign a status code and you don't write to the <code>res</code>
 object, the status will be set as <code>404</code>.</p>
 
 <p>For example:</p>
 
-<div class="highlight highlight-ruby"><pre><span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
-  <span class="n">on</span> <span class="n">get</span> <span class="k">do</span>
-    <span class="n">on</span> <span class="s2">"hello"</span> <span class="k">do</span>
-      <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"hello world"</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-<span class="k">end</span>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-c1">Cuba</span>.define <span class="pl-k">do</span>
+  on get <span class="pl-k">do</span>
+    on <span class="pl-s"><span class="pl-pds">"</span>hello<span class="pl-pds">"</span></span> <span class="pl-k">do</span>
+      res.write <span class="pl-s"><span class="pl-pds">"</span>hello world<span class="pl-pds">"</span></span>
+    <span class="pl-k">end</span>
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span>
 
-<span class="c1"># Requests:</span>
-<span class="c1">#</span>
-<span class="c1"># GET /            # 404</span>
-<span class="c1"># GET /hello       # 200</span>
-<span class="c1"># GET /hello/world # 200</span>
-</pre></div>
+<span class="pl-c"># Requests:</span>
+<span class="pl-c">#</span>
+<span class="pl-c"># GET /            # 404</span>
+<span class="pl-c"># GET /hello       # 200</span>
+<span class="pl-c"># GET /hello/world # 200</span></pre></div>
 
 <p>As you can see, as soon as something was written to the response,
 the status code was changed to 200.</p>
@@ -222,94 +218,186 @@ the status code was changed to 200.</p>
 <p>If you want to match just "hello", but not "hello/world", you can do
 as follows:</p>
 
-<div class="highlight highlight-ruby"><pre><span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
-  <span class="n">on</span> <span class="n">get</span> <span class="k">do</span>
-    <span class="n">on</span> <span class="s2">"hello"</span> <span class="k">do</span>
-      <span class="n">on</span> <span class="n">root</span> <span class="k">do</span>
-        <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"hello world"</span>
-      <span class="k">end</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-<span class="k">end</span>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-c1">Cuba</span>.define <span class="pl-k">do</span>
+  on get <span class="pl-k">do</span>
+    on <span class="pl-s"><span class="pl-pds">"</span>hello<span class="pl-pds">"</span></span> <span class="pl-k">do</span>
+      on root <span class="pl-k">do</span>
+        res.write <span class="pl-s"><span class="pl-pds">"</span>hello world<span class="pl-pds">"</span></span>
+      <span class="pl-k">end</span>
+    <span class="pl-k">end</span>
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span>
 
-<span class="c1"># Requests:</span>
-<span class="c1">#</span>
-<span class="c1"># GET /            # 404</span>
-<span class="c1"># GET /hello       # 200</span>
-<span class="c1"># GET /hello/world # 404</span>
-</pre></div>
+<span class="pl-c"># Requests:</span>
+<span class="pl-c">#</span>
+<span class="pl-c"># GET /            # 404</span>
+<span class="pl-c"># GET /hello       # 200</span>
+<span class="pl-c"># GET /hello/world # 404</span></pre></div>
 
 <p>You can also use a regular expression to match the end of line:</p>
 
-<div class="highlight highlight-ruby"><pre><span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
-  <span class="n">on</span> <span class="n">get</span> <span class="k">do</span>
-    <span class="n">on</span> <span class="sr">/hello\/?\z/</span> <span class="k">do</span>
-      <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"hello world"</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-<span class="k">end</span>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-c1">Cuba</span>.define <span class="pl-k">do</span>
+  on get <span class="pl-k">do</span>
+    on <span class="pl-k">/</span>hello\<span class="pl-k">/</span><span class="pl-c1">?\z</span><span class="pl-k">/</span> <span class="pl-k">do</span>
+      res.write <span class="pl-s"><span class="pl-pds">"</span>hello world<span class="pl-pds">"</span></span>
+    <span class="pl-k">end</span>
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span>
 
-<span class="c1"># Requests:</span>
-<span class="c1">#</span>
-<span class="c1"># GET /            # 404</span>
-<span class="c1"># GET /hello       # 200</span>
-<span class="c1"># GET /hello/world # 404</span>
-</pre></div>
+<span class="pl-c"># Requests:</span>
+<span class="pl-c">#</span>
+<span class="pl-c"># GET /            # 404</span>
+<span class="pl-c"># GET /hello       # 200</span>
+<span class="pl-c"># GET /hello/world # 404</span></pre></div>
 
 <p>This last example is not a common usage pattern. It's here only to
 illustrate how Cuba can be adapted for different use cases.</p>
 
 <p>If you need this behavior, you can create a helper:</p>
 
-<div class="highlight highlight-ruby"><pre><span class="k">module</span> <span class="nn">TerminalMatcher</span>
-  <span class="k">def</span> <span class="nf">terminal</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-    <span class="sr">/</span><span class="si">#{</span><span class="n">path</span><span class="si">}</span><span class="sr">\/?\z/</span>
-  <span class="k">end</span>
-<span class="k">end</span>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-k">module</span> <span class="pl-en">TerminalMatcher</span>
+  <span class="pl-k">def</span> <span class="pl-en">terminal</span>(<span class="pl-smi">path</span>)
+    <span class="pl-sr"><span class="pl-pds">/</span><span class="pl-pse">#{</span><span class="pl-s1">path</span><span class="pl-pse"><span class="pl-s1">}</span></span><span class="pl-cce">\/</span>?<span class="pl-cce">\z</span><span class="pl-pds">/</span></span>
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">plugin</span> <span class="no">TerminalMatcher</span>
+<span class="pl-c1">Cuba</span>.plugin <span class="pl-c1">TerminalMatcher</span>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
-  <span class="n">on</span> <span class="n">get</span> <span class="k">do</span>
-    <span class="n">on</span> <span class="n">terminal</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">)</span> <span class="k">do</span>
-      <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="s2">"hello world"</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</pre></div>
+<span class="pl-c1">Cuba</span>.define <span class="pl-k">do</span>
+  on get <span class="pl-k">do</span>
+    on terminal(<span class="pl-s"><span class="pl-pds">"</span>hello<span class="pl-pds">"</span></span>) <span class="pl-k">do</span>
+      res.write <span class="pl-s"><span class="pl-pds">"</span>hello world<span class="pl-pds">"</span></span>
+    <span class="pl-k">end</span>
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span></pre></div>
 
 <h2>
-<a name="security" class="anchor" href="#security"><span class="octicon octicon-link"></span></a>Security</h2>
+<a id="security" class="anchor" href="#security" aria-hidden="true"><span class="octicon octicon-link"></span></a>Security</h2>
 
-<p>The favorite security layer for Cuba is
-<a href="https://github.com/rkh/rack-protection">Rack::Protection</a>. It is not included by default
+<p>The most important security consideration is to use <code>https</code> for all
+requests. If that's not the case, any attempt to secure the application
+could be in vain. The rest of this section assumes <code>https</code> is
+enforced.</p>
+
+<p>When building a web application, you need to include a security
+layer. Cuba ships with the <code>Cuba::Safe</code> plugin, which applies several
+security related headers to prevent attacks like clickjacking and
+cross-site scripting, among others. It is not included by default
 because there are legitimate uses for plain Cuba (for instance,
 when designing an API).</p>
 
-<p>If you are building a web application, by all means make sure
-to include a security layer. As it is the convention for unsafe
-operations, only POST, PUT and DELETE requests are monitored.</p>
+<p>Here's how to include it:</p>
+
+<div class="highlight highlight-source-ruby"><pre><span class="pl-k">require</span> <span class="pl-s"><span class="pl-pds">"</span>cuba/safe<span class="pl-pds">"</span></span>
+
+<span class="pl-c1">Cuba</span>.plugin <span class="pl-c1">Cuba</span>::<span class="pl-c1">Safe</span></pre></div>
 
 <p>You should also always set a session secret to some undisclosed
 value. Keep in mind that the content in the session cookie is
 <em>not</em> encrypted.</p>
 
-<div class="highlight highlight-ruby"><pre><span class="nb">require</span> <span class="s2">"cuba"</span>
-<span class="nb">require</span> <span class="s2">"rack/protection"</span>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-c1">Cuba</span>.use(<span class="pl-c1">Rack</span>::<span class="pl-c1">Session</span>::<span class="pl-c1">Cookie</span>, <span class="pl-c1">:secret</span> =&gt; <span class="pl-s"><span class="pl-pds">"</span>__a_very_long_string__<span class="pl-pds">"</span></span>)</pre></div>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Session</span><span class="o">::</span><span class="no">Cookie</span><span class="p">,</span> <span class="ss">:secret</span> <span class="o">=&gt;</span> <span class="s2">"__a_very_long_string__"</span>
-<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Protection</span>
-<span class="no">Cuba</span><span class="o">.</span><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Protection</span><span class="o">::</span><span class="no">RemoteReferrer</span>
+<p>In the end, your application should look like this:</p>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-k">require</span> <span class="pl-s"><span class="pl-pds">"</span>cuba<span class="pl-pds">"</span></span>
+<span class="pl-k">require</span> <span class="pl-s"><span class="pl-pds">"</span>cuba/safe<span class="pl-pds">"</span></span>
 
-  <span class="c1"># Now your app is protected against a wide range of attacks.</span>
-  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
-<span class="k">end</span>
-</pre></div>
+<span class="pl-c1">Cuba</span>.use <span class="pl-c1">Rack</span>::<span class="pl-c1">Session</span>::<span class="pl-c1">Cookie</span>, <span class="pl-c1">:secret</span> =&gt; <span class="pl-s"><span class="pl-pds">"</span>__a_very_long_string__<span class="pl-pds">"</span></span>
+
+<span class="pl-c1">Cuba</span>.plugin <span class="pl-c1">Cuba</span>::<span class="pl-c1">Safe</span>
+
+<span class="pl-c1">Cuba</span>.define <span class="pl-k">do</span>
+  on csrf.unsafe? <span class="pl-k">do</span>
+    csrf.reset!
+
+    res.status <span class="pl-k">=</span> <span class="pl-c1">403</span>
+    res.write(<span class="pl-s"><span class="pl-pds">"</span>Not authorized<span class="pl-pds">"</span></span>)
+
+    halt(res.finish)
+  <span class="pl-k">end</span>
+
+  <span class="pl-c"># Now your app is protected against a wide range of attacks.</span>
+  ...
+<span class="pl-k">end</span></pre></div>
+
+<p>The <code>Cuba::Safe</code> plugin is composed of two modules:</p>
+
+<ul>
+<li><code>Cuba::Safe::SecureHeaders</code></li>
+<li><code>Cuba::Safe::CSRF</code></li>
+</ul>
+
+<p>You can include them individually, but while the modularity is good
+for development, it's very common to use them in tandem. As that's
+the normal use case, including <code>Cuba::Safe</code> is the preferred way.</p>
 
 <h2>
-<a name="http-verbs" class="anchor" href="#http-verbs"><span class="octicon octicon-link"></span></a>HTTP Verbs</h2>
+<a id="cross-site-request-forgery" class="anchor" href="#cross-site-request-forgery" aria-hidden="true"><span class="octicon octicon-link"></span></a>Cross-Site Request Forgery</h2>
+
+<p>The <code>Cuba::Safe::CSRF</code> plugin provides a <code>csrf</code> object with the
+following methods:</p>
+
+<ul>
+<li>
+<code>token</code>: the current security token.</li>
+<li>
+<code>reset!</code>: forces the token to be recreated.</li>
+<li>
+<code>safe?</code>: returns <code>true</code> if the request is safe.</li>
+<li>
+<code>unsafe?</code>: returns <code>true</code> if the request is unsafe.</li>
+<li>
+<code>form_tag</code>: returns a string with the <code>csrf_token</code> hidden input tag.</li>
+<li>
+<code>meta_tag</code>: returns a string with the <code>csrf_token</code> meta tag.</li>
+</ul>
+
+<p>Here's an example of how to use it:</p>
+
+<div class="highlight highlight-source-ruby"><pre><span class="pl-k">require</span> <span class="pl-s"><span class="pl-pds">"</span>cuba<span class="pl-pds">"</span></span>
+<span class="pl-k">require</span> <span class="pl-s"><span class="pl-pds">"</span>cuba/safe<span class="pl-pds">"</span></span>
+
+<span class="pl-c1">Cuba</span>.use <span class="pl-c1">Rack</span>::<span class="pl-c1">Session</span>::<span class="pl-c1">Cookie</span>, <span class="pl-c1">:secret</span> =&gt; <span class="pl-s"><span class="pl-pds">"</span>__a_very_long_string__<span class="pl-pds">"</span></span>
+
+<span class="pl-c1">Cuba</span>.plugin <span class="pl-c1">Cuba</span>::<span class="pl-c1">Safe</span>
+
+<span class="pl-c1">Cuba</span>.define <span class="pl-k">do</span>
+  on csrf.unsafe? <span class="pl-k">do</span>
+    csrf.reset!
+
+    res.status <span class="pl-k">=</span> <span class="pl-c1">403</span>
+    res.write(<span class="pl-s"><span class="pl-pds">"</span>Not authorized<span class="pl-pds">"</span></span>)
+
+    halt(res.finish)
+  <span class="pl-k">end</span>
+
+  <span class="pl-c"># Here comes the rest of your application</span>
+  <span class="pl-c"># ...</span>
+<span class="pl-k">end</span></pre></div>
+
+<p>You have to include <code>csrf.form_tag</code> in your forms and <code>csrf.meta_tag</code>
+among your meta tags. Here's an example that assumes you are using
+<code>Cuba::Mote</code> from <code>cuba-contrib</code>:</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;!DOCTYPE html&gt;
+&lt;<span class="pl-ent">html</span>&gt;
+  &lt;<span class="pl-ent">head</span>&gt;
+    {{ app.csrf.meta_tag }}
+    ...
+  &lt;/<span class="pl-ent">head</span>&gt;
+  ...
+  &lt;<span class="pl-ent">body</span>&gt;
+    &lt;<span class="pl-ent">form</span> <span class="pl-e">action</span>=<span class="pl-s"><span class="pl-pds">"</span>/foo<span class="pl-pds">"</span></span> <span class="pl-e">method</span>=<span class="pl-s"><span class="pl-pds">"</span>POST<span class="pl-pds">"</span></span>&gt;
+      {{ app.csrf.form_tag }}
+      ...
+    &lt;/<span class="pl-ent">form</span>&gt;
+  ...
+  &lt;/<span class="pl-ent">body</span>&gt;
+&lt;/<span class="pl-ent">html</span>&gt;</pre></div>
+
+<h2>
+<a id="http-verbs" class="anchor" href="#http-verbs" aria-hidden="true"><span class="octicon octicon-link"></span></a>HTTP Verbs</h2>
 
 <p>There are four matchers defined for HTTP Verbs: <code>get</code>, <code>post</code>, <code>put</code> and
 <code>delete</code>. But the world doesn't end there, does it? As you have the whole
@@ -320,18 +408,17 @@ and inspect the environment via the <code>env</code> object, and check for examp
 
 <p>What follows is an example of different ways of saying the same thing:</p>
 
-<div class="highlight highlight-ruby"><pre><span class="n">on</span> <span class="n">env</span><span class="o">[</span><span class="s2">"REQUEST_METHOD"</span><span class="o">]</span> <span class="o">==</span> <span class="s2">"GET"</span><span class="p">,</span> <span class="s2">"api"</span> <span class="k">do</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="k">end</span>
+<div class="highlight highlight-source-ruby"><pre>on env[<span class="pl-s"><span class="pl-pds">"</span>REQUEST_METHOD<span class="pl-pds">"</span></span>] <span class="pl-k">==</span> <span class="pl-s"><span class="pl-pds">"</span>GET<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>api<span class="pl-pds">"</span></span> <span class="pl-k">do </span>... <span class="pl-k">end</span>
 
-<span class="n">on</span> <span class="n">req</span><span class="o">.</span><span class="n">get?</span><span class="p">,</span> <span class="s2">"api"</span> <span class="k">do</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="k">end</span>
+on req.get?, <span class="pl-s"><span class="pl-pds">"</span>api<span class="pl-pds">"</span></span> <span class="pl-k">do </span>... <span class="pl-k">end</span>
 
-<span class="n">on</span> <span class="n">get</span><span class="p">,</span> <span class="s2">"api"</span> <span class="k">do</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="k">end</span>
-</pre></div>
+on get, <span class="pl-s"><span class="pl-pds">"</span>api<span class="pl-pds">"</span></span> <span class="pl-k">do </span>... <span class="pl-k">end</span></pre></div>
 
 <p>Actually, <code>get</code> is syntax sugar for <code>req.get?</code>, which in turn is syntax sugar
 for <code>env["REQUEST_METHOD"] == "GET"</code>.</p>
 
 <h2>
-<a name="request-and-response" class="anchor" href="#request-and-response"><span class="octicon octicon-link"></span></a>Request and Response</h2>
+<a id="request-and-response" class="anchor" href="#request-and-response" aria-hidden="true"><span class="octicon octicon-link"></span></a>Request and Response</h2>
 
 <p>You may have noticed we use <code>req</code> and <code>res</code> a lot. Those variables are
 instances of <a href="http://rack.rubyforge.org/doc/classes/Rack/Request.html">Rack::Request</a> and <code>Cuba::Response</code> respectively, and
@@ -344,14 +431,13 @@ the response. Most of the time, you will just use <code>res.write</code>.</p>
 <p>If you want to use custom <code>Request</code> or <code>Response</code> objects, you can
 set the new values as follows:</p>
 
-<div class="highlight highlight-ruby"><pre><span class="no">Cuba</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:req</span><span class="o">]</span> <span class="o">=</span> <span class="no">MyRequest</span>
-<span class="no">Cuba</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:res</span><span class="o">]</span> <span class="o">=</span> <span class="no">MyResponse</span>
-</pre></div>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-c1">Cuba</span>.settings[<span class="pl-c1">:req</span>] <span class="pl-k">=</span> <span class="pl-c1">MyRequest</span>
+<span class="pl-c1">Cuba</span>.settings[<span class="pl-c1">:res</span>] <span class="pl-k">=</span> <span class="pl-c1">MyResponse</span></pre></div>
 
 <p>Make sure to provide classes compatible with those from Rack.</p>
 
 <h2>
-<a name="captures" class="anchor" href="#captures"><span class="octicon octicon-link"></span></a>Captures</h2>
+<a id="captures" class="anchor" href="#captures" aria-hidden="true"><span class="octicon octicon-link"></span></a>Captures</h2>
 
 <p>You may have noticed that some matchers yield a value to the block. The rules
 for determining if a matcher will yield a value are simple:</p>
@@ -362,14 +448,16 @@ for determining if a matcher will yield a value are simple:</p>
 <li>Symbols: <code>:foobar</code> will yield if a segment is available.</li>
 <li>File extensions: <code>extension("css")</code> will yield the basename of the matched file.</li>
 <li>Parameters: <code>param("user")</code> will yield the value of the parameter user, if present.</li>
-</ol><p>The first case is important because it shows the underlying effect of regex
+</ol>
+
+<p>The first case is important because it shows the underlying effect of regex
 captures.</p>
 
 <p>In the second case, the substring <code>:id</code> gets replaced by <code>([^\\/]+)</code> and the
 string becomes <code>"users/([^\\/]+)"</code> before performing the match, thus it reverts
 to the first form we saw.</p>
 
-<p>In the third case, the symbol ––no matter what it says––gets replaced
+<p>In the third case, the symbol â€“â€“no matter what it saysâ€“â€“gets replaced
 by <code>"([^\\/]+)"</code>, and again we are in presence of case 1.</p>
 
 <p>The fourth case, again, reverts to the basic matcher: it generates the string
@@ -379,29 +467,49 @@ by <code>"([^\\/]+)"</code>, and again we are in presence of case 1.</p>
 in the request (via POST or QUERY_STRING) and it pushes the value as a capture.</p>
 
 <h2>
-<a name="composition" class="anchor" href="#composition"><span class="octicon octicon-link"></span></a>Composition</h2>
+<a id="composition" class="anchor" href="#composition" aria-hidden="true"><span class="octicon octicon-link"></span></a>Composition</h2>
 
 <p>You can mount a Cuba app, along with middlewares, inside another Cuba app:</p>
 
-<div class="highlight highlight-ruby"><pre><span class="k">class</span> <span class="nc">API</span> <span class="o">&lt;</span> <span class="no">Cuba</span><span class="p">;</span> <span class="k">end</span>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-k">class</span> <span class="pl-en">API<span class="pl-e"> &lt; Cuba</span></span>; <span class="pl-k">end</span>
 
-<span class="no">API</span><span class="o">.</span><span class="n">use</span> <span class="no">SomeMiddleware</span>
+<span class="pl-c1">API</span>.use <span class="pl-c1">SomeMiddleware</span>
 
-<span class="no">API</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
-  <span class="n">on</span> <span class="n">param</span><span class="p">(</span><span class="s2">"url"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">url</span><span class="o">|</span>
-    <span class="o">.</span><span class="n">.</span><span class="o">.</span>
-  <span class="k">end</span>
-<span class="k">end</span>
+<span class="pl-c1">API</span>.define <span class="pl-k">do</span>
+  on param(<span class="pl-s"><span class="pl-pds">"</span>url<span class="pl-pds">"</span></span>) <span class="pl-k">do </span>|<span class="pl-smi">url</span>|
+    ...
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
-  <span class="n">on</span> <span class="s2">"api"</span> <span class="k">do</span>
-    <span class="n">run</span> <span class="no">API</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</pre></div>
+<span class="pl-c1">Cuba</span>.define <span class="pl-k">do</span>
+  on <span class="pl-s"><span class="pl-pds">"</span>api<span class="pl-pds">"</span></span> <span class="pl-k">do</span>
+    run <span class="pl-c1">API</span>
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span></pre></div>
+
+<p>If you need to pass information to one sub-app, you can use the
+<code>with</code> method and access it with <code>vars</code>:</p>
+
+<div class="highlight highlight-source-ruby"><pre><span class="pl-k">class</span> <span class="pl-en">Platforms<span class="pl-e"> &lt; Cuba</span></span>
+  define <span class="pl-k">do</span>
+    platform <span class="pl-k">=</span> vars[<span class="pl-c1">:platform</span>]
+
+    on default <span class="pl-k">do</span>
+      res.write(platform) <span class="pl-c"># =&gt; "heroku" or "salesforce"</span>
+    <span class="pl-k">end</span>
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span>
+
+<span class="pl-c1">Cuba</span>.define <span class="pl-k">do</span>
+  on <span class="pl-s"><span class="pl-pds">"</span>(heroku|salesforce)<span class="pl-pds">"</span></span> <span class="pl-k">do </span>|<span class="pl-smi">platform</span>|
+    with(<span class="pl-c1">platform:</span> platform) <span class="pl-k">do</span>
+      run(<span class="pl-c1">Platforms</span>)
+    <span class="pl-k">end</span>
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span></pre></div>
 
 <h2>
-<a name="testing" class="anchor" href="#testing"><span class="octicon octicon-link"></span></a>Testing</h2>
+<a id="testing" class="anchor" href="#testing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Testing</h2>
 
 <p>Given that Cuba is essentially Rack, it is very easy to test with
 <code>Rack::Test</code>, <code>Webrat</code> or <code>Capybara</code>. Cuba's own tests are written
@@ -409,57 +517,54 @@ with a combination of <a href="http://github.com/djanowski/cutest">Cutest</a> an
 and if you want to use the same for your tests it is as easy as
 requiring <code>cuba/test</code>:</p>
 
-<div class="highlight highlight-ruby"><pre><span class="nb">require</span> <span class="s2">"cuba/test"</span>
-<span class="nb">require</span> <span class="s2">"your/app"</span>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-k">require</span> <span class="pl-s"><span class="pl-pds">"</span>cuba/test<span class="pl-pds">"</span></span>
+<span class="pl-k">require</span> <span class="pl-s"><span class="pl-pds">"</span>your/app<span class="pl-pds">"</span></span>
 
-<span class="n">scope</span> <span class="k">do</span>
-  <span class="nb">test</span> <span class="s2">"Homepage"</span> <span class="k">do</span>
-    <span class="n">get</span> <span class="s2">"/"</span>
+scope <span class="pl-k">do</span>
+  test <span class="pl-s"><span class="pl-pds">"</span>Homepage<span class="pl-pds">"</span></span> <span class="pl-k">do</span>
+    get <span class="pl-s"><span class="pl-pds">"</span>/<span class="pl-pds">"</span></span>
 
-    <span class="n">assert_equal</span> <span class="s2">"Hello world!"</span><span class="p">,</span> <span class="n">last_response</span><span class="o">.</span><span class="n">body</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</pre></div>
+    assert_equal <span class="pl-s"><span class="pl-pds">"</span>Hello world!<span class="pl-pds">"</span></span>, last_response.body
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span></pre></div>
 
 <p>If you prefer to use <a href="http://github.com/jnicklas/capybara">Capybara</a>, instead of requiring
 <code>cuba/test</code> you can require <code>cuba/capybara</code>:</p>
 
-<div class="highlight highlight-ruby"><pre><span class="nb">require</span> <span class="s2">"cuba/capybara"</span>
-<span class="nb">require</span> <span class="s2">"your/app"</span>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-k">require</span> <span class="pl-s"><span class="pl-pds">"</span>cuba/capybara<span class="pl-pds">"</span></span>
+<span class="pl-k">require</span> <span class="pl-s"><span class="pl-pds">"</span>your/app<span class="pl-pds">"</span></span>
 
-<span class="n">scope</span> <span class="k">do</span>
-  <span class="nb">test</span> <span class="s2">"Homepage"</span> <span class="k">do</span>
-    <span class="n">visit</span> <span class="s2">"/"</span>
+scope <span class="pl-k">do</span>
+  test <span class="pl-s"><span class="pl-pds">"</span>Homepage<span class="pl-pds">"</span></span> <span class="pl-k">do</span>
+    visit <span class="pl-s"><span class="pl-pds">"</span>/<span class="pl-pds">"</span></span>
 
-    <span class="n">assert</span> <span class="n">has_content?</span><span class="p">(</span><span class="s2">"Hello world!"</span><span class="p">)</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</pre></div>
+    assert has_content?(<span class="pl-s"><span class="pl-pds">"</span>Hello world!<span class="pl-pds">"</span></span>)
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span></pre></div>
 
 <p>To read more about testing, check the documentation for
 <a href="http://github.com/djanowski/cutest">Cutest</a>, <a href="https://github.com/brynary/rack-test">Rack::Test</a> and <a href="http://github.com/jnicklas/capybara">Capybara</a>.</p>
 
 <h2>
-<a name="settings" class="anchor" href="#settings"><span class="octicon octicon-link"></span></a>Settings</h2>
+<a id="settings" class="anchor" href="#settings" aria-hidden="true"><span class="octicon octicon-link"></span></a>Settings</h2>
 
 <p>Each Cuba app can store settings in the <code>Cuba.settings</code> hash. The settings are
 inherited if you happen to subclass <code>Cuba</code></p>
 
-<div class="highlight highlight-ruby"><pre><span class="no">Cuba</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:layout</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"guest"</span>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-c1">Cuba</span>.settings[<span class="pl-c1">:layout</span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>guest<span class="pl-pds">"</span></span>
 
-<span class="k">class</span> <span class="nc">Users</span> <span class="o">&lt;</span> <span class="no">Cuba</span><span class="p">;</span> <span class="k">end</span>
-<span class="k">class</span> <span class="nc">Admin</span> <span class="o">&lt;</span> <span class="no">Cuba</span><span class="p">;</span> <span class="k">end</span>
+<span class="pl-k">class</span> <span class="pl-en">Users<span class="pl-e"> &lt; Cuba</span></span>; <span class="pl-k">end</span>
+<span class="pl-k">class</span> <span class="pl-en">Admin<span class="pl-e"> &lt; Cuba</span></span>; <span class="pl-k">end</span>
 
-<span class="no">Admin</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:layout</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"admin"</span>
+<span class="pl-c1">Admin</span>.settings[<span class="pl-c1">:layout</span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>admin<span class="pl-pds">"</span></span>
 
-<span class="n">assert_equal</span> <span class="s2">"guest"</span><span class="p">,</span> <span class="no">Users</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:layout</span><span class="o">]</span>
-<span class="n">assert_equal</span> <span class="s2">"admin"</span><span class="p">,</span> <span class="no">Admin</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:layout</span><span class="o">]</span>
-</pre></div>
+assert_equal <span class="pl-s"><span class="pl-pds">"</span>guest<span class="pl-pds">"</span></span>, <span class="pl-c1">Users</span>.settings[<span class="pl-c1">:layout</span>]
+assert_equal <span class="pl-s"><span class="pl-pds">"</span>admin<span class="pl-pds">"</span></span>, <span class="pl-c1">Admin</span>.settings[<span class="pl-c1">:layout</span>]</pre></div>
 
 <p>Feel free to store whatever you find convenient.</p>
 
 <h2>
-<a name="rendering" class="anchor" href="#rendering"><span class="octicon octicon-link"></span></a>Rendering</h2>
+<a id="rendering" class="anchor" href="#rendering" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rendering</h2>
 
 <p>Cuba includes a plugin called <code>Cuba::Render</code> that provides a couple of helper
 methods for rendering templates. This plugin uses <a href="http://github.com/rtomayko/tilt">Tilt</a>, which serves as
@@ -468,42 +573,39 @@ CoffeeScript, etc.), so you can use the template engine of your choice.</p>
 
 <p>To set up <code>Cuba::Render</code>, do:</p>
 
-<div class="highlight highlight-ruby"><pre><span class="nb">require</span> <span class="s2">"cuba"</span>
-<span class="nb">require</span> <span class="s2">"cuba/render"</span>
-<span class="nb">require</span> <span class="s2">"erb"</span>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-k">require</span> <span class="pl-s"><span class="pl-pds">"</span>cuba<span class="pl-pds">"</span></span>
+<span class="pl-k">require</span> <span class="pl-s"><span class="pl-pds">"</span>cuba/render<span class="pl-pds">"</span></span>
+<span class="pl-k">require</span> <span class="pl-s"><span class="pl-pds">"</span>erb<span class="pl-pds">"</span></span>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">plugin</span><span class="p">(</span><span class="no">Cuba</span><span class="o">::</span><span class="no">Render</span><span class="p">)</span>
-</pre></div>
+<span class="pl-c1">Cuba</span>.plugin <span class="pl-c1">Cuba</span>::<span class="pl-c1">Render</span></pre></div>
 
 <p>This example uses ERB, a template engine that comes with Ruby. If you want to
 use another template engine, one <a href="https://github.com/rtomayko/tilt/blob/master/docs/TEMPLATES.md">supported by Tilt</a>, you need to
 install the required gem and change the <code>template_engine</code> setting as shown
 below.</p>
 
-<div class="highlight highlight-ruby"><pre><span class="no">Cuba</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:render</span><span class="o">][</span><span class="ss">:template_engine</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"haml"</span>
-</pre></div>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-c1">Cuba</span>.settings[<span class="pl-c1">:render</span>][<span class="pl-c1">:template_engine</span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>haml<span class="pl-pds">"</span></span></pre></div>
 
 <p>The plugin provides three helper methods for rendering templates: <code>partial</code>,
 <code>view</code> and <code>render</code>.</p>
 
-<div class="highlight highlight-ruby"><pre><span class="no">Cuba</span><span class="o">.</span><span class="n">define</span> <span class="k">do</span>
-  <span class="n">on</span> <span class="s2">"about"</span> <span class="k">do</span>
-    <span class="c1"># `partial` renders a template called `about.erb` without a layout.</span>
-    <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="n">partial</span><span class="p">(</span><span class="s2">"about"</span><span class="p">)</span>
-  <span class="k">end</span>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-c1">Cuba</span>.define <span class="pl-k">do</span>
+  on <span class="pl-s"><span class="pl-pds">"</span>about<span class="pl-pds">"</span></span> <span class="pl-k">do</span>
+    <span class="pl-c"># `partial` renders a template called `about.erb` without a layout.</span>
+    res.write partial(<span class="pl-s"><span class="pl-pds">"</span>about<span class="pl-pds">"</span></span>)
+  <span class="pl-k">end</span>
 
-  <span class="n">on</span> <span class="s2">"home"</span> <span class="k">do</span>
-    <span class="c1"># Opposed to `partial`, `view` renders the same template</span>
-    <span class="c1"># within a layout called `layout.erb`.</span>
-    <span class="n">res</span><span class="o">.</span><span class="n">write</span> <span class="n">view</span><span class="p">(</span><span class="s2">"about"</span><span class="p">)</span>
-  <span class="k">end</span>
+  on <span class="pl-s"><span class="pl-pds">"</span>home<span class="pl-pds">"</span></span> <span class="pl-k">do</span>
+    <span class="pl-c"># Opposed to `partial`, `view` renders the same template</span>
+    <span class="pl-c"># within a layout called `layout.erb`.</span>
+    res.write view(<span class="pl-s"><span class="pl-pds">"</span>about<span class="pl-pds">"</span></span>)
+  <span class="pl-k">end</span>
 
-  <span class="n">on</span> <span class="s2">"contact"</span> <span class="k">do</span>
-    <span class="c1"># `render` is a shortcut to `res.write view(...)`</span>
-    <span class="n">render</span><span class="p">(</span><span class="s2">"contact"</span><span class="p">)</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</pre></div>
+  on <span class="pl-s"><span class="pl-pds">"</span>contact<span class="pl-pds">"</span></span> <span class="pl-k">do</span>
+    <span class="pl-c"># `render` is a shortcut to `res.write view(...)`</span>
+    render(<span class="pl-s"><span class="pl-pds">"</span>contact<span class="pl-pds">"</span></span>)
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span></pre></div>
 
 <p>By default, <code>Cuba::Render</code> assumes that all templates are placed in a folder
 named <code>views</code> and that they use the proper extension for the chosen template
@@ -512,31 +614,29 @@ template is called <code>layout</code>.</p>
 
 <p>The defaults can be changed through the <code>Cuba.settings</code> method:</p>
 
-<div class="highlight highlight-ruby"><pre><span class="no">Cuba</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:render</span><span class="o">][</span><span class="ss">:template_engine</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"haml"</span>
-<span class="no">Cuba</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:render</span><span class="o">][</span><span class="ss">:views</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"./views/admin/"</span>
-<span class="no">Cuba</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:render</span><span class="o">][</span><span class="ss">:layout</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"admin"</span>
-</pre></div>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-c1">Cuba</span>.settings[<span class="pl-c1">:render</span>][<span class="pl-c1">:template_engine</span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>haml<span class="pl-pds">"</span></span>
+<span class="pl-c1">Cuba</span>.settings[<span class="pl-c1">:render</span>][<span class="pl-c1">:views</span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>./views/admin/<span class="pl-pds">"</span></span>
+<span class="pl-c1">Cuba</span>.settings[<span class="pl-c1">:render</span>][<span class="pl-c1">:layout</span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>admin<span class="pl-pds">"</span></span></pre></div>
 
 <p>NOTE: Cuba doesn't ship with Tilt. You need to install it (<code>gem install tilt</code>).</p>
 
 <h2>
-<a name="plugins" class="anchor" href="#plugins"><span class="octicon octicon-link"></span></a>Plugins</h2>
+<a id="plugins" class="anchor" href="#plugins" aria-hidden="true"><span class="octicon octicon-link"></span></a>Plugins</h2>
 
 <p>Cuba provides a way to extend its functionality with plugins.</p>
 
 <h3>
-<a name="how-to-create-plugins" class="anchor" href="#how-to-create-plugins"><span class="octicon octicon-link"></span></a>How to create plugins</h3>
+<a id="how-to-create-plugins" class="anchor" href="#how-to-create-plugins" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to create plugins</h3>
 
 <p>Authoring your own plugins is pretty straightforward.</p>
 
-<div class="highlight highlight-ruby"><pre><span class="k">module</span> <span class="nn">MyOwnHelper</span>
-  <span class="k">def</span> <span class="nf">markdown</span><span class="p">(</span><span class="n">str</span><span class="p">)</span>
-    <span class="no">BlueCloth</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">str</span><span class="p">)</span><span class="o">.</span><span class="n">to_html</span>
-  <span class="k">end</span>
-<span class="k">end</span>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-k">module</span> <span class="pl-en">MyOwnHelper</span>
+  <span class="pl-k">def</span> <span class="pl-en">markdown</span>(<span class="pl-smi">str</span>)
+    <span class="pl-c1">BlueCloth</span>.<span class="pl-k">new</span>(str).to_html
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">plugin</span> <span class="no">MyOwnHelper</span>
-</pre></div>
+<span class="pl-c1">Cuba</span>.plugin <span class="pl-c1">MyOwnHelper</span></pre></div>
 
 <p>That's the simplest kind of plugin you'll write. In fact, that's exactly how
 the <code>markdown</code> helper is written in <code>Cuba::TextHelpers</code>.</p>
@@ -545,46 +645,44 @@ the <code>markdown</code> helper is written in <code>Cuba::TextHelpers</code>.</
 values. In the following example, note that if the module has a <code>setup</code> method, it will
 be called as soon as it is included:</p>
 
-<div class="highlight highlight-ruby"><pre><span class="k">module</span> <span class="nn">Render</span>
-  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">setup</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
-    <span class="n">app</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:template_engine</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"erb"</span>
-  <span class="k">end</span>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-k">module</span> <span class="pl-en">Render</span>
+  <span class="pl-k">def</span> <span class="pl-en">self.setup</span>(<span class="pl-smi">app</span>)
+    app.settings[<span class="pl-c1">:template_engine</span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>erb<span class="pl-pds">"</span></span>
+  <span class="pl-k">end</span>
 
-  <span class="k">def</span> <span class="nf">partial</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="n">locals</span> <span class="o">=</span> <span class="p">{})</span>
-    <span class="n">render</span><span class="p">(</span><span class="s2">"</span><span class="si">#{</span><span class="n">template</span><span class="si">}</span><span class="s2">.</span><span class="si">#{</span><span class="n">settings</span><span class="o">[</span><span class="ss">:template_engine</span><span class="o">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">locals</span><span class="p">)</span>
-  <span class="k">end</span>
-<span class="k">end</span>
+  <span class="pl-k">def</span> <span class="pl-en">partial</span>(<span class="pl-smi">template</span>, <span class="pl-smi">locals</span> <span class="pl-k">=</span> {})
+    render(<span class="pl-s"><span class="pl-pds">"</span><span class="pl-pse">#{</span><span class="pl-s1">template</span><span class="pl-pse"><span class="pl-s1">}</span></span>.<span class="pl-pse">#{</span><span class="pl-s1">settings[<span class="pl-c1">:template_engine</span>]</span><span class="pl-pse"><span class="pl-s1">}</span></span><span class="pl-pds">"</span></span>, locals)
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">plugin</span> <span class="no">Render</span>
-</pre></div>
+<span class="pl-c1">Cuba</span>.plugin <span class="pl-c1">Render</span></pre></div>
 
 <p>This sample plugin actually resembles how <code>Cuba::Render</code> works.</p>
 
 <p>Finally, if a module called <code>ClassMethods</code> is present, <code>Cuba</code> will be extended
 with it.</p>
 
-<div class="highlight highlight-ruby"><pre><span class="k">module</span> <span class="nn">GetSetter</span>
-  <span class="k">module</span> <span class="nn">ClassMethods</span>
-    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-      <span class="n">settings</span><span class="o">[</span><span class="n">key</span><span class="o">]</span> <span class="o">=</span> <span class="n">value</span>
-    <span class="k">end</span>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-k">module</span> <span class="pl-en">GetSetter</span>
+  <span class="pl-k">module</span> <span class="pl-en">ClassMethods</span>
+    <span class="pl-k">def</span> <span class="pl-en">set</span>(<span class="pl-smi">key</span>, <span class="pl-smi">value</span>)
+      settings[key] <span class="pl-k">=</span> value
+    <span class="pl-k">end</span>
 
-    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-      <span class="n">settings</span><span class="o">[</span><span class="n">key</span><span class="o">]</span>
-    <span class="k">end</span>
-  <span class="k">end</span>
-<span class="k">end</span>
+    <span class="pl-k">def</span> <span class="pl-en">get</span>(<span class="pl-smi">key</span>)
+      settings[key]
+    <span class="pl-k">end</span>
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">plugin</span> <span class="no">GetSetter</span>
+<span class="pl-c1">Cuba</span>.plugin <span class="pl-c1">GetSetter</span>
 
-<span class="no">Cuba</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="ss">:foo</span><span class="p">,</span> <span class="s2">"bar"</span><span class="p">)</span>
+<span class="pl-c1">Cuba</span>.set(<span class="pl-c1">:foo</span>, <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>)
 
-<span class="n">assert_equal</span> <span class="s2">"bar"</span><span class="p">,</span> <span class="no">Cuba</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="ss">:foo</span><span class="p">)</span>
-<span class="n">assert_equal</span> <span class="s2">"bar"</span><span class="p">,</span> <span class="no">Cuba</span><span class="o">.</span><span class="n">settings</span><span class="o">[</span><span class="ss">:foo</span><span class="o">]</span>
-</pre></div>
+assert_equal <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>, <span class="pl-c1">Cuba</span>.get(<span class="pl-c1">:foo</span>)
+assert_equal <span class="pl-s"><span class="pl-pds">"</span>bar<span class="pl-pds">"</span></span>, <span class="pl-c1">Cuba</span>.settings[<span class="pl-c1">:foo</span>]</pre></div>
 
 <h2>
-<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributing</h2>
 
 <p>A good first step is to meet us on IRC and discuss ideas. If that's
 not possible, you can create an issue explaning the proposed change
