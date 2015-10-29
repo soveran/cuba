@@ -42,7 +42,7 @@
 <a id="description" class="anchor" href="#description" aria-hidden="true"><span class="octicon octicon-link"></span></a>Description</h2>
 
 <p>Cuba is a microframework for web development originally inspired
-by <a href="http://github.com/chneukirchen/rum">Rum</a>, a tiny but powerful mapper for <a href="http://github.com/chneukirchen/rack">Rack</a>
+by <a href="http://github.com/chneukirchen/rum">Rum</a>, a tiny but powerful mapper for <a href="http://github.com/rack/rack">Rack</a>
 applications.</p>
 
 <p>It integrates many templates via <a href="http://github.com/rtomayko/tilt">Tilt</a>, and testing via
@@ -421,9 +421,9 @@ for <code>env["REQUEST_METHOD"] == "GET"</code>.</p>
 <a id="request-and-response" class="anchor" href="#request-and-response" aria-hidden="true"><span class="octicon octicon-link"></span></a>Request and Response</h2>
 
 <p>You may have noticed we use <code>req</code> and <code>res</code> a lot. Those variables are
-instances of <a href="http://rack.rubyforge.org/doc/classes/Rack/Request.html">Rack::Request</a> and <code>Cuba::Response</code> respectively, and
+instances of <a href="http://www.rubydoc.info/github/rack/rack/Rack/Request">Rack::Request</a> and <code>Cuba::Response</code> respectively, and
 <code>Cuba::Response</code> is just an optimized version of
-<a href="http://rack.rubyforge.org/doc/classes/Rack/Response.html">Rack::Response</a>.</p>
+<a href="http://www.rubydoc.info/github/rack/rack/Rack/Response">Rack::Response</a>.</p>
 
 <p>Those objects are helpers for accessing the request and for building
 the response. Most of the time, you will just use <code>res.write</code>.</p>
