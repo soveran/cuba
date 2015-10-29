@@ -24,7 +24,7 @@ It integrates many templates via [Tilt][tilt], and testing via
 [Cutest][cutest] and [Capybara][capybara].
 
 [rum]: http://github.com/chneukirchen/rum
-[rack]: http://github.com/chneukirchen/rack
+[rack]: http://github.com/rack/rack
 [tilt]: http://github.com/rtomayko/tilt
 [cutest]: http://github.com/djanowski/cutest
 [capybara]: http://github.com/jnicklas/capybara
@@ -429,8 +429,8 @@ instances of [Rack::Request][request] and `Cuba::Response` respectively, and
 `Cuba::Response` is just an optimized version of
 [Rack::Response][response].
 
-[request]: http://rack.rubyforge.org/doc/classes/Rack/Request.html
-[response]: http://rack.rubyforge.org/doc/classes/Rack/Response.html
+[request]: http://www.rubydoc.info/github/rack/rack/Rack/Request
+[response]: http://www.rubydoc.info/github/rack/rack/Rack/Response
 
 Those objects are helpers for accessing the request and for building
 the response. Most of the time, you will just use `res.write`.
