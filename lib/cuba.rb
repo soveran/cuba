@@ -263,6 +263,29 @@ class Cuba
     lambda { captures << req[key] unless req[key].to_s.empty? }
   end
 
+  # Used to capture an optional querystring parameter. This allows for single
+  # route definition, but when you might want to have querystring paramters
+  # be optional to a particular route. Second parameter to this method is the
+  # default value if not supplied in the route.
+  #
+  # @example
+  #   # GET route like /contacts?limit=50
+  #   on "contacts", param?("limit", 50) do |limit|
+  #     contacts_to_fetch = limit.to_i
+  #     contact_service.select.take(contacts_to_fetch)
+  #   end
+  #
+  def param?(key, default = nil)
+    lambda {
+
+      if req[key].to_s.empty?
+        req[key] = default
+      end
+
+      captures << req[key]
+    }
+  end
+
   def header(key)
     lambda { env[key.upcase.tr("-","_")] }
   end
