@@ -38,19 +38,19 @@ scope do
   test "partial" do
     _, _, body = Cuba.call({ "PATH_INFO" => "/about", "SCRIPT_NAME" => "/" })
 
-    assert_response body, ["<h1>About Cuba</h1>\n"]
+    assert_response body, ["<h1>About Cuba</h1>"]
   end
 
   test "view" do
     _, _, body = Cuba.call({ "PATH_INFO" => "/home", "SCRIPT_NAME" => "/" })
 
-    assert_response body, ["<title>Cuba: Home</title>\n<h1>Home</h1>\n<p>Hello Agent Smith</p>\n"]
+    assert_response body, ["<title>Cuba: Home</title>\n<h1>Home</h1>\n<p>Hello Agent Smith</p>"]
   end
 
   test "render" do
     _, _, body = Cuba.call({ "PATH_INFO" => "/render", "SCRIPT_NAME" => "/" })
 
-    assert_response body, ["<title>Cuba: About Cuba</title>\n<h1>About Cuba</h1>\n"]
+    assert_response body, ["<title>Cuba: About Cuba</title>\n<h1>About Cuba</h1>"]
   end
 
   test "partial with str as engine" do
@@ -58,7 +58,7 @@ scope do
 
     _, _, body = Cuba.call({ "PATH_INFO" => "/about", "SCRIPT_NAME" => "/" })
 
-    assert_response body, ["<h1>About Cuba</h1>\n"]
+    assert_response body, ["<h1>About Cuba</h1>"]
   end
 
   test "view with str as engine" do
@@ -66,7 +66,7 @@ scope do
 
     _, _, body = Cuba.call({ "PATH_INFO" => "/home", "SCRIPT_NAME" => "/" })
 
-    assert_response body, ["<title>Cuba: Home</title>\n<h1>Home</h1>\n<p>Hello Agent Smith</p>\n\n"]
+    assert_response body, ["<title>Cuba: Home</title>\n<h1>Home</h1>\n<p>Hello Agent Smith</p>"]
   end
 
   test "custom default layout support" do
@@ -74,7 +74,7 @@ scope do
 
     _, _, body = Cuba.call({ "PATH_INFO" => "/home", "SCRIPT_NAME" => "/" })
 
-    assert_response body, ["<title>Alternative Layout: Home</title>\n<h1>Home</h1>\n<p>Hello Agent Smith</p>\n"]
+    assert_response body, ["<title>Alternative Layout: Home</title>\n<h1>Home</h1>\n<p>Hello Agent Smith</p>"]
   end
 end
 
@@ -109,7 +109,7 @@ test "overrides layout" do
 
   _, _, body = Cuba.call({})
 
-  assert_response body, ["<title>Alternative Layout: Home</title>\n<h1>Home</h1>\n<p>Hello Agent Smith</p>\n"]
+  assert_response body, ["<title>Alternative Layout: Home</title>\n<h1>Home</h1>\n<p>Hello Agent Smith</p>"]
 end
 
 test "ensures content-type header is set" do

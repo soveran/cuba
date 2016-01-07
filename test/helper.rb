@@ -4,8 +4,7 @@ require "cuba"
 prepare { Cuba.reset! }
 
 def assert_response(body, expected)
-  arr = []
-  body.each { |line| arr << line }
+  arr = body.map { |line| line.strip }
 
   flunk "#{arr.inspect} != #{expected.inspect}" unless arr == expected
   print "."
