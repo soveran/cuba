@@ -2,16 +2,12 @@ require "rack"
 require "time"
 
 class Cuba
-  DEFAULT_CONTENT_TYPE = "text/html; charset=utf-8".freeze
-  CONTENT_TYPE = "Content-Type".freeze
-  EMPTY_STRING = "".freeze
-  PATH_INFO = "PATH_INFO".freeze
-  SCRIPT_NAME = "SCRIPT_NAME".freeze
-  SLASH = "/".freeze
+  SLASH   = "/".freeze
+  EMPTY   = "".freeze
   SEGMENT = "([^\\/]+)".freeze
+  DEFAULT = "text/html; charset=utf-8".freeze
 
   class Response
-    CONTENT_LENGTH = "Content-Length".freeze
     LOCATION = "Location".freeze
 
     attr_accessor :status
@@ -38,7 +34,7 @@ class Cuba
       s = str.to_s
 
       @length += s.bytesize
-      @headers[CONTENT_LENGTH] = @length.to_s
+      @headers[Rack::CONTENT_LENGTH] = @length.to_s
       @body << s
     end
 
@@ -194,7 +190,7 @@ class Cuba
         if res.body.empty?
           not_found
         else
-          res.headers[CONTENT_TYPE] ||= DEFAULT_CONTENT_TYPE
+          res.headers[Rack::CONTENT_TYPE] ||= DEFAULT
           res.status = 200
         end
       end
@@ -206,24 +202,24 @@ class Cuba
   # @private Used internally by #on to ensure that SCRIPT_NAME and
   #          PATH_INFO are reset to their proper values.
   def try
-    script, path = env[SCRIPT_NAME], env[PATH_INFO]
+    script, path = env[Rack::SCRIPT_NAME], env[Rack::PATH_INFO]
 
     yield
 
   ensure
-    env[SCRIPT_NAME], env[PATH_INFO] = script, path
+    env[Rack::SCRIPT_NAME], env[Rack::PATH_INFO] = script, path
   end
   private :try
 
   def consume(pattern)
-    matchdata = env[PATH_INFO].match(/\A\/(#{pattern})(\/|\z)/)
+    matchdata = env[Rack::PATH_INFO].match(/\A\/(#{pattern})(\/|\z)/)
 
     return false unless matchdata
 
     path, *vars = matchdata.captures
 
-    env[SCRIPT_NAME] += "/#{path}"
-    env[PATH_INFO] = "#{vars.pop}#{matchdata.post_match}"
+    env[Rack::SCRIPT_NAME] += "/#{path}"
+    env[Rack::PATH_INFO] = "#{vars.pop}#{matchdata.post_match}"
 
     captures.push(*vars)
   end
@@ -259,7 +255,7 @@ class Cuba
   #   on "signup", param("user") do |atts|
   #     User.create(atts)
   #   end
-  def param(key)
+  def param(key, default = nil)
     lambda { captures << req[key] unless req[key].to_s.empty? }
   end
 
@@ -290,7 +286,7 @@ class Cuba
       accept = String(env["HTTP_ACCEPT"]).split(",")
 
       if accept.any? { |s| s.strip == mimetype }
-        res[CONTENT_TYPE] = mimetype
+        res[Rack::CONTENT_TYPE] = mimetype
       end
     end
   end
@@ -314,7 +310,7 @@ class Cuba
   #     res.write "Home"
   #   end
   def root
-    env[PATH_INFO] == SLASH || env[PATH_INFO] == EMPTY_STRING
+    env[Rack::PATH_INFO] == SLASH || env[Rack::PATH_INFO] == EMPTY
   end
 
   # Syntatic sugar for providing HTTP Verb matching.
@@ -397,7 +393,6 @@ class Cuba
   def not_found
     res.status = 404
   end
-
 end
 
 Cuba.settings[:req] = Rack::Request
