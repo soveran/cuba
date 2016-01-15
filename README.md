@@ -188,7 +188,9 @@ Status codes
 ------------
 
 If you don't assign a status code and you don't write to the `res`
-object, the status will be set as `404`.
+object, the status will be set as `404`. The method `not_found` is
+in charge of setting the proper status code, and you can redefine
+it if you want to render a template or configure custom headers.
 
 For example:
 
