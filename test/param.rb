@@ -7,6 +7,10 @@ prepare do
       res.write email
     end
 
+    on get, "login", param("username", "guest") do |username|
+      res.write username
+    end
+
     on default do
       res.write "No email"
     end
@@ -41,4 +45,22 @@ test "doesn't yield an empty param" do
   _, _, resp = Cuba.call(env)
 
   assert_response resp, ["No email"]
+end
+
+test "yields a default param" do
+  env = { "REQUEST_METHOD" => "GET", "PATH_INFO" => "/login",
+          "SCRIPT_NAME" => "/", "rack.input" => StringIO.new,
+          "QUERY_STRING" => "username=john" }
+
+  _, _, resp = Cuba.call(env)
+
+  assert_response resp, ["john"]
+
+  env = { "REQUEST_METHOD" => "GET", "PATH_INFO" => "/login",
+          "SCRIPT_NAME" => "/", "rack.input" => StringIO.new,
+          "QUERY_STRING" => "" }
+
+  _, _, resp = Cuba.call(env)
+
+  assert_response resp, ["guest"]
 end

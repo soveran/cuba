@@ -1,3 +1,14 @@
+3.5.0
+
+* Add `not_found` hook for customizing the 404 error.
+
+* Remove undocumented `header` matcher.
+
+* Depend explicitly on Rack 1.6.x.
+
+* Experimental feature: `param` now accepts a second parameter
+  with a default value.
+
 3.4.0
 
 * Add `Cuba::Safe` plugin. This plugin contains security related

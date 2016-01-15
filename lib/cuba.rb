@@ -247,20 +247,24 @@ class Cuba
     lambda { consume("([^\\/]+?)\.#{ext}\\z") }
   end
 
-  # Used to ensure that certain request parameters are present. Acts like a
-  # precondition / assertion for your route.
+  # Ensures that certain request parameters are present. Acts like a
+  # precondition / assertion for your route. A default value can be
+  # provided as a second argument. In that case, it always matches
+  # and the result is either the parameter or the default value.
   #
   # @example
   #   # POST with data like user[fname]=John&user[lname]=Doe
   #   on "signup", param("user") do |atts|
   #     User.create(atts)
   #   end
+  #
+  #   on "login", param("username", "guest") do |username|
+  #     # If not provided, username == "guest"
+  #   end
   def param(key, default = nil)
-    lambda { captures << req[key] unless req[key].to_s.empty? }
-  end
+    value = req[key] || default
 
-  def header(key)
-    lambda { env[key.upcase.tr("-","_")] }
+    lambda { captures << value unless value.to_s.empty? }
   end
 
   # Useful for matching against the request host (i.e. HTTP_HOST).
