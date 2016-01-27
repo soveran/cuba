@@ -29,7 +29,7 @@ class Cuba
         "X-Frame-Options" => "SAMEORIGIN",
         "X-Permitted-Cross-Domain-Policies" => "none",
         "X-XSS-Protection" => "1; mode=block",
-        "Strict-Transport-Security" => "max-age=631138519; includeSubdomains; preload"
+        "Strict-Transport-Security" => "max-age=2628000"
       }
 
       def self.setup(app)
