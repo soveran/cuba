@@ -184,6 +184,8 @@ Cuba.define do
 end
 ```
 
+Note that once an `on` block matches, processing halts at the conclusion of that block.
+
 Status codes
 ------------
 
