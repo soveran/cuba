@@ -1,3 +1,7 @@
+3.6.0
+
+* Set Strict-Transport-Security to a better default
+
 3.5.0
 
 * Add `not_found` hook for customizing the 404 error.
