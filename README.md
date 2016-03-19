@@ -468,7 +468,7 @@ In the second case, the substring `:id` gets replaced by `([^\\/]+)` and the
 string becomes `"users/([^\\/]+)"` before performing the match, thus it reverts
 to the first form we saw.
 
-In the third case, the symbol â€“â€“no matter what it saysâ€“â€“gets replaced
+In the third case, the symbol--no matter what it says--gets replaced
 by `"([^\\/]+)"`, and again we are in presence of case 1.
 
 The fourth case, again, reverts to the basic matcher: it generates the string
