@@ -30,16 +30,6 @@ It integrates many templates via [Tilt][tilt], and testing via
 [capybara]: http://github.com/jnicklas/capybara
 [rack-test]: https://github.com/brynary/rack-test
 
-Guide
------
-
-There's a book called [The Guide to Cuba][guide] that explains how
-to build web applications by following a minimalistic approach. It
-is recommended reading for anyone trying to learn the basics of
-Cuba and other related tools.
-
-[guide]: http://theguidetocuba.io
-
 Installation
 ------------
 
