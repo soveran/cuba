@@ -395,12 +395,13 @@ among your meta tags. Here's an example that assumes you are using
 HTTP Verbs
 ----------
 
-There are four matchers defined for HTTP Verbs: `get`, `post`, `put` and
-`delete`. But the world doesn't end there, does it? As you have the whole
-request available via the `req` object, you can query it with helper methods
-like `req.options?` or `req.head?`, or you can even go to a lower level
-and inspect the environment via the `env` object, and check for example if
-`env["REQUEST_METHOD"]` equals the obscure verb `PATCH`.
+There are matchers defined for the following HTTP Verbs: `get`,
+`post`, `put`, `patch`, `delete`, `head`, `options`, `link`, `unlink`
+and `trace`. As you have the whole request available via the `req`
+object, you can also query it with helper methods like `req.options?`
+or `req.head?`, or you can even go to a lower level and inspect the
+environment via the `env` object, and check for example if
+`env["REQUEST_METHOD"]` equals the verb `PATCH`.
 
 What follows is an example of different ways of saying the same thing:
 

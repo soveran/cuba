@@ -1,6 +1,10 @@
+3.7.0
+
+* Add syntactic sugar for matching all HTTP methods.
+
 3.6.0
 
-* Set Strict-Transport-Security to a better default
+* Set Strict-Transport-Security to a better default.
 
 3.5.0
 
