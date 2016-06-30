@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
 
   s.files = `git ls-files`.split("\n")
 
-  s.add_dependency "rack", "~> 1.6.0"
+  s.add_dependency "rack", ">= 1.6.0"
   s.add_development_dependency "cutest"
   s.add_development_dependency "rack-test"
   s.add_development_dependency "tilt"
