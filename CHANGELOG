@@ -1,3 +1,7 @@
+3.8.0
+
+* Change gemspec to allow Rack 2.
+
 3.7.0
 
 * Add syntactic sugar for matching all HTTP methods.
