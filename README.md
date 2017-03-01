@@ -360,7 +360,7 @@ Cuba.define do
     csrf.reset!
 
     res.status = 403
-    res.write("Not authorized")
+    res.write("Forbidden")
 
     halt(res.finish)
   end
