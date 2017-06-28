@@ -514,6 +514,47 @@ Cuba.define do
 end
 ```
 
+## Embedding routes from other modules
+
+While the `run` command allows you to handle over the control to a
+sub app, sometimes you may want to just embed routes defined in
+another module. There's no built-in method to do it, but if you are
+willing to experiment you can try the following.
+
+Let's say you have defined routes in modules `A` and `B`, and you
+want to mount those routes in your application.
+
+First, you will have to extend Cuba with this code:
+
+```ruby
+class Cuba
+  def mount(app)
+    result = app.call(req.env)
+    halt result if result[0] != 404
+  end
+end
+```
+
+It doesn't matter where you define it as long as Cuba has already
+been required. For instance, you could extract that to a plugin and
+it would work just fine.
+
+Then, in your application, you can use it like this:
+
+```ruby
+Cuba.define do
+  on default do
+    mount A 
+    mount B
+  end
+end
+```
+
+It should halt the request only if the resulting status from calling
+the mounted app is not 404. If you run into some unexpected behavior,
+let me know by creating an issue and we'll look at how to workaround
+any difficulties.
+
 Testing
 -------
 
