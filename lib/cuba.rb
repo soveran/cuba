@@ -1,5 +1,4 @@
 require "rack"
-require "time"
 
 class Cuba
   SLASH   = "/".freeze
