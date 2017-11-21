@@ -1,3 +1,11 @@
+3.9.0
+
+* Cache regular expressions
+
+3.8.1
+
+* Remove requirement on Time
+
 3.8.0
 
 * Change gemspec to allow Rack 2.
