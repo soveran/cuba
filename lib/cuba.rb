@@ -5,6 +5,7 @@ class Cuba
   EMPTY   = "".freeze
   SEGMENT = "([^\\/]+)".freeze
   DEFAULT = "text/html; charset=utf-8".freeze
+  REGEXES = Hash.new { |h, pattern| h[pattern] = /\A\/(#{pattern})(\/|\z)/ }
 
   class Response
     LOCATION = "Location".freeze
@@ -211,7 +212,7 @@ class Cuba
   private :try
 
   def consume(pattern)
-    matchdata = env[Rack::PATH_INFO].match(/\A\/(#{pattern})(\/|\z)/)
+    matchdata = env[Rack::PATH_INFO].match(REGEXES[pattern])
 
     return false unless matchdata
 
