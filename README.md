@@ -416,6 +416,14 @@ on get, "api" do ... end
 Actually, `get` is syntax sugar for `req.get?`, which in turn is syntax sugar
 for `env["REQUEST_METHOD"] == "GET"`.
 
+Headers
+-------
+
+You can set the headers by assigning values to the hash `req.headers`.
+If you want to inspect the incoming headers, you have to read from
+the `env` hash. For example, if you want to know the referrer you
+can check `env["HTTP_REFERER"]`.
+
 Request and Response
 --------------------
 
