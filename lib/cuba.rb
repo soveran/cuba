@@ -262,7 +262,7 @@ class Cuba
   #     # If not provided, username == "guest"
   #   end
   def param(key, default = nil)
-    value = req.params[key] || default
+    value = req.params[key.to_s] || default
 
     lambda { captures << value unless value.to_s.empty? }
   end
