@@ -761,7 +761,7 @@ Contributing
 ------------
 
 A good first step is to meet us on IRC and discuss ideas. If that's
-not possible, you can create an issue explaning the proposed change
+not possible, you can create an issue explaining the proposed change
 and a use case. We pay a lot of attention to use cases, because our
 goal is to keep the code base simple. In many cases, the result of
 a conversation will be the creation of another tool, instead of the
