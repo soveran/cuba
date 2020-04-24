@@ -10,6 +10,12 @@ class Cuba
   class Response
     LOCATION = "Location".freeze
 
+    module ContentType
+      HTML = "text/html".freeze        # :nodoc:
+      TEXT = "text/plain".freeze       # :nodoc:
+      JSON = "application/json".freeze # :nodoc:
+    end
+
     attr_accessor :status
 
     attr :body
@@ -36,6 +42,24 @@ class Cuba
       @length += s.bytesize
       @headers[Rack::CONTENT_LENGTH] = @length.to_s
       @body << s
+    end
+
+    # Write response body as text/plain
+    def text(str)
+      @headers[Rack::CONTENT_TYPE] = ContentType::TEXT
+      write(str)
+    end
+
+    # Write response body as text/html
+    def html(str)
+      @headers[Rack::CONTENT_TYPE] = ContentType::HTML
+      write(str)
+    end
+
+    # Write response body as application/json
+    def json(str)
+      @headers[Rack::CONTENT_TYPE] = ContentType::JSON
+      write(str)
     end
 
     def redirect(path, status = 302)
