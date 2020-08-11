@@ -1,3 +1,4 @@
+require "delegate"
 require "rack"
 
 class Cuba
