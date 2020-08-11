@@ -11,9 +11,9 @@ test "set cookie" do
 
   env = { "SCRIPT_NAME" => "/", "PATH_INFO" => "/" }
 
-   _, headers, body = Cuba.call(env)
+  _, headers, body = Cuba.call(env)
 
-   assert_equal "foo=bar\nbar=baz", headers["Set-Cookie"]
+  assert_equal "foo=bar\nbar=baz", headers["Set-Cookie"]
 end
 
 test "delete cookie" do
@@ -27,8 +27,8 @@ test "delete cookie" do
 
   env = { "SCRIPT_NAME" => "/", "PATH_INFO" => "/" }
 
-   _, headers, body = Cuba.call(env)
+  _, headers, body = Cuba.call(env)
 
-   assert_equal "foo=; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 -0000",
-     headers["Set-Cookie"]
+  assert_equal "foo=; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT",
+    headers["Set-Cookie"]
 end
