@@ -13,7 +13,8 @@ scope do
   setup do
     Cuba.reset!
 
-    Cuba.use(Rack::Session::Cookie, secret: "_this_must_be_secret")
+    Cuba.use(Rack::Session::Cookie,
+      secret: "R6zSBQWz0VGVSwvT8THurhJwaVqzpnsH27J5FoI58pxoIciDQYvE4opVvDTLMyfjj7c5inIc6PDNaQWvArMvK3")
     Cuba.plugin(Cuba::Safe::CSRF)
   end
 

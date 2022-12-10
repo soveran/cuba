@@ -22,7 +22,7 @@ class Cuba
 
         def safe?
           return req.get? || req.head? ||
-            req[:csrf_token] == token ||
+            req.params["csrf_token"] == token ||
             req.env["HTTP_X_CSRF_TOKEN"] == token
         end
 
