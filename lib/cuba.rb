@@ -1,5 +1,6 @@
 require "delegate"
 require "rack"
+require "rack/session"
 
 class Cuba
   SLASH   = "/".freeze

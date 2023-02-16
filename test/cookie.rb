@@ -13,7 +13,7 @@ test "set cookie" do
 
   _, headers, body = Cuba.call(env)
 
-  assert_equal "foo=bar\nbar=baz", headers["Set-Cookie"]
+  assert_equal ["foo=bar", "bar=baz"], headers["set-cookie"]
 end
 
 test "delete cookie" do
@@ -29,6 +29,6 @@ test "delete cookie" do
 
   _, headers, body = Cuba.call(env)
 
-  assert_equal "foo=; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT",
-    headers["Set-Cookie"]
+  assert_equal ["foo=bar", "foo=; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT"],
+    headers["set-cookie"]
 end

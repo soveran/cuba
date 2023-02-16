@@ -3,7 +3,7 @@ require File.expand_path("helper", File.dirname(__FILE__))
 test "accept mimetypes" do
   Cuba.define do
     on accept("application/xml") do
-      res.write res["Content-Type"]
+      res.write res["content-type"]
     end
   end
 
