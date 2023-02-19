@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name              = "cuba"
-  s.version           = "4.0.0"
+  s.version           = "4.0.1"
   s.summary           = "Microframework for web applications."
   s.description       = "Cuba is a microframework for web applications."
   s.authors           = ["Michel Martens"]
@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.files = `git ls-files`.split("\n")
 
   s.add_dependency "rack", ">= 3.0.0"
+  s.add_dependency "rack-session", ">= 2.0.0"
   s.add_development_dependency "cutest"
   s.add_development_dependency "rack-test"
   s.add_development_dependency "tilt"
