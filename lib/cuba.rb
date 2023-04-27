@@ -91,8 +91,8 @@ class Cuba
     @app ||= Rack::Builder.new
   end
 
-  def self.use(middleware, *args, &block)
-    app.use(middleware, *args, &block)
+  def self.use(middleware, *args, **kwargs, &block)
+    app.use(middleware, *args, **kwargs, &block)
   end
 
   def self.define(&block)

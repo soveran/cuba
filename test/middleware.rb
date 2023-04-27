@@ -1,8 +1,9 @@
 require File.expand_path("helper", File.dirname(__FILE__))
 
 class Shrimp
-  def initialize(app)
+  def initialize(app, foo:)
     @app = app
+    @foo = foo
   end
 
   def call(env)
@@ -17,7 +18,7 @@ end
 
 test do
   class API < Cuba
-    use Shrimp
+    use Shrimp, foo: 'bar'
 
     define do
       on "v1/test" do
