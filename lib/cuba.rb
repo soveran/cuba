@@ -10,7 +10,7 @@ class Cuba
   REGEXES = Hash.new { |h, pattern| h[pattern] = /\A\/(#{pattern})(\/|\z)/ }
 
   class Response
-    LOCATION = "Location".freeze
+    LOCATION = "location".freeze
 
     module ContentType
       HTML = "text/html".freeze        # :nodoc:
