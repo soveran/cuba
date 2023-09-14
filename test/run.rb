@@ -17,7 +17,7 @@ test "redirect canonical example" do
 
   status, headers, resp = Cuba.call(env)
 
-  assert_equal "/login", headers["Location"]
+  assert_equal "/login", headers["location"]
   assert_equal 307, status
   assert_response resp, []
 end

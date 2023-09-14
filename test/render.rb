@@ -124,5 +124,5 @@ test "ensures content-type header is set" do
 
   _, headers, _ = Cuba.call({})
 
-  assert_equal("text/html; charset=utf-8", headers["Content-Type"])
+  assert_equal("text/html; charset=utf-8", headers["content-type"])
 end

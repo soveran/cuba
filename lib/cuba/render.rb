@@ -13,7 +13,7 @@ class Cuba
     end
 
     def render(template, locals = {}, layout = settings[:render][:layout])
-      res.headers["content-type"] ||= "text/html; charset=utf-8"
+      res.headers[Rack::CONTENT_TYPE] ||= "text/html; charset=utf-8"
       res.write(view(template, locals, layout))
     end
 

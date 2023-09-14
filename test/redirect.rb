@@ -16,6 +16,6 @@ test "redirect" do
   status, headers, body = Cuba.call(env)
 
   assert_equal status, 302
-  assert_equal headers, { "Location" => "/hello" }
+  assert_equal headers, { "location" => "/hello" }
   assert_response body, []
 end
