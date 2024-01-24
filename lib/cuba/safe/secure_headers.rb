@@ -10,6 +10,8 @@
 #   - X-Download-Options [6].
 #   - X-Permitted-Cross-Domain-Policies [7].
 #
+# Due to HTTP/2 specifications and Rack specifications, field names are applied in all lowercase.
+#
 # == References
 #
 # [1]: https://github.com/twitter/secureheaders
@@ -19,17 +21,18 @@
 # [5]: http://msdn.microsoft.com/en-us/library/ie/gg622941(v=vs.85).aspx
 # [6]: http://msdn.microsoft.com/en-us/library/ie/jj542450(v=vs.85).aspx
 # [7]: https://www.adobe.com/devnet/adobe-media-server/articles/cross-domain-xml-for-streaming.html
+# [8]: https://datatracker.ietf.org/doc/html/rfc9113#name-http-fields
 #
 class Cuba
   module Safe
     module SecureHeaders
       HEADERS = {
-        "X-Content-Type-Options" => "nosniff",
-        "X-Download-Options" => "noopen",
-        "X-Frame-Options" => "SAMEORIGIN",
-        "X-Permitted-Cross-Domain-Policies" => "none",
-        "X-XSS-Protection" => "1; mode=block",
-        "Strict-Transport-Security" => "max-age=2628000"
+        "x-content-type-options" => "nosniff",
+        "x-download-options" => "noopen",
+        "x-frame-options" => "SAMEORIGIN",
+        "x-permitted-cross-domain-policies" => "none",
+        "x-xss-protection" => "1; mode=block",
+        "strict-transport-security" => "max-age=2628000"
       }
 
       def self.setup(app)
