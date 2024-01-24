@@ -1,10 +1,14 @@
+4.0.3
+
+* Change secure headers to lowercase.
+
 3.9.0
 
-* Cache regular expressions
+* Cache regular expressions.
 
 3.8.1
 
-* Remove requirement on Time
+* Remove requirement on Time.
 
 3.8.0
 
@@ -64,4 +68,4 @@
 * Remove Cuba::VERSION.
 * Rename _call to call! (inspired from Sinatra).
 * Fix a memory leak with the caching used in Tilt.
-* Adding syntax highlighting to the README Code blocks
+* Adding syntax highlighting to the README Code blocks.
