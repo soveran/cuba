@@ -18,6 +18,22 @@ test "is inheritable and allows overriding" do
   assert_equal "baz", Admin.settings[:foo]
 end
 
+test "attempts to get absent settings from parent class" do
+  class User < Cuba; end
+  class PowerUser < User; end
+
+  Cuba.settings[:get_from_parent] = "x"
+
+  assert_equal nil, Cuba.settings[:does_not_exist]
+  assert_equal nil, User.settings[:absent]
+  assert_equal "x", User.settings[:get_from_parent]
+  assert_equal "x", PowerUser.settings[:get_from_parent]
+
+  Cuba.settings[:after_deepcloning] = "x"
+
+  assert_equal "x", User.settings[:after_deepcloning]
+end
+
 test do
   Cuba.settings[:hello] = "Hello World"
 
